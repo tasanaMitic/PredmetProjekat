@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "PredmetProjekat.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/PredmetProjekat.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PredmetProjekat.Common.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "PredmetProjekat.Common/1.0.0": {
+      "type": "project",
+      "path": "../PredmetProjekat.Common/PredmetProjekat.Common.csproj",
+      "msbuildProject": "../PredmetProjekat.Common/PredmetProjekat.Common.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "PredmetProjekat.Common >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Korisnik\\.nuget\\packages\\": {},
@@ -14,11 +33,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\PredmetProjekat.Common.csproj",
-      "projectName": "PredmetProjekat.Common",
-      "projectPath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\PredmetProjekat.Common.csproj",
+      "projectUniqueName": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Services\\PredmetProjekat.Services.csproj",
+      "projectName": "PredmetProjekat.Services",
+      "projectPath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Services\\PredmetProjekat.Services.csproj",
       "packagesPath": "C:\\Users\\Korisnik\\.nuget\\packages\\",
-      "outputPath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\obj\\",
+      "outputPath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Services\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -38,7 +57,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\PredmetProjekat.Common.csproj": {
+              "projectPath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\PredmetProjekat.Common.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

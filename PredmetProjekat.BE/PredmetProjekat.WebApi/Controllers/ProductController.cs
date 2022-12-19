@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Interfaces;
 using System.Data;
 
 namespace PredmetProjekat.WebApi.Controllers
@@ -8,6 +9,12 @@ namespace PredmetProjekat.WebApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
         [HttpPost]
         public ActionResult<ProductDto> AddProduct(ProductDto product)
         {
@@ -17,8 +24,8 @@ namespace PredmetProjekat.WebApi.Controllers
                 {
                     return BadRequest();
                 }
-                //Guid filmId = _filmService.AddFilm(film);
-                return CreatedAtAction("AddProduct", new { Id = "" }, product);
+                Guid productId = _productService.AddProduct(product);
+                return CreatedAtAction("AddProduct", new { Id = productId }, product);
             }
             catch (ArgumentException e)
             {
@@ -34,15 +41,13 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ProductDtoId>> GetAllProducts()
         {
-            //return Ok(_filmService.GetAllFilms());
-            return Ok();
+            return Ok(_productService.GetProducts());
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(Guid id)
         {
-            //return _filmService.DeleteFilm(id) ? (IActionResult)NoContent() : NotFound();
-            return Ok();
+            return _productService.DeleteProduct(id) ? (IActionResult)NoContent() : NotFound();
         }
     }
 }

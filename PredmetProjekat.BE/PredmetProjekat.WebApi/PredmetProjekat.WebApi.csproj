@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PredmetProjekat.Common\PredmetProjekat.Common.csproj" />
+    <ProjectReference Include="..\PredmetProjekat.Services\PredmetProjekat.Services.csproj" />
   </ItemGroup>
 
 </Project>

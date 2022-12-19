@@ -82,6 +82,19 @@
         "runtime": {
           "bin/placeholder/PredmetProjekat.Common.dll": {}
         }
+      },
+      "PredmetProjekat.Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "PredmetProjekat.Common": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PredmetProjekat.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PredmetProjekat.Services.dll": {}
+        }
       }
     }
   },
@@ -215,11 +228,17 @@
       "type": "project",
       "path": "../PredmetProjekat.Common/PredmetProjekat.Common.csproj",
       "msbuildProject": "../PredmetProjekat.Common/PredmetProjekat.Common.csproj"
+    },
+    "PredmetProjekat.Services/1.0.0": {
+      "type": "project",
+      "path": "../PredmetProjekat.Services/PredmetProjekat.Services.csproj",
+      "msbuildProject": "../PredmetProjekat.Services/PredmetProjekat.Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "PredmetProjekat.Common >= 1.0.0",
+      "PredmetProjekat.Services >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
@@ -257,6 +276,9 @@
           "projectReferences": {
             "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\PredmetProjekat.Common.csproj": {
               "projectPath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\PredmetProjekat.Common.csproj"
+            },
+            "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Services\\PredmetProjekat.Services.csproj": {
+              "projectPath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Services\\PredmetProjekat.Services.csproj"
             }
           }
         }
@@ -294,7 +316,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.304\\RuntimeIdentifierGraph.json"
       }
     }
   }

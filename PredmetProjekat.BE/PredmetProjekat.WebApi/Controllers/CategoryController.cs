@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Interfaces;
 using System.Data;
 
 namespace PredmetProjekat.WebApi.Controllers
@@ -8,6 +9,11 @@ namespace PredmetProjekat.WebApi.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
+        {
+            _categoryService = categoryService; 
+        }
         [HttpPost]
         public ActionResult<CategoryDto> AddCategory(CategoryDto category)
         {
@@ -17,8 +23,8 @@ namespace PredmetProjekat.WebApi.Controllers
                 {
                     return BadRequest();
                 }
-                //Guid filmId = _filmService.AddFilm(film);
-                return CreatedAtAction("AddCategory", new { Id = "" }, category);
+                Guid categoryId = _categoryService.AddCategory(category);
+                return CreatedAtAction("AddCategory", new { Id = categoryId }, category);
             }
             catch (ArgumentException e)
             {
@@ -34,15 +40,14 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CategoryDtoId>> GetAllCategories()
         {
-            //return Ok(_filmService.GetAllFilms());
+            //return Ok(_categoryService.GetCategories());
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(Guid id)
         {
-            //return _filmService.DeleteFilm(id) ? (IActionResult)NoContent() : NotFound();
-            return Ok();
+            return _categoryService.DeleteCategory(id) ? (IActionResult)NoContent() : NotFound();
         }
     }
 }
