@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {
       "PredmetProjekat.Common/1.0.0": {
+        "dependencies": {
+          "PredmetProjekat.Models": "1.0.0"
+        },
         "runtime": {
           "PredmetProjekat.Common.dll": {}
+        }
+      },
+      "PredmetProjekat.Models/1.0.0": {
+        "runtime": {
+          "PredmetProjekat.Models.dll": {}
         }
       }
     }
   },
   "libraries": {
     "PredmetProjekat.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PredmetProjekat.Models/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

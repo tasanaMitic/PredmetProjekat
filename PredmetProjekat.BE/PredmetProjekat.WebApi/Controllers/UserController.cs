@@ -24,6 +24,7 @@ namespace PredmetProjekat.WebApi.Controllers
                 {
                     return BadRequest();
                 }
+
                 Guid userId = _userService.AddUser(user);
                 return CreatedAtAction("AddUser", new { Id = userId }, user);
             }
@@ -53,6 +54,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpPost]
         public IActionResult AssignManager()
         {
+            //todo
             return Ok();
         }
 

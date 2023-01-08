@@ -23,6 +23,7 @@ namespace PredmetProjekat.WebApi.Controllers
                 {
                     return BadRequest();
                 }
+
                 Guid categoryId = _categoryService.AddCategory(category);
                 return CreatedAtAction("AddCategory", new { Id = categoryId }, category);
             }

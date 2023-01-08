@@ -1,0 +1,5 @@
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Repositories\obj\Debug\net6.0\PredmetProjekat.Repositories.csproj.AssemblyReference.cache
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Repositories\obj\Debug\net6.0\PredmetProjekat.Repositories.GeneratedMSBuildEditorConfig.editorconfig
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Repositories\obj\Debug\net6.0\PredmetProjekat.Repositories.AssemblyInfoInputs.cache
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Repositories\obj\Debug\net6.0\PredmetProjekat.Repositories.AssemblyInfo.cs
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Repositories\obj\Debug\net6.0\PredmetProjekat.Repositories.csproj.CoreCompileInputs.cache

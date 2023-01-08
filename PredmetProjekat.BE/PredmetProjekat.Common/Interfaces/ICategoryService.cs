@@ -5,7 +5,7 @@ namespace PredmetProjekat.Common.Interfaces
     public interface ICategoryService
     {
         Guid AddCategory(CategoryDto categoryDto);
-        IEnumerable<CategoryDto> GetCategories();
+        IEnumerable<CategoryDtoId> GetCategories();
         bool DeleteCategory(Guid id);
     }
 }

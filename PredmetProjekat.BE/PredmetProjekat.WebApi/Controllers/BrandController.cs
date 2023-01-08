@@ -24,6 +24,7 @@ namespace PredmetProjekat.WebApi.Controllers
                 {
                     return BadRequest();
                 }
+
                 Guid brandId = _brandService.AddBrand(brand);
                 return CreatedAtAction("AddFilm", new { Id = brandId }, brand);
             }

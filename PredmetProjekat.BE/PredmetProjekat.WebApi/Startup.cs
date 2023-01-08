@@ -1,4 +1,7 @@
-﻿using PredmetProjekat.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Repositories.Context;
+using PredmetProjekat.Repositories.UnitOfWork;
 using PredmetProjekat.Services.Services;
 
 namespace PredmetProjekat.WebApi
@@ -12,9 +15,11 @@ namespace PredmetProjekat.WebApi
         public IConfigurationRoot Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IBrandService, BrandService>();
-            services.AddScoped<IProductService, ProductService>();
+            services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnectionString")));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IBrandService>(serviceProvider => new BrandService(serviceProvider.GetService<IUnitOfWork>()));
+            services.AddScoped<ICategoryService>(serviceProvider => new CategoryService(serviceProvider.GetService<IUnitOfWork>()));
 
             services.AddControllers();
         }

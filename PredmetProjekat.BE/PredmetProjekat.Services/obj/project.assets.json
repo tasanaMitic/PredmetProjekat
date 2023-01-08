@@ -5,11 +5,24 @@
       "PredmetProjekat.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "PredmetProjekat.Models": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/PredmetProjekat.Common.dll": {}
         },
         "runtime": {
           "bin/placeholder/PredmetProjekat.Common.dll": {}
+        }
+      },
+      "PredmetProjekat.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/PredmetProjekat.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PredmetProjekat.Models.dll": {}
         }
       }
     }
@@ -19,6 +32,11 @@
       "type": "project",
       "path": "../PredmetProjekat.Common/PredmetProjekat.Common.csproj",
       "msbuildProject": "../PredmetProjekat.Common/PredmetProjekat.Common.csproj"
+    },
+    "PredmetProjekat.Models/1.0.0": {
+      "type": "project",
+      "path": "../PredmetProjekat.Models/PredmetProjekat.Models.csproj",
+      "msbuildProject": "../PredmetProjekat.Models/PredmetProjekat.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {

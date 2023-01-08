@@ -24,6 +24,7 @@ namespace PredmetProjekat.WebApi.Controllers
                 {
                     return BadRequest();
                 }
+
                 Guid productId = _productService.AddProduct(product);
                 return CreatedAtAction("AddProduct", new { Id = productId }, product);
             }

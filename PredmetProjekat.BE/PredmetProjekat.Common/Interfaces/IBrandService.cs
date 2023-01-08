@@ -5,7 +5,7 @@ namespace PredmetProjekat.Common.Interfaces
     public interface IBrandService
     {
         Guid AddBrand(BrandDto brandDto);
-        IEnumerable<BrandDto> GetBrands();
+        IEnumerable<BrandDtoId> GetBrands();
         bool DeleteBrand(Guid id);
     }
 }

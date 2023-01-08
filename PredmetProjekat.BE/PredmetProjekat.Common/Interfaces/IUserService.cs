@@ -8,5 +8,6 @@ namespace PredmetProjekat.Common.Interfaces
         IEnumerable<UserDto> GetUsers();
         UserDtoId GetUser(Guid id);
         bool DeleteUser(Guid id);
+
     }
 }

@@ -10,3 +10,6 @@ D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Common\obj\Debug\net6.0\Pr
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Common\obj\Debug\net6.0\refint\PredmetProjekat.Common.dll
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Common\obj\Debug\net6.0\PredmetProjekat.Common.pdb
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Common\obj\Debug\net6.0\ref\PredmetProjekat.Common.dll
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Common\bin\Debug\net6.0\PredmetProjekat.Models.dll
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Common\bin\Debug\net6.0\PredmetProjekat.Models.pdb
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Common\obj\Debug\net6.0\PredmetProjekat.Common.csproj.CopyComplete
