@@ -5,7 +5,7 @@ namespace PredmetProjekat.Common.Interfaces
     public interface IProductService
     {
         Guid AddProduct(ProductDto productDto);
-        IEnumerable<ProductDto> GetProducts();
+        IEnumerable<ProductDtoId> GetProducts();
         ProductDtoId GetProduct(Guid id);
         bool DeleteProduct(Guid id);
         Guid StockProduct(ProductDtoId productDto, int quantity);

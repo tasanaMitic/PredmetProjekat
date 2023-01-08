@@ -9,11 +9,14 @@ namespace PredmetProjekat.Repositories.UnitOfWork
         private StoreContext _context;
         public IBrandRepository BrandRepository { get; private set; } 
         public ICategoryRepository CategoryRepository { get; private set; }
+        public IProductRepository ProductRepository { get; private set; }
         public UnitOfWork(StoreContext context)
         {
             _context = context;
+
             BrandRepository = new BrandRepository(_context);
             CategoryRepository = new CategoryRepository(_context);
+            ProductRepository = new ProductRepository(_context);
         }
 
         public void Dispose()
