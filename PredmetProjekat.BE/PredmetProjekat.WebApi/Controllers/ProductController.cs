@@ -49,5 +49,37 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             return _productService.DeleteProduct(id) ? (IActionResult)NoContent() : NotFound();
         }
+
+        [HttpPut]
+        public IActionResult StockProduct(Guid id, ProductDtoId productDtoId, int quantity)
+        {
+            try 
+            {
+                if (id != productDtoId.ProductId)
+                {
+                    return BadRequest("ProductId mismatch!");
+                }
+
+                var productToUpdate = _productService.GetProduct(id);
+
+                if (productToUpdate == null)
+                {
+                    return NotFound($"Product with Id = {id} not found");
+                }
+
+                _productService.StockProduct(productDtoId, quantity);
+                return Accepted();
+            } 
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SellProduct()
+        {
+            return Ok();
+        }
     }
 }

@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "PredmetProjekat.Services/1.0.0": {
+        "dependencies": {
+          "PredmetProjekat.Common": "1.0.0"
+        },
+        "runtime": {
+          "PredmetProjekat.Services.dll": {}
+        }
+      },
+      "PredmetProjekat.Common/1.0.0": {
+        "runtime": {
+          "PredmetProjekat.Common.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PredmetProjekat.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PredmetProjekat.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
