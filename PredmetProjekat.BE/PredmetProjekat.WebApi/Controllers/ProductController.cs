@@ -76,10 +76,28 @@ namespace PredmetProjekat.WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult SellProduct()
+        [HttpPut]
+        public IActionResult SellProduct(IEnumerable<ProductDtoId> products)
         {
-            return Ok();
+            try
+            {
+                foreach (var product in products)
+                {
+                    var productToUpdate = _productService.GetProduct(product.ProductId);
+
+                    if (productToUpdate == null)
+                    {
+                        return NotFound($"Product with Id = {product.ProductId} not found");
+                    }
+                }
+
+                _productService.SellProduct(products);
+                return Accepted();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
     }
 }
