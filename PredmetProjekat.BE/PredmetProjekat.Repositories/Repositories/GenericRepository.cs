@@ -2,6 +2,7 @@
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Repositories.Context;
 using System.Data;
+using System.Linq.Expressions;
 
 namespace PredmetProjekat.Repositories.Repositories
 {
@@ -30,9 +31,19 @@ namespace PredmetProjekat.Repositories.Repositories
             return _context.Set<T>().ToList();
         }
 
-        public T GetById(Guid id)
+        public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
         {
-            return _context.Set<T>().Find(id);
+            return _context.Set<T>().Where(expression).ToList();
+        }
+
+        public T GetById(Guid id)
+        {      
+            var entity = _context.Set<T>().Find(id);
+            if (entity == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            return entity;            
         }
 
         public bool Remove(Guid id)
@@ -48,6 +59,11 @@ namespace PredmetProjekat.Repositories.Repositories
             {
                 return false;
             }
+        }
+
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            _context.Set<T>().RemoveRange(entities);
         }
 
         public void Update(T entity)

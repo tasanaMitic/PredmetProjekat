@@ -14,6 +14,7 @@ namespace PredmetProjekat.Repositories.Context
         {
             modelBuilder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Product>().HasIndex(x => x.Name).IsUnique();
             
         }
     }

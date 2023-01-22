@@ -2,6 +2,7 @@
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using System.Data;
+using System.Net;
 
 namespace PredmetProjekat.WebApi.Controllers
 {
@@ -16,13 +17,18 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ProductDto> AddProduct(ProductDto product)
+        public ActionResult AddProduct(ProductDto product)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest();
+                }
+
+                if (product.BrandId.Equals(new Guid()) || product.CategoryId.Equals(new Guid()))
+                {
+                    return BadRequest("Missing parameters!");      //TODO
                 }
 
                 Guid productId = _productService.AddProduct(product);
@@ -34,9 +40,12 @@ namespace PredmetProjekat.WebApi.Controllers
             }
             catch (DuplicateNameException e)
             {
-                return BadRequest();
+               return BadRequest();    //TODO
             }
-
+            catch (KeyNotFoundException e)
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet]
@@ -52,20 +61,20 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult StockProduct(Guid id, ProductDtoId productDtoId, int quantity)
+        public IActionResult StockProduct(Guid id, ProductDtoId productDtoId, int quantity)    //TODO
         {
             try 
             {
                 if (id != productDtoId.ProductId)
                 {
-                    return BadRequest("ProductId mismatch!");
+                    return BadRequest("ProductId mismatch!");    //TODO
                 }
 
                 var productToUpdate = _productService.GetProduct(id);
 
                 if (productToUpdate == null)
                 {
-                    return NotFound($"Product with Id = {id} not found");
+                    return NotFound($"Product with Id = {id} not found");    //TODO
                 }
 
                 _productService.StockProduct(productDtoId, quantity);
@@ -78,7 +87,7 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult SellProduct(IEnumerable<ProductDtoId> products)
+        public IActionResult SellProduct(IEnumerable<ProductDtoId> products)    //TODO
         {
             try
             {
@@ -88,7 +97,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
                     if (productToUpdate == null)
                     {
-                        return NotFound($"Product with Id = {product.ProductId} not found");
+                        return NotFound($"Product with Id = {product.ProductId} not found");    //TODO
                     }
                 }
 

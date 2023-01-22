@@ -24,7 +24,7 @@ namespace PredmetProjekat.Services.Services
         }
 
         public bool DeleteCategory(Guid id)
-        {
+        { 
             return _unitOfWork.CategoryRepository.Remove(id);
         }
 

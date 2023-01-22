@@ -33,7 +33,7 @@ namespace PredmetProjekat.WebApi.Controllers
             }
             catch (DuplicateNameException e)
             {
-                return BadRequest();
+                return BadRequest("Duplicate name!");   //TODO fix this
             }
 
         }
@@ -41,8 +41,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CategoryDtoId>> GetAllCategories()
         {
-            //return Ok(_categoryService.GetCategories());
-            return Ok();
+            return Ok(_categoryService.GetCategories());
         }
 
         [HttpDelete("{id}")]

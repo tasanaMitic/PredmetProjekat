@@ -26,7 +26,7 @@ namespace PredmetProjekat.WebApi.Controllers
                 }
 
                 Guid brandId = _brandService.AddBrand(brand);
-                return CreatedAtAction("AddFilm", new { Id = brandId }, brand);
+                return CreatedAtAction("AddBrand", new { Id = brandId }, brand);
             }
             catch (ArgumentException e)
             {
@@ -34,7 +34,11 @@ namespace PredmetProjekat.WebApi.Controllers
             }
             catch (DuplicateNameException e)
             {
-                return BadRequest();
+                return BadRequest("Duplicate name!");   //TODO
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e); ;   //TODO
             }
 
         }
@@ -43,6 +47,7 @@ namespace PredmetProjekat.WebApi.Controllers
         public ActionResult<IEnumerable<BrandDtoId>> GetAllBrands()
         {
             return Ok(_brandService.GetBrands());
+            
         }
 
         [HttpDelete("{id}")]

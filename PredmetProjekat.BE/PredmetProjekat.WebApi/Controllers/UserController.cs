@@ -42,7 +42,14 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<UserDtoId>> GetAllUsers()
         {
-            return Ok(_userService.GetUsers());
+            try
+            {
+                return Ok(_userService.GetUsers());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         [HttpDelete("{id}")]

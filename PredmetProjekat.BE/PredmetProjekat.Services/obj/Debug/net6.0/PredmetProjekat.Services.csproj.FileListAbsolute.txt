@@ -2,7 +2,9 @@ D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\bin\Debug\net6.0\
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\bin\Debug\net6.0\PredmetProjekat.Services.dll
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\bin\Debug\net6.0\PredmetProjekat.Services.pdb
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\bin\Debug\net6.0\PredmetProjekat.Common.dll
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\bin\Debug\net6.0\PredmetProjekat.Models.dll
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\bin\Debug\net6.0\PredmetProjekat.Common.pdb
+D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\bin\Debug\net6.0\PredmetProjekat.Models.pdb
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\obj\Debug\net6.0\PredmetProjekat.Services.csproj.AssemblyReference.cache
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\obj\Debug\net6.0\PredmetProjekat.Services.GeneratedMSBuildEditorConfig.editorconfig
 D:\PredmetProjekat\PredmetProjekat.BE\PredmetProjekat.Services\obj\Debug\net6.0\PredmetProjekat.Services.AssemblyInfoInputs.cache
