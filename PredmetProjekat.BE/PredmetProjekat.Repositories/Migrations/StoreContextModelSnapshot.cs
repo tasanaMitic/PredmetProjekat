@@ -101,6 +101,28 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Register", b =>
+                {
+                    b.Property<Guid>("RegisterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegisterCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RegisterId");
+
+                    b.HasIndex("RegisterCode")
+                        .IsUnique();
+
+                    b.ToTable("Registers");
+                });
+
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
                 {
                     b.HasOne("PredmetProjekat.Models.Models.Brand", "Brand")

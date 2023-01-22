@@ -5,5 +5,6 @@
         IBrandRepository BrandRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         IProductRepository ProductRepository { get; }
+        IRegisterRepository RegisterRepository { get; }
     }
 }

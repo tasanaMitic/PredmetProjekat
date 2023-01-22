@@ -9,12 +9,14 @@ namespace PredmetProjekat.Repositories.Context
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Register> Registers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Product>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
             
         }
     }
