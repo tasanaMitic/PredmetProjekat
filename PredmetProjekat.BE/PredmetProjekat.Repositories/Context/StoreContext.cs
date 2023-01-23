@@ -26,7 +26,7 @@ namespace PredmetProjekat.Repositories.Context
                 .HasDiscriminator<string>("AccountType")
                 .HasValue<Account>("account")
                 .HasValue<Admin>("admin")
-                .HasValue<Employee>("emplyee");
+                .HasValue<Employee>("employee");
 
         }
     }

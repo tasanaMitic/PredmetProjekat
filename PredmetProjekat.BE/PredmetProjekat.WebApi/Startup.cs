@@ -23,6 +23,7 @@ namespace PredmetProjekat.WebApi
             services.AddScoped<IProductService>(serviceProvider => new ProductService(serviceProvider.GetService<IUnitOfWork>()));
             services.AddScoped<IRegisterService>(serviceProvider => new RegisterService(serviceProvider.GetService<IUnitOfWork>()));
             services.AddScoped<IAdminService>(serviceProvider => new AdminService(serviceProvider.GetService<IUnitOfWork>()));
+            services.AddScoped<IEmployeeService>(serviceProvider => new EmployeeService(serviceProvider.GetService<IUnitOfWork>()));
 
             services.AddControllers();
         }

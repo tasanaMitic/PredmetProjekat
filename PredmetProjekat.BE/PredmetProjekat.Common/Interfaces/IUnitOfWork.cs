@@ -7,5 +7,6 @@
         IProductRepository ProductRepository { get; }
         IRegisterRepository RegisterRepository { get; }
         IAdminRepository AdminRepository { get; }
+        IEmployeeRepository EmployeeRepository { get; }
     }
 }

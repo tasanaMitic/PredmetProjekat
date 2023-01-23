@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PredmetProjekat.Repositories.Context;
 
@@ -11,9 +12,11 @@ using PredmetProjekat.Repositories.Context;
 namespace PredmetProjekat.Repositories.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230123004258_Admin-updated2")]
+    partial class Adminupdated2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,7 +163,7 @@ namespace PredmetProjekat.Repositories.Migrations
                 {
                     b.HasBaseType("PredmetProjekat.Models.Models.Account");
 
-                    b.HasDiscriminator().HasValue("employee");
+                    b.HasDiscriminator().HasValue("emplyoee");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
