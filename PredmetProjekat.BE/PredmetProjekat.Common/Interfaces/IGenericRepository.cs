@@ -8,6 +8,7 @@ namespace PredmetProjekat.Common.Interfaces
         IEnumerable<T> GetAll();
         void Add(T entity);
         bool Remove(Guid id);
+        bool RemoveByUsername(string username);
         void Update(T entity);
         IEnumerable<T> Find(Expression<Func<T, bool>> expression);
     }

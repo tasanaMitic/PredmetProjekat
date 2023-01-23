@@ -11,6 +11,7 @@ namespace PredmetProjekat.Repositories.UnitOfWork
         public ICategoryRepository CategoryRepository { get; private set; }
         public IProductRepository ProductRepository { get; private set; }
         public IRegisterRepository RegisterRepository { get; private set; }
+        public IAdminRepository AdminRepository { get; private set; }
         public UnitOfWork(StoreContext context)
         {
             _context = context;
@@ -19,6 +20,7 @@ namespace PredmetProjekat.Repositories.UnitOfWork
             CategoryRepository = new CategoryRepository(_context);
             ProductRepository = new ProductRepository(_context);
             RegisterRepository = new RegisterRepository(_context);
+            AdminRepository = new AdminRepository(_context);
         }
 
         public void Dispose()

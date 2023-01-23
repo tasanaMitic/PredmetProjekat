@@ -10,6 +10,10 @@ namespace PredmetProjekat.Repositories.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Register> Registers { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,7 +21,13 @@ namespace PredmetProjekat.Repositories.Context
             modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Product>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
-            
+
+            modelBuilder.Entity<Account>()
+                .HasDiscriminator<string>("AccountType")
+                .HasValue<Account>("account")
+                .HasValue<Admin>("admin")
+                .HasValue<Employee>("emplyee");
+
         }
     }
 }

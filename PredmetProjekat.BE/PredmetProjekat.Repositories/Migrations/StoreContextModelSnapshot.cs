@@ -22,6 +22,32 @@ namespace PredmetProjekat.Repositories.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Account", b =>
+                {
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AccountType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Username");
+
+                    b.ToTable("Accounts");
+
+                    b.HasDiscriminator<string>("AccountType").HasValue("account");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("PredmetProjekat.Models.Models.Brand", b =>
                 {
                     b.Property<Guid>("BrandId")
@@ -121,6 +147,20 @@ namespace PredmetProjekat.Repositories.Migrations
                         .IsUnique();
 
                     b.ToTable("Registers");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Admin", b =>
+                {
+                    b.HasBaseType("PredmetProjekat.Models.Models.Account");
+
+                    b.HasDiscriminator().HasValue("admin");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Employee", b =>
+                {
+                    b.HasBaseType("PredmetProjekat.Models.Models.Account");
+
+                    b.HasDiscriminator().HasValue("emplyee");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>

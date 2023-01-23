@@ -60,6 +60,20 @@ namespace PredmetProjekat.Repositories.Repositories
                 return false;
             }
         }
+        public bool RemoveByUsername(string username)
+        {
+            try
+            {
+                var entity = _context.Set<T>().Find(username);
+                _context.Set<T>().Remove(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         public void RemoveRange(IEnumerable<T> entities)
         {

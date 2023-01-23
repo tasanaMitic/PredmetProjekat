@@ -6,8 +6,9 @@ namespace PredmetProjekat.Models.Models
     {
         [Key]
         public string Username { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Lastname { get; set; }
-        public string Password { get; set; }
     }
 }

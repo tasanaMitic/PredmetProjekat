@@ -6,5 +6,6 @@
         ICategoryRepository CategoryRepository { get; }
         IProductRepository ProductRepository { get; }
         IRegisterRepository RegisterRepository { get; }
+        IAdminRepository AdminRepository { get; }
     }
 }
