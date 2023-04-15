@@ -28,6 +28,9 @@ namespace PredmetProjekat.Repositories.Context
                 .HasValue<Admin>("admin")
                 .HasValue<Employee>("employee");
 
+            modelBuilder.Entity<Employee>()
+                .HasOne<Employee>(x => x.Manager);
+
         }
     }
 }

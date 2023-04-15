@@ -16,7 +16,7 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<AccountDto> AddEmloyee(AccountDto account)
+        public ActionResult<EmployeeDto> AddEmloyee(AccountDto employee)
         {
             try
             {
@@ -25,8 +25,8 @@ namespace PredmetProjekat.WebApi.Controllers
                     return BadRequest();
                 }
 
-                string username = _emloyeeService.AddEmloyee(account);
-                return CreatedAtAction("AddEmloyee", new { Id = username }, account);
+                string username = _emloyeeService.AddEmloyee(employee);
+                return CreatedAtAction("AddEmloyee", new { Id = username }, employee);
             }
             catch (ArgumentException e)
             {
@@ -44,7 +44,7 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AccountDto>> GetAllEmloyees()
+        public ActionResult<IEnumerable<EmployeeDto>> GetAllEmloyees()
         {
             return Ok(_emloyeeService.GetEmloyees());
 
@@ -54,6 +54,12 @@ namespace PredmetProjekat.WebApi.Controllers
         public IActionResult DeleteEmloyee(string username)
         {
             return _emloyeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : NotFound();
+        }
+
+        [HttpPut]
+        public IActionResult AssignManager(ManagerDto managerDto)
+        {
+            return _emloyeeService.AssignManager(managerDto) ? Ok() : BadRequest();
         }
     }
 }

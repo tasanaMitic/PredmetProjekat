@@ -46,6 +46,16 @@ namespace PredmetProjekat.Repositories.Repositories
             return entity;            
         }
 
+        public T GetByUsername(string username)
+        {
+            var entity = _context.Set<T>().Find(username);
+            if (entity == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            return entity;
+        }
+
         public bool Remove(Guid id)
         {
             try

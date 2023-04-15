@@ -11,30 +11,51 @@ namespace PredmetProjekat.Services.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public string AddEmloyee(AccountDto accountDto)
+        public string AddEmloyee(AccountDto employeeDto)
         {
             _unitOfWork.EmployeeRepository.Add(new Employee
             {
-                Lastname = accountDto.Lastname,
-                Name = accountDto.Name,
-                Username = accountDto.Username
+                Lastname = employeeDto.Lastname,
+                Name = employeeDto.Name,
+                Username = employeeDto.Username
             });
 
-            return accountDto.Username;
+            return employeeDto.Username;
+        }
+
+        public bool AssignManager(ManagerDto managerDto)
+        {
+            if (managerDto.ManagerUsername == null)
+            {
+                return _unitOfWork.EmployeeRepository.RemoveManager(managerDto.EmployeeUsername);
+            }
+            else
+            {
+                return _unitOfWork.EmployeeRepository.AssignManager(managerDto.ManagerUsername, managerDto.EmployeeUsername);
+            }
+            
         }
 
         public bool DeleteEmloyee(string username)
         {
+            var employees = _unitOfWork.EmployeeRepository.Find(x => x.ManagerUsername == username);
+
+            foreach (var employee in employees)
+            {
+                _unitOfWork.EmployeeRepository.RemoveManager(employee.Username);
+            }
+
             return _unitOfWork.EmployeeRepository.RemoveByUsername(username);
         }
 
-        public IEnumerable<AccountDto> GetEmloyees()
+        public IEnumerable<EmployeeDto> GetEmloyees()
         {
-            return _unitOfWork.EmployeeRepository.GetAll().Select(x => new AccountDto
+            return _unitOfWork.EmployeeRepository.GetAll().Select(x => new EmployeeDto
             {
                 Lastname = x.Lastname,
                 Name = x.Name,
-                Username = x.Username
+                Username = x.Username,
+                ManagerUsername = x.Manager?.Username
             });
         }
     }

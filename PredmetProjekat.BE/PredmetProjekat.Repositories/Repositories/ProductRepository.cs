@@ -10,7 +10,7 @@ namespace PredmetProjekat.Repositories.Repositories
         {
         }
 
-        public bool DeleteProductsByBrand(Guid brandId)
+        public bool DeleteProductsByBrand(Guid brandId)     //not used
         {
             try
             {
@@ -24,7 +24,7 @@ namespace PredmetProjekat.Repositories.Repositories
             }
         }
 
-        public bool DeleteProductsByCategory(Guid categoryId)
+        public bool DeleteProductsByCategory(Guid categoryId)   //not used
         {
             try
             {

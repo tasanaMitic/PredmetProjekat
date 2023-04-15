@@ -41,7 +41,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasKey("Username");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
 
                     b.HasDiscriminator<string>("AccountType").HasValue("account");
 
@@ -63,7 +63,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Category", b =>
@@ -81,7 +81,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
@@ -124,7 +124,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Register", b =>
@@ -146,7 +146,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("RegisterCode")
                         .IsUnique();
 
-                    b.ToTable("Registers");
+                    b.ToTable("Registers", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Admin", b =>
@@ -159,6 +159,12 @@ namespace PredmetProjekat.Repositories.Migrations
             modelBuilder.Entity("PredmetProjekat.Models.Models.Employee", b =>
                 {
                     b.HasBaseType("PredmetProjekat.Models.Models.Account");
+
+                    b.Property<string>("ManagerUsername")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("ManagerUsername");
 
                     b.HasDiscriminator().HasValue("employee");
                 });
@@ -180,6 +186,17 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Employee", b =>
+                {
+                    b.HasOne("PredmetProjekat.Models.Models.Employee", "Manager")
+                        .WithMany()
+                        .HasForeignKey("ManagerUsername")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manager");
                 });
 #pragma warning restore 612, 618
         }
