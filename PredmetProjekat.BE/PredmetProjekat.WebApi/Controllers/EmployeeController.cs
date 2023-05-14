@@ -22,7 +22,7 @@ namespace PredmetProjekat.WebApi.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
 
                 string username = _emloyeeService.AddEmloyee(employee);
@@ -38,7 +38,7 @@ namespace PredmetProjekat.WebApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e); ;   //TODO
+                return Problem("Something went wrong!", statusCode: 500);
             }
 
         }

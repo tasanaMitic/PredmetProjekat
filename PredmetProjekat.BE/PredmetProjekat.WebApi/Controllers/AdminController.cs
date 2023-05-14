@@ -22,7 +22,7 @@ namespace PredmetProjekat.WebApi.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
 
                 string username = _adminService.AddAdmin(account);

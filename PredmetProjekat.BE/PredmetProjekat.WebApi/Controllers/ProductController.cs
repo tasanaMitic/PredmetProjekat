@@ -23,7 +23,7 @@ namespace PredmetProjekat.WebApi.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
 
                 if (product.BrandId.Equals(new Guid()) || product.CategoryId.Equals(new Guid()))
@@ -49,7 +49,7 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProductDtoId>> GetAllProducts()
+        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllProducts()
         {
             return Ok(_productService.GetProducts());
         }

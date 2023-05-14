@@ -10,51 +10,51 @@ namespace PredmetProjekat.Repositories.Repositories
         {
         }
 
-        public bool AssignManager(string managerUsername, string employeeUsername)
-        {
-            try
-            {
-                var employee = _context.Employees.Find(employeeUsername);
-                var manager = _context.Employees.Find(managerUsername);
+        //public bool AssignManager(string managerUsername, string employeeUsername)
+        //{
+        //    try
+        //    {
+        //        var employee = _context.Employees.Find(employeeUsername);
+        //        var manager = _context.Employees.Find(managerUsername);
 
-                if (employee == null || manager == null || manager.Equals(employee))
-                {
-                    return false;
-                }
+        //        if (employee == null || manager == null || manager.Equals(employee))
+        //        {
+        //            return false;
+        //        }
 
-                employee.Manager = manager;
-                _context.Employees.Update(employee);
-                _context.SaveChanges();
+        //        employee.ManagerUsername = managerUsername;
+        //        _context.Employees.Update(employee);
+        //        _context.SaveChanges();
 
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        public bool RemoveManager(string employeeUsername)  //TODO?
-        {
-            try
-            {
-                var employee = _context.Employees.Find(employeeUsername);
+        //public bool RemoveManager(string employeeUsername)  //TODO?
+        //{
+        //    try
+        //    {
+        //        var employee = _context.Employees.Find(employeeUsername);
 
-                if (employee == null)
-                {
-                    return false;
-                }
+        //        if (employee == null)
+        //        {
+        //            return false;
+        //        }
 
-                employee.ManagerUsername = null;
-                _context.Employees.Update(employee);
-                _context.SaveChanges();
+        //        employee.ManagerUsername = null;
+        //        _context.Employees.Update(employee);
+        //        _context.SaveChanges();
 
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
     }
 }

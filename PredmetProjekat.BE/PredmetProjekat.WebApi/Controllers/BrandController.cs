@@ -22,7 +22,7 @@ namespace PredmetProjekat.WebApi.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
 
                 Guid brandId = _brandService.AddBrand(brand);

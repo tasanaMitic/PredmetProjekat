@@ -15,9 +15,10 @@ namespace PredmetProjekat.Services.Services
         {
             _unitOfWork.AdminRepository.Add(new Admin
             {
-                Lastname = accountDto.Lastname,
-                Name = accountDto.Name,
-                Username = accountDto.Username
+                Lastname = accountDto.LastName,
+                FirstName = accountDto.FirstName,
+                UserName = accountDto.Username
+
             });
 
             return accountDto.Username;
@@ -32,9 +33,9 @@ namespace PredmetProjekat.Services.Services
         {
             return _unitOfWork.AdminRepository.GetAll().Select(x => new AccountDto
             {
-                Lastname = x.Lastname,
-                Name = x.Name,
-                Username = x.Username
+                LastName = x.Lastname,
+                FirstName = x.FirstName,
+                Username = x.UserName
             });
         }
     }

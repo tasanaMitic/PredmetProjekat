@@ -30,7 +30,7 @@ namespace PredmetProjekat.Services.Services
 
         public IEnumerable<CategoryDtoId> GetCategories()
         {
-            return _unitOfWork.CategoryRepository.GetAll().Select(x => new CategoryDtoId
+            return _unitOfWork.CategoryRepository.GetAll().Select(x => new CategoryDtoId    //TODO AUTOMAPPER
             {
                 CategoryId = x.CategoryId,
                 Name = x.Name

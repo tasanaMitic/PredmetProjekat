@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PredmetProjekat.Models.Models;
+using PredmetProjekat.Repositories.Context.Configuration;
 
 namespace PredmetProjekat.Repositories.Context
 {
-    public class StoreContext : DbContext
+    public class StoreContext : IdentityDbContext<Account>
     {
         public StoreContext(DbContextOptions options) : base(options) { }
         public DbSet<Brand> Brands { get; set; }
@@ -15,21 +17,23 @@ namespace PredmetProjekat.Repositories.Context
         public DbSet<Employee> Employees { get; set; }
         
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<Product>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new RoleConfiguration());
 
-            modelBuilder.Entity<Account>()
-                .HasDiscriminator<string>("AccountType")
-                .HasValue<Account>("account")
-                .HasValue<Admin>("admin")
-                .HasValue<Employee>("employee");
+            builder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
+            builder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
+            builder.Entity<Product>().HasIndex(x => x.Name).IsUnique();
+            builder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
 
-            modelBuilder.Entity<Employee>()
-                .HasOne<Employee>(x => x.Manager);
+            //modelBuilder.Entity<Employee>()
+            //    .HasOne(x => x.ManagerUsername)
+            //    .WithMany()
+            //    .HasForeignKey("ManagerUsername")
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //TODO Seed the db with values
 
         }
     }

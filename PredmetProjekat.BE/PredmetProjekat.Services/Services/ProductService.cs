@@ -22,7 +22,7 @@ namespace PredmetProjekat.Services.Services
                 Size = productDto.Size,
                 Season = productDto.Season,
                 Sex = productDto.Sex,
-                Quantity = productDto.Quantity,
+                Quantity = 0,
                 Brand = _unitOfWork.BrandRepository.GetById(productDto.BrandId),
                 Category = _unitOfWork.CategoryRepository.GetById(productDto.CategoryId)
             });
@@ -35,10 +35,11 @@ namespace PredmetProjekat.Services.Services
             return _unitOfWork.ProductRepository.Remove(id);
         }
 
-        public ProductDtoId GetProduct(Guid id)
+        public StockedProductDtoId GetProduct(Guid id)
         {
             var product = _unitOfWork.ProductRepository.GetById(id);
-            return new ProductDtoId
+            
+            return new StockedProductDtoId
             {
                 ProductId = product.ProductId,
                 Name = product.Name,
@@ -51,9 +52,9 @@ namespace PredmetProjekat.Services.Services
             };
         }
 
-        public IEnumerable<ProductDtoId> GetProducts()
+        public IEnumerable<StockedProductDtoId> GetProducts()
         {
-            return _unitOfWork.ProductRepository.GetAll().Select(x => new ProductDtoId
+            return _unitOfWork.ProductRepository.GetAll().Select(x => new StockedProductDtoId
             {
                 ProductId = x.ProductId,
                 Name = x.Name,

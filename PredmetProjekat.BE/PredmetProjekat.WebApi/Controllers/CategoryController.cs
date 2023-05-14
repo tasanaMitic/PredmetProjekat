@@ -21,7 +21,7 @@ namespace PredmetProjekat.WebApi.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
 
                 Guid categoryId = _categoryService.AddCategory(category);

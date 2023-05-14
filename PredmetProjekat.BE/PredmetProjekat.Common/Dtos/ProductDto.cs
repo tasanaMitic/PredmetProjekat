@@ -10,6 +10,5 @@ namespace PredmetProjekat.Common.Dtos
         public string Season { get; set; }
         public Guid CategoryId { get; set; }
         public Guid BrandId { get; set; }
-        public int Quantity { get; set; }
     }
 }
