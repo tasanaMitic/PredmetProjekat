@@ -15,14 +15,14 @@ namespace PredmetProjekat.WebApi.Controllers
             _adminService = adminService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAdmins()
         {
             return Ok(await _adminService.GetAdmins());
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{username}")]
         public async Task<IActionResult> DeleteAdmin(string username)
         {

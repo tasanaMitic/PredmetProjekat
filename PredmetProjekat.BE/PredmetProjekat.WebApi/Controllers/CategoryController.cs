@@ -16,7 +16,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _categoryService = categoryService; 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<CategoryDto> AddCategory(CategoryDto category)
         {
@@ -41,14 +41,14 @@ namespace PredmetProjekat.WebApi.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<CategoryDtoId>> GetAllCategories()
         {
             return Ok(_categoryService.GetCategories());
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(Guid id)
         {

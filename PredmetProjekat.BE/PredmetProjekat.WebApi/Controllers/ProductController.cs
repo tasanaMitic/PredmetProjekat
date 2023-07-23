@@ -17,7 +17,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _productService = productService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult AddProduct(ProductDto product)
         {
@@ -50,21 +50,29 @@ namespace PredmetProjekat.WebApi.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,Employee")]
         [HttpGet]
-        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllProducts()
+        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllStockedProducts()   //TODO
+        {
+            //return Ok(_productService.GetStockedProducts());
+            return Ok(_productService.GetProducts());
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllProducts()  //TODO
         {
             return Ok(_productService.GetProducts());
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(Guid id)
         {
             return _productService.DeleteProduct(id) ? (IActionResult)NoContent() : NotFound();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult StockProduct(Guid id, ProductDtoId productDtoId, int quantity)    //TODO
         {
@@ -91,6 +99,7 @@ namespace PredmetProjekat.WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Employee")]
         [HttpPut]
         public IActionResult SellProduct(IEnumerable<ProductDtoId> products)    //TODO
         {

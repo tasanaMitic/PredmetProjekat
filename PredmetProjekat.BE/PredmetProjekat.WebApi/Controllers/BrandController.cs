@@ -16,7 +16,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _brandService = brandService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<BrandDto> AddBrand(BrandDto brand)
         {
@@ -45,7 +45,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<BrandDtoId>> GetAllBrands()
         {
@@ -53,7 +53,7 @@ namespace PredmetProjekat.WebApi.Controllers
             
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteBrand(Guid id)
         {

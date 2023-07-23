@@ -16,7 +16,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _registerService = categoryService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<RegisterDto> AddRegister(RegisterDto register)
         {
@@ -41,14 +41,14 @@ namespace PredmetProjekat.WebApi.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<RegisterDtoId>> GetAllRegisters()
         {
             return Ok(_registerService.GetRegisters());
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteRegister(Guid id)
         {

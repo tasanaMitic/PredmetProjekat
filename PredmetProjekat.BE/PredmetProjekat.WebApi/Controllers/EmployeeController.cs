@@ -16,7 +16,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _emloyeeService = emloyeeService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmloyees()
         {
@@ -24,14 +24,14 @@ namespace PredmetProjekat.WebApi.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{username}")]
         public async Task<IActionResult> DeleteEmloyee(string username)
         {
             return await _emloyeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : NotFound();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult AssignManager(ManagerDto managerDto)   //TODO
         {
