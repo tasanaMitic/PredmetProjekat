@@ -20,5 +20,7 @@ namespace PredmetProjekat.Models.Models
         public  Brand Brand { get; set; }
         [Required]
         public Category Category { get; set; }
+        [Required]
+        public bool IsInStock { get; set; }
     }
 }

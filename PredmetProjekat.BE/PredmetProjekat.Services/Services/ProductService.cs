@@ -24,7 +24,8 @@ namespace PredmetProjekat.Services.Services
                 Sex = productDto.Sex,
                 Quantity = 0,
                 Brand = _unitOfWork.BrandRepository.GetById(productDto.BrandId),
-                Category = _unitOfWork.CategoryRepository.GetById(productDto.CategoryId)
+                Category = _unitOfWork.CategoryRepository.GetById(productDto.CategoryId),
+                IsInStock = false
             });
 
             return id;

@@ -25,6 +25,8 @@ namespace PredmetProjekat.Repositories.Context
             builder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
             builder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
             builder.Entity<Product>().HasIndex(x => x.Name).IsUnique();
+            builder.Entity<Product>().Property(x => x.Quantity).HasDefaultValue(0);
+            builder.Entity<Product>().Property(x => x.IsInStock).HasDefaultValue(false);
             builder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
 
             //modelBuilder.Entity<Employee>()
