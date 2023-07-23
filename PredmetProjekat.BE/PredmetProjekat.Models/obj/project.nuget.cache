@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "q98bqDfVugjdzaSYbBZATaPOYlV08rfWVlYFHoSVdyx84Y4kb8RR0KBnWnNv7OCpTPMJkKulorb/ZfEt0+0Ntw==",
+  "dgSpecHash": "gj4U870fqaycf4g265QWxrdPsxk4/ssOBR7kDS0ihEExJU4oORE4ODAkEc7pqpzQHlj3bQogkJMnnNAzxFs+Rg==",
   "success": true,
   "projectFilePath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Models\\PredmetProjekat.Models.csproj",
   "expectedPackageFiles": [
@@ -45,6 +45,7 @@
     "C:\\Users\\Korisnik\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\Korisnik\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.security.accesscontrol\\4.5.0\\system.security.accesscontrol.4.5.0.nupkg.sha512",

@@ -21,8 +21,10 @@ namespace PredmetProjekat.WebApi
 
             services.AddAutoMapper(typeof(MappingProfile));
 
+            
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
 
             services.ConfigureServices();
 
@@ -33,6 +35,10 @@ namespace PredmetProjekat.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(x => x.MapControllers());
         }
     }

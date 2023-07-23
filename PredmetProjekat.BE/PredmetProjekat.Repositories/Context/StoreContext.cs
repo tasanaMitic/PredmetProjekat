@@ -33,7 +33,7 @@ namespace PredmetProjekat.Repositories.Context
             //    .HasForeignKey("ManagerUsername")
             //    .OnDelete(DeleteBehavior.Restrict);
 
-            //TODO Seed the db with values
+            //TODO Seed the db with values?
 
         }
     }

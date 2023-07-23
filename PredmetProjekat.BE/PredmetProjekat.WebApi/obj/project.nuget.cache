@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "80zRSYGZ4HNdzpFSIOBZZ04HOrlyZVm1pUFHynhtwq6yvNOkQki5eAdsKKjZSckuafQP6IC5G44mhTTDEH5sZw==",
+  "dgSpecHash": "+DM0f/DO/xUcxxE3EpkV7kPfExpNqy0EwKy8c3CJvz3jUiAKpgkYs68fKg7UlvR/W7Wb3Y7JoSB0ZlWM0zHfGQ==",
   "success": true,
   "projectFilePath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.WebApi\\PredmetProjekat.WebApi.csproj",
   "expectedPackageFiles": [
@@ -84,6 +84,7 @@
     "C:\\Users\\Korisnik\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
+    "C:\\Users\\Korisnik\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",

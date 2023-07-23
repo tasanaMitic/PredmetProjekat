@@ -4,8 +4,7 @@ namespace PredmetProjekat.Common.Interfaces
 {
     public interface IAdminService
     {
-        string AddAdmin(AccountDto accountDto);
-        IEnumerable<AccountDto> GetAdmins();
-        bool DeleteAdmin(string username);
+        Task<IEnumerable<UserDto>> GetAdmins();
+        Task<bool> DeleteAdmin(string username);
     }
 }

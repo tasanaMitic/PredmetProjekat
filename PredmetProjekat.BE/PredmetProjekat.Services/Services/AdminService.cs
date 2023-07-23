@@ -1,4 +1,6 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 
@@ -6,37 +8,30 @@ namespace PredmetProjekat.Services.Services
 {
     public class AdminService : IAdminService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public AdminService(IUnitOfWork unitOfWork)
+        private readonly UserManager<Account> _userManager;
+        private readonly IMapper _mapper;
+        public AdminService(UserManager<Account> userManager, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _userManager = userManager;
+            _mapper = mapper;
         }
-        public string AddAdmin(AccountDto accountDto)
+
+        public async Task<bool> DeleteAdmin(string username)
         {
-            _unitOfWork.AdminRepository.Add(new Admin
+            var userToBeDeleted = await _userManager.FindByNameAsync(username);
+            if(userToBeDeleted == null)
             {
-                Lastname = accountDto.LastName,
-                FirstName = accountDto.FirstName,
-                UserName = accountDto.Username
+                return false;
+            }
 
-            });
-
-            return accountDto.Username;
+            var result = await _userManager.DeleteAsync(userToBeDeleted);
+            return result.Succeeded;
         }
 
-        public bool DeleteAdmin(string username)
+        public async Task<IEnumerable<UserDto>> GetAdmins()
         {
-            return _unitOfWork.AdminRepository.RemoveByUsername(username);
-        }
-
-        public IEnumerable<AccountDto> GetAdmins()
-        {
-            return _unitOfWork.AdminRepository.GetAll().Select(x => new AccountDto
-            {
-                LastName = x.Lastname,
-                FirstName = x.FirstName,
-                Username = x.UserName
-            });
+            var admins = await _userManager.GetUsersInRoleAsync("Admin");
+            return _mapper.Map<IEnumerable<UserDto>>(admins);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using System.Data;
@@ -14,6 +15,8 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             _categoryService = categoryService; 
         }
+
+        [Authorize]
         [HttpPost]
         public ActionResult<CategoryDto> AddCategory(CategoryDto category)
         {
@@ -38,12 +41,14 @@ namespace PredmetProjekat.WebApi.Controllers
 
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<CategoryDtoId>> GetAllCategories()
         {
             return Ok(_categoryService.GetCategories());
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(Guid id)
         {

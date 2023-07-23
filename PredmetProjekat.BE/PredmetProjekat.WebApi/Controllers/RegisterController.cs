@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using System.Data;
@@ -14,6 +15,8 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             _registerService = categoryService;
         }
+
+        [Authorize]
         [HttpPost]
         public ActionResult<RegisterDto> AddRegister(RegisterDto register)
         {
@@ -38,12 +41,14 @@ namespace PredmetProjekat.WebApi.Controllers
 
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<RegisterDtoId>> GetAllRegisters()
         {
             return Ok(_registerService.GetRegisters());
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteRegister(Guid id)
         {

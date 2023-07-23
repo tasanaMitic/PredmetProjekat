@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using System.Data;
@@ -15,6 +16,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _brandService = brandService;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult<BrandDto> AddBrand(BrandDto brand)
         {
@@ -43,6 +45,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<BrandDtoId>> GetAllBrands()
         {
@@ -50,6 +53,7 @@ namespace PredmetProjekat.WebApi.Controllers
             
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteBrand(Guid id)
         {

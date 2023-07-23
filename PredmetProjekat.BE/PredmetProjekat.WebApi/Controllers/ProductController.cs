@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using System.Data;
@@ -16,6 +17,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _productService = productService;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult AddProduct(ProductDto product)
         {
@@ -48,18 +50,21 @@ namespace PredmetProjekat.WebApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<StockedProductDtoId>> GetAllProducts()
         {
             return Ok(_productService.GetProducts());
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(Guid id)
         {
             return _productService.DeleteProduct(id) ? (IActionResult)NoContent() : NotFound();
         }
 
+        [Authorize]
         [HttpPut]
         public IActionResult StockProduct(Guid id, ProductDtoId productDtoId, int quantity)    //TODO
         {

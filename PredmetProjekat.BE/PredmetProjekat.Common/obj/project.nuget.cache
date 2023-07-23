@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TJ2n39GeUZCMyGWvoJlCK52Kd/Aht1tv9nnqCMNI0QHptUhQ5p6KKR33OyIs/NXNppRpZhleA4WJE78ZpEXMKQ==",
+  "dgSpecHash": "ObzV8sw25FoVONtx0EHqc3pUH3d8Hh2iqgOMl+aeEsd7mlXrbm8JbKDmtgWhJapLhavqJdQIxfo6pF58qXUJkA==",
   "success": true,
   "projectFilePath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Common\\PredmetProjekat.Common.csproj",
   "expectedPackageFiles": [
@@ -61,6 +61,7 @@
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.collections\\4.0.11\\system.collections.4.0.11.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\Korisnik\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.diagnostics.debug\\4.0.11\\system.diagnostics.debug.4.0.11.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.diagnostics.tools\\4.0.1\\system.diagnostics.tools.4.0.1.nupkg.sha512",

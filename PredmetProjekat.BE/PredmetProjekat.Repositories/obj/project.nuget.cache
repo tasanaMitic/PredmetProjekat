@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1UOoiL1fBo7AH2vGyGT3Sx93KdnSslcx96tZ3kxkqyDiluoMkzd0agstCDZOrmUyzMWvY2GtCzfyQYVPRR0bbQ==",
+  "dgSpecHash": "82caYAEah7gaAFTuFKMYn8lqcvkIMVYSOp9B+z4s0reLOkLqUc7acEC0ytZsi8drQoV+2iqVWuOyxVYAkhEZCQ==",
   "success": true,
   "projectFilePath": "D:\\PredmetProjekat\\PredmetProjekat.BE\\PredmetProjekat.Repositories\\PredmetProjekat.Repositories.csproj",
   "expectedPackageFiles": [
@@ -76,6 +76,7 @@
     "C:\\Users\\Korisnik\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
+    "C:\\Users\\Korisnik\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",
     "C:\\Users\\Korisnik\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",

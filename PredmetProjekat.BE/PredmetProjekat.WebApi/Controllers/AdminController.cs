@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
-using System.Data;
 
 namespace PredmetProjekat.WebApi.Controllers
 {
@@ -15,45 +15,18 @@ namespace PredmetProjekat.WebApi.Controllers
             _adminService = adminService;
         }
 
-        [HttpPost]
-        public ActionResult<AccountDto> AddAdmin(AccountDto account)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                string username = _adminService.AddAdmin(account);
-                return CreatedAtAction("AddAdmin", new { Id = username }, account);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest();
-            }
-            catch (DuplicateNameException e)
-            {
-                return BadRequest("Duplicate name!");   //TODO
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e); ;   //TODO
-            }
-
-        }
-
+        [Authorize]
         [HttpGet]
-        public ActionResult<IEnumerable<AccountDto>> GetAllAdmins()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAdmins()
         {
-            return Ok(_adminService.GetAdmins());
-
+            return Ok(await _adminService.GetAdmins());
         }
 
+        [Authorize]
         [HttpDelete("{username}")]
-        public IActionResult DeleteAdmin(string username)
+        public async Task<IActionResult> DeleteAdmin(string username)
         {
-            return _adminService.DeleteAdmin(username) ? (IActionResult)NoContent() : NotFound();
+            return await _adminService.DeleteAdmin(username) ? (IActionResult)NoContent() : NotFound();
         }
     }
 }

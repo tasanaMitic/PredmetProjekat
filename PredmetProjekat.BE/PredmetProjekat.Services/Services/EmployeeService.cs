@@ -1,4 +1,6 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 
@@ -6,21 +8,14 @@ namespace PredmetProjekat.Services.Services
 {
     public class EmployeeService : IEmployeeService
     {
+        private readonly UserManager<Account> _userManager;
+        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        public EmployeeService(IUnitOfWork unitOfWork)
+        public EmployeeService(IUnitOfWork unitOfWork, UserManager<Account> userManager, IMapper mapper )
         {
             _unitOfWork = unitOfWork;
-        }
-        public string AddEmloyee(AccountDto employeeDto)
-        {
-            _unitOfWork.EmployeeRepository.Add(new Employee
-            {
-                Lastname = employeeDto.LastName,
-                FirstName = employeeDto.FirstName,
-                UserName = employeeDto.Username
-            });
-
-            return employeeDto.Username;
+            _userManager = userManager;
+            _mapper = mapper;
         }
 
         public bool AssignManager(ManagerDto managerDto)
@@ -36,28 +31,22 @@ namespace PredmetProjekat.Services.Services
             return true;
         }
 
-        public bool DeleteEmloyee(string username)
+        public async Task<bool> DeleteEmloyee(string username)
         {
-            //    var employees = _unitOfWork.EmployeeRepository.Find(x => x.ManagerUsername == username);
+            var userToBeDeleted = await _userManager.FindByNameAsync(username);
+            if (userToBeDeleted == null)
+            {
+                return false;
+            }
 
-            //    foreach (var employee in employees)
-            //    {
-            //        _unitOfWork.EmployeeRepository.RemoveManager(employee.UserName);
-            //    }
-
-            //    return _unitOfWork.EmployeeRepository.RemoveByUsername(username);
-            return true;
+            var result = await _userManager.DeleteAsync(userToBeDeleted);
+            return result.Succeeded;
         }
 
-    public IEnumerable<EmployeeDto> GetEmloyees()
+        public async Task<IEnumerable<EmployeeDto>> GetEmloyees()
         {
-            return _unitOfWork.EmployeeRepository.GetAll().Select(x => new EmployeeDto
-            {
-                LastName = x.Lastname,
-                FirstName = x.FirstName,
-                Username = x.UserName
-                //ManagerUsername = x.ManagerUsername
-            });
+            var users = await _userManager.GetUsersInRoleAsync("Employee");
+            return _mapper.Map<IEnumerable<EmployeeDto>>(users);
         }
     }
 }

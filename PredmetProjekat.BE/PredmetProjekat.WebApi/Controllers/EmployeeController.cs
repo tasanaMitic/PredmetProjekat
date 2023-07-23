@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using System.Data;
@@ -15,49 +16,24 @@ namespace PredmetProjekat.WebApi.Controllers
             _emloyeeService = emloyeeService;
         }
 
-        [HttpPost]
-        public ActionResult<EmployeeDto> AddEmloyee(AccountDto employee)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                string username = _emloyeeService.AddEmloyee(employee);
-                return CreatedAtAction("AddEmloyee", new { Id = username }, employee);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest();
-            }
-            catch (DuplicateNameException e)
-            {
-                return BadRequest("Duplicate name!");   //TODO
-            }
-            catch (Exception e)
-            {
-                return Problem("Something went wrong!", statusCode: 500);
-            }
-
-        }
-
+        [Authorize]
         [HttpGet]
-        public ActionResult<IEnumerable<EmployeeDto>> GetAllEmloyees()
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmloyees()
         {
-            return Ok(_emloyeeService.GetEmloyees());
+            return Ok(await _emloyeeService.GetEmloyees());
 
         }
 
+        [Authorize]
         [HttpDelete("{username}")]
-        public IActionResult DeleteEmloyee(string username)
+        public async Task<IActionResult> DeleteEmloyee(string username)
         {
-            return _emloyeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : NotFound();
+            return await _emloyeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : NotFound();
         }
 
+        [Authorize]
         [HttpPut]
-        public IActionResult AssignManager(ManagerDto managerDto)
+        public IActionResult AssignManager(ManagerDto managerDto)   //TODO
         {
             return _emloyeeService.AssignManager(managerDto) ? Ok() : BadRequest();
         }
