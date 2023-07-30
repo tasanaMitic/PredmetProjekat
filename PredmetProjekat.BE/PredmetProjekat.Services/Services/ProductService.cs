@@ -1,4 +1,5 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using AutoMapper;
+using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 
@@ -7,9 +8,11 @@ namespace PredmetProjekat.Services.Services
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public Guid AddProduct(ProductDto productDto)
@@ -39,33 +42,19 @@ namespace PredmetProjekat.Services.Services
         public StockedProductDtoId GetProduct(Guid id)
         {
             var product = _unitOfWork.ProductRepository.GetById(id);
-            
-            return new StockedProductDtoId
-            {
-                ProductId = product.ProductId,
-                Name = product.Name,
-                Season = product.Season,
-                Sex = product.Sex,
-                Size = product.Size,
-                Quantity = product.Quantity,
-                BrandId = product.Brand.BrandId,
-                CategoryId = product.Category.CategoryId
-            };
+            return _mapper.Map<StockedProductDtoId>(product);
         }
 
         public IEnumerable<StockedProductDtoId> GetProducts()
         {
-            return _unitOfWork.ProductRepository.GetAll().Select(x => new StockedProductDtoId
-            {
-                ProductId = x.ProductId,
-                Name = x.Name,
-                Season = x.Season,
-                Size = x.Size,
-                Sex = x.Sex,
-                Quantity = x.Quantity,
-                BrandId = x.Brand.BrandId,
-                CategoryId = x.Category.CategoryId
-            });
+            var stockedProducts = _unitOfWork.ProductRepository.GetAllProducts();
+            return _mapper.Map<IEnumerable<StockedProductDtoId>>(stockedProducts);
+        }
+
+        public IEnumerable<StockedProductDtoId> GetStockedProducts()
+        {
+            var stockedProducts = _unitOfWork.ProductRepository.GetAllStockedProducts();
+            return _mapper.Map<IEnumerable<StockedProductDtoId>>(stockedProducts);
         }
 
         public bool SellProduct(IEnumerable<ProductDtoId> products)
@@ -74,10 +63,13 @@ namespace PredmetProjekat.Services.Services
             throw new NotImplementedException();
         }
 
-        public Guid StockProduct(ProductDtoId productDto, int quantity)
+        public void StockProduct(Guid productId, int quantity)
         {
-            //todo
-            throw new NotImplementedException();
+            var product = _unitOfWork.ProductRepository.GetById(productId);
+            product.Quantity += quantity;
+            product.IsInStock = true;
+
+            _unitOfWork.ProductRepository.Update(product);
         }
     }
 }

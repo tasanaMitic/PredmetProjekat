@@ -35,12 +35,6 @@ namespace PredmetProjekat.Services.Services
         {
             var categories = _unitOfWork.CategoryRepository.GetAll();
             return _mapper.Map<IEnumerable<CategoryDtoId>>(categories);
-
-            //return _unitOfWork.CategoryRepository.GetAll().Select(x => new CategoryDtoId    //TODO AUTOMAPPER
-            //{
-            //    CategoryId = x.CategoryId,
-            //    Name = x.Name
-            //});
         }
     }
 }

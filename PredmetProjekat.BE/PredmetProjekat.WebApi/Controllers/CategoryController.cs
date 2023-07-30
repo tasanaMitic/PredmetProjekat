@@ -18,7 +18,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult<CategoryDto> AddCategory(CategoryDto category)
+        public ActionResult<CategoryDto> AddCategory([FromBody]CategoryDto category)
         {
             try
             {
@@ -60,11 +60,11 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(Guid id)
+        public IActionResult DeleteCategory(Guid id)    //TODO test foreign key contsraint
         {
             try
             {
-                return _categoryService.DeleteCategory(id) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteCategory)}!", "Brand with that id not found!", statusCode: 404);
+                return _categoryService.DeleteCategory(id) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteCategory)}!", "Category with that id not found!", statusCode: 404);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,6 @@
-﻿namespace PredmetProjekat.Common.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PredmetProjekat.Common.Dtos
 {
     public class CategoryDto
     {

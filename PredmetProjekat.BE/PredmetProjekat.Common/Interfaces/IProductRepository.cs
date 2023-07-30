@@ -1,4 +1,5 @@
-﻿using PredmetProjekat.Models.Models;
+﻿using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Common.Interfaces
 {
@@ -6,5 +7,7 @@ namespace PredmetProjekat.Common.Interfaces
     {
         bool DeleteProductsByCategory(Guid categoryId);
         bool DeleteProductsByBrand(Guid brandId);
+        IEnumerable<Product> GetAllProducts();
+        IEnumerable<Product> GetAllStockedProducts();
     }
 }

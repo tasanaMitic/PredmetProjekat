@@ -11,7 +11,7 @@ namespace PredmetProjekat.Common.AutoMapper
         {
             CreateMap<Brand, BrandDtoId>().ReverseMap();
             CreateMap<Category, CategoryDtoId>().ReverseMap();
-            CreateMap<Product, ProductDtoId>().ReverseMap();
+            CreateMap<Product, StockedProductDtoId>().ReverseMap();
             CreateMap<Register, RegisterDtoId>().ReverseMap();
             CreateMap<Account, RegistrationDto>().ReverseMap();
             CreateMap<Account, UserDto>().ReverseMap();

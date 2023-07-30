@@ -6,9 +6,10 @@ namespace PredmetProjekat.Common.Interfaces
     {
         Guid AddProduct(ProductDto productDto);
         IEnumerable<StockedProductDtoId> GetProducts();
+        IEnumerable<StockedProductDtoId> GetStockedProducts();
         StockedProductDtoId GetProduct(Guid id);
         bool DeleteProduct(Guid id);
-        Guid StockProduct(ProductDtoId productDto, int quantity);
+        void StockProduct(Guid productId, int quantity);
         bool SellProduct(IEnumerable<ProductDtoId> products);
     }
 }

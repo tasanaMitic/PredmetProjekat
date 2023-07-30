@@ -18,7 +18,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult<BrandDto> AddBrand(BrandDto brand)
+        public ActionResult<BrandDto> AddBrand([FromBody]BrandDto brand)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteBrand(Guid id)
+        public IActionResult DeleteBrand(Guid id) //TODO test foreign key contsraint
         {
             try
             {

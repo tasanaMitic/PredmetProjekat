@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
@@ -19,7 +20,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult AddProduct(ProductDto product)
+        public ActionResult AddProduct([FromBody] ProductDto product)
         {
             try
             {
@@ -30,91 +31,104 @@ namespace PredmetProjekat.WebApi.Controllers
 
                 if (product.BrandId.Equals(new Guid()) || product.CategoryId.Equals(new Guid()))
                 {
-                    return BadRequest("Missing parameters!");      //TODO
+                    return Problem($"Something went wrong in the {nameof(AddProduct)}!", "Brand/Category id missing!", statusCode: 404);
                 }
 
                 Guid productId = _productService.AddProduct(product);
                 return CreatedAtAction("AddProduct", new { Id = productId }, product);
             }
-            catch (ArgumentException e)
+            catch (KeyNotFoundException ex)
             {
-                return BadRequest();
+                return Problem($"Something went wrong in the {nameof(AddProduct)}!", ex.Message, statusCode: 404);
             }
-            catch (DuplicateNameException e)
+            catch (ArgumentException ex)
             {
-               return BadRequest();    //TODO
+                return Problem($"Something went wrong in the {nameof(AddProduct)}!", ex.Message, statusCode: 400);
             }
-            catch (KeyNotFoundException e)
+            catch (DuplicateNameException ex)
             {
-                return NotFound();
+                return Problem($"Something went wrong in the {nameof(AddProduct)}!", ex.Message, statusCode: 400);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(AddProduct)}!", ex.Message, statusCode: 500);
             }
         }
 
         [Authorize(Roles = "Admin,Employee")]
         [HttpGet]
-        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllStockedProducts()   //TODO
+        [Route("stocked")]
+        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllStockedProducts()
         {
-            //return Ok(_productService.GetStockedProducts());
-            return Ok(_productService.GetProducts());
+            try
+            {
+                return Ok(_productService.GetStockedProducts());
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(GetAllStockedProducts)}!", ex.Message, statusCode: 500);
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllProducts()  //TODO
+        [Route("all")]
+        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllProducts()
         {
-            return Ok(_productService.GetProducts());
+            try
+            {
+                return Ok(_productService.GetProducts());
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(GetAllProducts)}!", ex.Message, statusCode: 500);
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(Guid id)
         {
-            return _productService.DeleteProduct(id) ? (IActionResult)NoContent() : NotFound();
+            try
+            {
+                return _productService.DeleteProduct(id) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteProduct)}!", "Product with that id not found!", statusCode: 404);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(DeleteProduct)}!", ex.Message, statusCode: 500);
+            }           
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut]
-        public IActionResult StockProduct(Guid id, ProductDtoId productDtoId, int quantity)    //TODO
+        [HttpPatch("{id}")]
+        public IActionResult StockProduct(Guid id, Quantity quantity)
         {
             try 
             {
-                if (id != productDtoId.ProductId)
+                if (!ModelState.IsValid)
                 {
-                    return BadRequest("ProductId mismatch!");    //TODO
+                    return BadRequest(ModelState);
                 }
 
-                var productToUpdate = _productService.GetProduct(id);
-
-                if (productToUpdate == null)
-                {
-                    return NotFound($"Product with Id = {id} not found");    //TODO
-                }
-
-                _productService.StockProduct(productDtoId, quantity);
+                _productService.StockProduct(id, quantity.Value);
                 return Accepted();
-            } 
-            catch(Exception e)
+            }
+            catch (KeyNotFoundException ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
+                return Problem($"Something went wrong in the {nameof(StockProduct)}!", ex.Message, statusCode: 404);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(StockProduct)}!", ex.Message, statusCode: 500);
             }
         }
 
         [Authorize(Roles = "Employee")]
-        [HttpPut]
+        [HttpPatch("{id}")]
         public IActionResult SellProduct(IEnumerable<ProductDtoId> products)    //TODO
         {
             try
             {
-                foreach (var product in products)
-                {
-                    var productToUpdate = _productService.GetProduct(product.ProductId);
-
-                    if (productToUpdate == null)
-                    {
-                        return NotFound($"Product with Id = {product.ProductId} not found");    //TODO
-                    }
-                }
-
                 _productService.SellProduct(products);
                 return Accepted();
             }

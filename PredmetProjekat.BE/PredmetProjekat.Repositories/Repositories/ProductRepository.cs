@@ -1,4 +1,6 @@
-﻿using PredmetProjekat.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 using PredmetProjekat.Repositories.Context;
 
@@ -10,7 +12,7 @@ namespace PredmetProjekat.Repositories.Repositories
         {
         }
 
-        public bool DeleteProductsByBrand(Guid brandId)     //not used
+        public bool DeleteProductsByBrand(Guid brandId)     //not used atm
         {
             try
             {
@@ -24,7 +26,7 @@ namespace PredmetProjekat.Repositories.Repositories
             }
         }
 
-        public bool DeleteProductsByCategory(Guid categoryId)   //not used
+        public bool DeleteProductsByCategory(Guid categoryId)   //not used atm
         {
             try
             {
@@ -35,6 +37,30 @@ namespace PredmetProjekat.Repositories.Repositories
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public IEnumerable<Product> GetAllProducts()
+        {
+            try
+            {
+                return _context.Products.Include(x => x.Category).Include(x => x.Brand).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<Product> GetAllStockedProducts()
+        {
+            try
+            {
+                return _context.Products.Include(x => x.Category).Include(x => x.Brand).Where(x => x.IsInStock == true && x.Quantity > 0).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
