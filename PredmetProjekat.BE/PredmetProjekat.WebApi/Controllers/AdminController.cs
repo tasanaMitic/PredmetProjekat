@@ -36,11 +36,11 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return await _adminService.DeleteAdmin(username) ? NoContent() : Problem("Something went wrong!", statusCode: 500);
+                return await _adminService.DeleteAdmin(username) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteAdmin)}!", statusCode: 500);
             }
             catch (KeyNotFoundException ex)
             {
-                return Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", ex.Message, statusCode: 404);
+                return Problem($"Something went wrong in the {nameof(DeleteAdmin)}!", ex.Message, statusCode: 404);
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return await _adminService.UpdateAdmin(userDto) ? NoContent() : Problem("Something went wrong!", statusCode: 500);
+                return await _adminService.UpdateAdmin(userDto) ? NoContent() : Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", statusCode: 500);
             }
             catch (KeyNotFoundException ex)
             {

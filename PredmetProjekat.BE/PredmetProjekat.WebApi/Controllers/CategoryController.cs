@@ -30,29 +30,46 @@ namespace PredmetProjekat.WebApi.Controllers
                 Guid categoryId = _categoryService.AddCategory(category);
                 return CreatedAtAction("AddCategory", new { Id = categoryId }, category);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException ex)
             {
-                return BadRequest();
+                return Problem($"Something went wrong in the {nameof(AddCategory)}!", ex.Message, statusCode: 400);
             }
-            catch (DuplicateNameException e)
+            catch (DuplicateNameException ex)
             {
-                return BadRequest("Duplicate name!");   //TODO fix this
+                return Problem($"Something went wrong in the {nameof(AddCategory)}!", ex.Message, statusCode: 400);
             }
-
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(AddCategory)}!", ex.Message, statusCode: 500);
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<CategoryDtoId>> GetAllCategories()
         {
-            return Ok(_categoryService.GetCategories());
+            try
+            {
+                return Ok(_categoryService.GetCategories());
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(GetAllCategories)}!", ex.Message, statusCode: 500);
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(Guid id)
         {
-            return _categoryService.DeleteCategory(id) ? (IActionResult)NoContent() : NotFound();
+            try
+            {
+                return _categoryService.DeleteCategory(id) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteCategory)}!", "Brand with that id not found!", statusCode: 404);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(DeleteCategory)}!", ex.Message, statusCode: 500);
+            }
         }
     }
 }

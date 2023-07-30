@@ -1,4 +1,5 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using AutoMapper;
+using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 
@@ -7,9 +8,11 @@ namespace PredmetProjekat.Services.Services
     public class CategoryService : ICategoryService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CategoryService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public Guid AddCategory(CategoryDto categoryDto)
         {
@@ -30,11 +33,14 @@ namespace PredmetProjekat.Services.Services
 
         public IEnumerable<CategoryDtoId> GetCategories()
         {
-            return _unitOfWork.CategoryRepository.GetAll().Select(x => new CategoryDtoId    //TODO AUTOMAPPER
-            {
-                CategoryId = x.CategoryId,
-                Name = x.Name
-            });
+            var categories = _unitOfWork.CategoryRepository.GetAll();
+            return _mapper.Map<IEnumerable<CategoryDtoId>>(categories);
+
+            //return _unitOfWork.CategoryRepository.GetAll().Select(x => new CategoryDtoId    //TODO AUTOMAPPER
+            //{
+            //    CategoryId = x.CategoryId,
+            //    Name = x.Name
+            //});
         }
     }
 }

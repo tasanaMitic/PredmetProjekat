@@ -20,7 +20,7 @@ namespace PredmetProjekat.Repositories.Repositories
                 _context.Set<T>().Add(entity);
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new DuplicateNameException();
             }
@@ -65,7 +65,7 @@ namespace PredmetProjekat.Repositories.Repositories
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -79,7 +79,7 @@ namespace PredmetProjekat.Repositories.Repositories
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -97,11 +97,11 @@ namespace PredmetProjekat.Repositories.Repositories
                 _context.Set<T>().Update(entity);
                 _context.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException e)
+            catch (DbUpdateConcurrencyException)
             {
                 throw new KeyNotFoundException();
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
                 throw new DuplicateNameException();
             }

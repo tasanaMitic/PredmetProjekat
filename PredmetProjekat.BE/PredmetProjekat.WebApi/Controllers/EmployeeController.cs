@@ -28,8 +28,6 @@ namespace PredmetProjekat.WebApi.Controllers
             {
                 return Problem($"Something went wrong in the {nameof(GetAllEmloyees)}!", ex.Message, statusCode: 500);
             }
-
-
         }
 
         [Authorize(Roles = "Admin")]
@@ -38,11 +36,11 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return await _employeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : Problem("Something went wrong!", statusCode: 500);
+                return await _employeeService.DeleteEmloyee(username) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteEmloyee)}!", statusCode: 500);
             }
             catch (KeyNotFoundException ex)
             {
-                return Problem($"Something went wrong in the {nameof(AssignManager)}!", ex.Message, statusCode: 404);
+                return Problem($"Something went wrong in the {nameof(DeleteEmloyee)}!", ex.Message, statusCode: 404);
             }
             catch (Exception ex)
             {
@@ -57,7 +55,7 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return await _employeeService.AssignManager(managerDto) ? Ok() : Problem("Something went wrong!", statusCode: 500); 
+                return await _employeeService.AssignManager(managerDto) ? Ok() : Problem($"Something went wrong in the {nameof(AssignManager)}!", statusCode: 500); 
             } 
             catch (KeyNotFoundException ex)
             {
@@ -72,19 +70,19 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Employee")]
         [HttpPut]
-        public async Task<IActionResult> UpdateAdmin(UserDto userDto)
+        public async Task<IActionResult> UpdateEmployee(UserDto userDto)
         {
             try
             {
-                return await _employeeService.UpdateEmployee(userDto) ? NoContent() : Problem("Something went wrong!", statusCode: 500);
+                return await _employeeService.UpdateEmployee(userDto) ? NoContent() : Problem($"Something went wrong in the {nameof(UpdateEmployee)}!", statusCode: 500);
             }
             catch (KeyNotFoundException ex)
             {
-                return Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", ex.Message, statusCode: 404);
+                return Problem($"Something went wrong in the {nameof(UpdateEmployee)}!", ex.Message, statusCode: 404);
             }
             catch (Exception ex)
             {
-                return Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", ex.Message, statusCode: 500);
+                return Problem($"Something went wrong in the {nameof(UpdateEmployee)}!", ex.Message, statusCode: 500);
             }
         }
     }
