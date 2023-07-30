@@ -19,14 +19,30 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAdmins()
         {
-            return Ok(await _adminService.GetAdmins());
+            try
+            {
+                return Ok(await _adminService.GetAdmins());
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(GetAllAdmins)}!", ex.Message, statusCode: 500);
+            }
+            
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{username}")]
         public async Task<IActionResult> DeleteAdmin(string username)
         {
-            return await _adminService.DeleteAdmin(username) ? (IActionResult)NoContent() : NotFound();
+            try
+            {
+                return await _adminService.DeleteAdmin(username) ? (IActionResult)NoContent() : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(DeleteAdmin)}!", ex.Message, statusCode: 500);
+            }
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using PredmetProjekat.Common.Dtos.IdentityDtos;
 
 namespace PredmetProjekat.Common.Interfaces
 {

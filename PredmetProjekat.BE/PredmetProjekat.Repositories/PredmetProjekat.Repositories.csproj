@@ -22,8 +22,4 @@
     <ProjectReference Include="..\PredmetProjekat.Services\PredmetProjekat.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

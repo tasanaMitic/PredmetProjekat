@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PredmetProjekat.Models.Models
 {
@@ -9,5 +10,8 @@ namespace PredmetProjekat.Models.Models
         public string FirstName { get; set; }
         [Required]
         public string Lastname { get; set; }
+        public Account? Manager { get; set; }
+        public List<Account> Manages { get; set; }
+
     }
 }

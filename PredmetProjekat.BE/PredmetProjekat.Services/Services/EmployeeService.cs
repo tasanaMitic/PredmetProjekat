@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Enums;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 
@@ -10,42 +12,93 @@ namespace PredmetProjekat.Services.Services
     {
         private readonly UserManager<Account> _userManager;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
-        public EmployeeService(IUnitOfWork unitOfWork, UserManager<Account> userManager, IMapper mapper )
+        public EmployeeService(UserManager<Account> userManager, IMapper mapper )
         {
-            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _mapper = mapper;
         }
 
-        public bool AssignManager(ManagerDto managerDto)
+        public async Task<bool> AssignManager(ManagerDto managerDto)
         {
-            //if (managerDto.ManagerUsername == null)
-            //{
-            //    return _unitOfWork.EmployeeRepository.RemoveManager(managerDto.EmployeeUsername);
-            //}
-            //else
-            //{
-            //    return _unitOfWork.EmployeeRepository.AssignManager(managerDto.ManagerUsername, managerDto.EmployeeUsername);
-            //}
-            return true;
+            if (managerDto.ManagerUsername == null)
+            {
+                return await RemoveManager(managerDto.EmployeeUsername);
+            }
+            else
+            {
+                return await AssignManager(managerDto.ManagerUsername, managerDto.EmployeeUsername);
+            }
+
         }
 
-        public async Task<bool> DeleteEmloyee(string username)
+        private async Task<bool> AssignManager(string managerUsername, string employeeUsername)
         {
-            var userToBeDeleted = await _userManager.FindByNameAsync(username);
-            if (userToBeDeleted == null)
+            var manager = await _userManager.FindByNameAsync(managerUsername);
+            var employee = await _userManager.FindByNameAsync(employeeUsername);
+
+            if (manager == null)
+            {
+                throw new KeyNotFoundException("Username of manager not found in the database!");
+            }
+            else if (employee == null)
+            {
+                throw new KeyNotFoundException("Username of employee not found in the database!");
+            }
+            else if (manager == employee)
             {
                 return false;
             }
 
-            var result = await _userManager.DeleteAsync(userToBeDeleted);
+            employee.Manager = manager;
+
+            var result = await _userManager.UpdateAsync(employee);
+            return result.Succeeded;
+        }
+
+        private async Task<bool> RemoveManager(string employeeUsername)
+        {
+            var employee = await _userManager.Users.Include(x => x.Manager).FirstOrDefaultAsync(x => x.UserName == employeeUsername);
+
+            if (employee == null)
+            {
+                throw new KeyNotFoundException("Username of employee not found in the database!");
+            }
+            else if (employee.Manager == null)
+            {
+                throw new KeyNotFoundException("Selected employee doesn't have a manager!");
+            }
+
+            employee.Manager = null;
+
+            var result = await _userManager.UpdateAsync(employee);
+            return result.Succeeded;
+        }
+
+        public async Task<bool> DeleteEmloyee(string username)
+        {
+            var user = await _userManager.Users.Include(x => x.Manages).FirstOrDefaultAsync(x => x.UserName == username); 
+            if (user == null)
+            {
+                return false;
+            }
+            var managedByUser = user.Manages.ToList();
+
+            if (managedByUser.Count > 0)
+            {
+                foreach (var employee in managedByUser)
+                {
+                    employee.Manager = null;
+                    await _userManager.UpdateAsync(employee);
+                }
+            }
+
+            var result = await _userManager.DeleteAsync(user);
             return result.Succeeded;
         }
 
         public async Task<IEnumerable<EmployeeDto>> GetEmloyees()
         {
-            var users = await _userManager.GetUsersInRoleAsync("Employee");
+            var users = await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString());
             return _mapper.Map<IEnumerable<EmployeeDto>>(users);
         }
     }

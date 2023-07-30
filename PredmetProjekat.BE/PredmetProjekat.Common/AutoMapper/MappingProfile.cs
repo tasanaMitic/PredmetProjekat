@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Dtos.IdentityDtos;
 using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Common.AutoMapper
@@ -12,7 +13,7 @@ namespace PredmetProjekat.Common.AutoMapper
             CreateMap<Category, CategoryDtoId>().ReverseMap();
             CreateMap<Product, ProductDtoId>().ReverseMap();
             CreateMap<Register, RegisterDtoId>().ReverseMap();
-            CreateMap<Account, AccountDto>().ReverseMap();
+            CreateMap<Account, RegistrationDto>().ReverseMap();
             CreateMap<Account, UserDto>().ReverseMap();
             CreateMap<Account, EmployeeDto>().ReverseMap();
         }

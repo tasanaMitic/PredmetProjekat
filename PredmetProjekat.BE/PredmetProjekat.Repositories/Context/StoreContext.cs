@@ -13,9 +13,6 @@ namespace PredmetProjekat.Repositories.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Register> Registers { get; set; }
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -28,12 +25,6 @@ namespace PredmetProjekat.Repositories.Context
             builder.Entity<Product>().Property(x => x.Quantity).HasDefaultValue(0);
             builder.Entity<Product>().Property(x => x.IsInStock).HasDefaultValue(false);
             builder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
-
-            //modelBuilder.Entity<Employee>()
-            //    .HasOne(x => x.ManagerUsername)
-            //    .WithMany()
-            //    .HasForeignKey("ManagerUsername")
-            //    .OnDelete(DeleteBehavior.Restrict);
 
             //TODO Seed the db with values?
 

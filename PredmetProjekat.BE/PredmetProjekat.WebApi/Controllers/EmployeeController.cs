@@ -10,17 +10,25 @@ namespace PredmetProjekat.WebApi.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IEmployeeService _emloyeeService;
+        private readonly IEmployeeService _employeeService;
         public EmployeeController(IEmployeeService emloyeeService)
         {
-            _emloyeeService = emloyeeService;
+            _employeeService = emloyeeService;
         }
 
         [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmloyees()
         {
-            return Ok(await _emloyeeService.GetEmloyees());
+            try
+            {
+                return Ok(await _employeeService.GetEmloyees());
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(GetAllEmloyees)}!", ex.Message, statusCode: 500);
+            }
+
 
         }
 
@@ -28,14 +36,34 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpDelete("{username}")]
         public async Task<IActionResult> DeleteEmloyee(string username)
         {
-            return await _emloyeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : NotFound();
+            try
+            {
+                return await _employeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(DeleteEmloyee)}!", ex.Message, statusCode: 500);
+            }
+
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut]
-        public IActionResult AssignManager(ManagerDto managerDto)   //TODO
+        [HttpPatch]
+        public async Task<IActionResult> AssignManager(ManagerDto managerDto)
         {
-            return _emloyeeService.AssignManager(managerDto) ? Ok() : BadRequest();
+            try
+            {
+                return await _employeeService.AssignManager(managerDto) ? Ok() : BadRequest();
+            } 
+            catch (KeyNotFoundException ex)
+            {
+                return Problem($"Something went wrong in the {nameof(AssignManager)}!", ex.Message, statusCode: 404);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(AssignManager)}!", ex.Message, statusCode: 500);
+            }
+
         }
     }
 }

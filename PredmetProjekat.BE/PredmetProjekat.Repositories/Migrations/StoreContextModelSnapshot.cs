@@ -51,17 +51,17 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b45e24f0-08b7-4fb3-b5e2-da00c18accf3",
-                            ConcurrencyStamp = "468bb384-cc8f-4fb3-a3ac-84966c2e2f66",
+                            Id = "d1091bb2-c296-4a17-8dbf-221bac996e42",
+                            ConcurrencyStamp = "eddbbae0-e6a6-4605-a3e3-2b2f1e7382e5",
                             Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "36fa7a6d-c012-464f-a83c-067d46da1d16",
-                            ConcurrencyStamp = "9cec45e8-65a2-4ef3-8c36-95043a9b3a9c",
+                            Id = "41bac41b-717f-4d9b-af88-8e80e96f9538",
+                            ConcurrencyStamp = "a66d987f-5a40-4f28-b6bd-ba87afc83439",
                             Name = "Employee",
-                            NormalizedName = "EMPLOYEE"
+                            NormalizedName = "Employee"
                         });
                 });
 
@@ -183,10 +183,6 @@ namespace PredmetProjekat.Repositories.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -207,6 +203,9 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -237,6 +236,8 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ManagerId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -246,10 +247,6 @@ namespace PredmetProjekat.Repositories.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Account");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Brand", b =>
@@ -267,7 +264,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Category", b =>
@@ -285,7 +282,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
@@ -335,7 +332,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Register", b =>
@@ -357,21 +354,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("RegisterCode")
                         .IsUnique();
 
-                    b.ToTable("Registers");
-                });
-
-            modelBuilder.Entity("PredmetProjekat.Models.Models.Admin", b =>
-                {
-                    b.HasBaseType("PredmetProjekat.Models.Models.Account");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
-            modelBuilder.Entity("PredmetProjekat.Models.Models.Employee", b =>
-                {
-                    b.HasBaseType("PredmetProjekat.Models.Models.Account");
-
-                    b.HasDiscriminator().HasValue("Employee");
+                    b.ToTable("Registers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -425,6 +408,15 @@ namespace PredmetProjekat.Repositories.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Account", b =>
+                {
+                    b.HasOne("PredmetProjekat.Models.Models.Account", "Manager")
+                        .WithMany("Manages")
+                        .HasForeignKey("ManagerId");
+
+                    b.Navigation("Manager");
+                });
+
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
                 {
                     b.HasOne("PredmetProjekat.Models.Models.Brand", "Brand")
@@ -442,6 +434,11 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Account", b =>
+                {
+                    b.Navigation("Manages");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,6 +6,7 @@ using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 using PredmetProjekat.Repositories.Context;
 using PredmetProjekat.Services.Services;
+using PredmetProjekat.Services.Services.AccountServices;
 using System.Text;
 
 namespace PredmetProjekat.Repositories.Extensions
@@ -50,13 +51,10 @@ namespace PredmetProjekat.Repositories.Extensions
             services.AddScoped<ICategoryService>(serviceProvider => new CategoryService(serviceProvider.GetService<IUnitOfWork>()));
             services.AddScoped<IProductService>(serviceProvider => new ProductService(serviceProvider.GetService<IUnitOfWork>()));
             services.AddScoped<IRegisterService>(serviceProvider => new RegisterService(serviceProvider.GetService<IUnitOfWork>()));
-            services.AddScoped<IAdminService>(serviceProvider => new AdminService(serviceProvider.GetService<UserManager<Account>>(),
-                                                                                    serviceProvider.GetService<IMapper>()));
-            services.AddScoped<IEmployeeService>(serviceProvider => new EmployeeService(serviceProvider.GetService<IUnitOfWork>(),
-                                                                                            serviceProvider.GetService<UserManager<Account>>(),
-                                                                                            serviceProvider.GetService<IMapper>()));
-            services.AddScoped<IAuthManager>(serviceProvider => new AuthManager(serviceProvider.GetService<UserManager<Account>>(),
-                                                                                    serviceProvider.GetService<IConfiguration>()));
+            services.AddScoped<IAdminService>(serviceProvider => new AdminService(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IMapper>()));
+            services.AddScoped<IEmployeeService>(serviceProvider => new EmployeeService(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IMapper>()));
+            services.AddScoped<IAuthManager>(serviceProvider => new AuthManager(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IConfiguration>()));
+            services.AddScoped<IAccountService>(serviceProvider => new AccountService(serviceProvider.GetService<IMapper>(), serviceProvider.GetService<UserManager<Account>>()));
         }
     }
 }
