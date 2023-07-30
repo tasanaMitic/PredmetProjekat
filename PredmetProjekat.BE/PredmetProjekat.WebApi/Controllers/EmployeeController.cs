@@ -38,7 +38,11 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return await _employeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : NotFound();
+                return await _employeeService.DeleteEmloyee(username) ? (IActionResult)NoContent() : Problem("Something went wrong!", statusCode: 500);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return Problem($"Something went wrong in the {nameof(AssignManager)}!", ex.Message, statusCode: 404);
             }
             catch (Exception ex)
             {
@@ -53,7 +57,7 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return await _employeeService.AssignManager(managerDto) ? Ok() : BadRequest();
+                return await _employeeService.AssignManager(managerDto) ? Ok() : Problem("Something went wrong!", statusCode: 500); 
             } 
             catch (KeyNotFoundException ex)
             {
@@ -64,6 +68,24 @@ namespace PredmetProjekat.WebApi.Controllers
                 return Problem($"Something went wrong in the {nameof(AssignManager)}!", ex.Message, statusCode: 500);
             }
 
+        }
+
+        [Authorize(Roles = "Employee")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateAdmin(UserDto userDto)
+        {
+            try
+            {
+                return await _employeeService.UpdateEmployee(userDto) ? NoContent() : Problem("Something went wrong!", statusCode: 500);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", ex.Message, statusCode: 404);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", ex.Message, statusCode: 500);
+            }
         }
     }
 }

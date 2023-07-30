@@ -7,5 +7,6 @@ namespace PredmetProjekat.Common.Interfaces
         Task<IEnumerable<EmployeeDto>> GetEmloyees();
         Task<bool> DeleteEmloyee(string username);
         Task<bool> AssignManager(ManagerDto managerDto);
+        Task<bool> UpdateEmployee(UserDto useDtos);
     }
 }

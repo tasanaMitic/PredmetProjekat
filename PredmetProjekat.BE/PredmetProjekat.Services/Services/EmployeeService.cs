@@ -79,7 +79,7 @@ namespace PredmetProjekat.Services.Services
             var user = await _userManager.Users.Include(x => x.Manages).FirstOrDefaultAsync(x => x.UserName == username); 
             if (user == null)
             {
-                return false;
+                throw new KeyNotFoundException("User not found in the database!");
             }
             var managedByUser = user.Manages.ToList();
 
@@ -100,6 +100,18 @@ namespace PredmetProjekat.Services.Services
         {
             var users = await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString());
             return _mapper.Map<IEnumerable<EmployeeDto>>(users);
+        }
+
+        public async Task<bool> UpdateEmployee(UserDto userDto)
+        {
+            var user = await _userManager.FindByNameAsync(userDto.Username);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found in the database!");
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded;
         }
     }
 }
