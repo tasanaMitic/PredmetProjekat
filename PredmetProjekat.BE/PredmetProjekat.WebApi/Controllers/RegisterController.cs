@@ -20,63 +20,29 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpPost]
         public ActionResult<RegisterDto> AddRegister(RegisterDto register)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                Guid registerId = _registerService.AddRegister(register);
-                return CreatedAtAction("AddRegister", new { Id = registerId }, register);
-            }
-            catch (ArgumentException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddRegister)}!", ex.Message, statusCode: 400);
-            }
-            catch (DuplicateNameException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddRegister)}!", ex.Message, statusCode: 400);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddRegister)}!", ex.Message, statusCode: 500);
+                return BadRequest(ModelState);
             }
 
+            Guid registerId = _registerService.AddRegister(register);
+            return CreatedAtAction("AddRegister", new { Id = registerId }, register);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<RegisterDtoId>> GetAllRegisters()
         {
-            try
-            {
-                return Ok(_registerService.GetRegisters());
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(GetAllRegisters)}!", ex.Message, statusCode: 500);
-            }
-            
+            return Ok(_registerService.GetRegisters());
+
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteRegister(Guid id)
         {
-            try
-            {
-                _registerService.DeleteRegister(id);
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteRegister)}!", "Brand with that id not found!", statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteRegister)}!", ex.Message, statusCode: 500);
-            }
+            _registerService.DeleteRegister(id);
+            return NoContent();
         }
     }
 }

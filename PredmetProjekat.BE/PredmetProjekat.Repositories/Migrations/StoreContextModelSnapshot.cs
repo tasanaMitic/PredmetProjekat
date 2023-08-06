@@ -264,7 +264,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Category", b =>
@@ -282,7 +282,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
@@ -332,7 +332,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Receipt", b =>
@@ -357,7 +357,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasIndex("SoldById");
 
-                    b.ToTable("Receipts");
+                    b.ToTable("Receipts", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Register", b =>
@@ -379,7 +379,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("RegisterCode")
                         .IsUnique();
 
-                    b.ToTable("Registers");
+                    b.ToTable("Registers", (string)null);
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.SoldProduct", b =>
@@ -403,7 +403,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.ToTable("SoldProduct");
+                    b.ToTable("SoldProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PredmetProjekat.Common.Interfaces.IRepository;
+﻿using PredmetProjekat.Common.Interfaces.IRepository;
 using PredmetProjekat.Repositories.Context;
 using System.Data;
 using System.Linq.Expressions;

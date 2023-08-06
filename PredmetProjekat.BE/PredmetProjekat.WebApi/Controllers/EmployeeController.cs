@@ -20,14 +20,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmloyees()
         {
-            try
-            {
-                return Ok(await _employeeService.GetEmloyees());
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(GetAllEmloyees)}!", ex.Message, statusCode: 500);
-            }
+            return Ok(await _employeeService.GetEmloyees());
         }
 
         [Authorize(Roles = "Admin")]

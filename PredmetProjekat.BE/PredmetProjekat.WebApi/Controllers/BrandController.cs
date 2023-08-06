@@ -20,61 +20,28 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpPost]
         public ActionResult<BrandDto> AddBrand([FromBody]BrandDto brand)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                return BadRequest(ModelState);
+            }
 
-                Guid brandId = _brandService.AddBrand(brand);
-                return CreatedAtAction("AddBrand", new { Id = brandId }, brand);
-            }
-            catch (ArgumentException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddBrand)}!", ex.Message, statusCode: 400);
-            }
-            catch (DuplicateNameException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddBrand)}!", ex.Message, statusCode: 400);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddBrand)}!", ex.Message, statusCode: 500);
-            }
+            Guid brandId = _brandService.AddBrand(brand);
+            return CreatedAtAction("AddBrand", new { Id = brandId }, brand);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<BrandDtoId>> GetAllBrands()
         {
-            try
-            {
-                return Ok(_brandService.GetBrands());
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(GetAllBrands)}!", ex.Message, statusCode: 500);
-            }            
+            return Ok(_brandService.GetBrands());
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteBrand(Guid id)
         {
-            try
-            {
-                _brandService.DeleteBrand(id);
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteBrand)}!", "Brand with that id not found!", statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteBrand)}!", ex.Message, statusCode: 500);
-            }
+            _brandService.DeleteBrand(id);
+            return NoContent();
         }
     }
 }

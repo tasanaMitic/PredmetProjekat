@@ -4,6 +4,7 @@ namespace PredmetProjekat.Common.Dtos
 {
     public class CategoryDto
     {
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
     }
 }

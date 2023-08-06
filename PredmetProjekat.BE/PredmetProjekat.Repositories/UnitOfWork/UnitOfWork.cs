@@ -38,9 +38,9 @@ namespace PredmetProjekat.Repositories.UnitOfWork
             {
                 _context.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException ex) //todo
             {
-                throw new KeyNotFoundException();   //update?
+                throw new Exception();   //update?
             }
             catch (DbUpdateException ex)
             {

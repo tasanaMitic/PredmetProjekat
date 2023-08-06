@@ -24,62 +24,48 @@ namespace PredmetProjekat.WebApi.Controllers
         [Route("admin")]
         public async Task<ActionResult> RegisterAdmin([FromBody] RegistrationDto registrationDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                var result = await _registrationService.RegisterAdmin(registrationDto, this.ModelState);
-
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(error.Code, error.Description);
-                    }
-
-                    return BadRequest(ModelState);
-                }
-
-                return Accepted();
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
-            { 
-                return Problem($"Something went wrong in the {nameof(RegisterAdmin)}!", ex.Message, statusCode: 500);
-            }            
+
+            var result = await _registrationService.RegisterAdmin(registrationDto, this.ModelState);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return Accepted();
         }
 
         [HttpPost]
         [Route("employee")]
         public async Task<ActionResult> RegisterEmployee([FromBody] RegistrationDto registrationDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            }
+
+            var result = await _registrationService.RegisterEmployee(registrationDto, this.ModelState);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
                 {
-                    return BadRequest(ModelState);
+                    ModelState.AddModelError(error.Code, error.Description);
                 }
 
-                var result = await _registrationService.RegisterEmployee(registrationDto, this.ModelState);
-
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(error.Code, error.Description);
-                    }
-
-                    return BadRequest(ModelState);
-                }
-
-                return Accepted();
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(RegisterEmployee)}!", ex.Message, statusCode: 500);
-            }
+
+            return Accepted();
         }
 
 
@@ -87,25 +73,18 @@ namespace PredmetProjekat.WebApi.Controllers
         [Route("login")]
         public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                if(!await _authManager.ValidateUser(loginDto))
-                {
-                    return Unauthorized();
-                }
-
-
-                return Accepted(new { Token = await _authManager.CreateToken() });
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
+
+            if (!await _authManager.ValidateUser(loginDto))
             {
-                return Problem($"Something went wrong in the {nameof(Login)}!", ex.Message, statusCode: 500);
+                return Unauthorized();
             }
+
+
+            return Accepted(new { Token = await _authManager.CreateToken() });
         }
     }
 }

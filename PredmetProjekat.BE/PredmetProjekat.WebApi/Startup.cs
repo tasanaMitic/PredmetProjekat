@@ -31,6 +31,7 @@ namespace PredmetProjekat.WebApi
         }
         public void Configure(IApplicationBuilder app)
         {
+            app.ConfigureExceptionHandler();
             app.UseHttpsRedirection();
 
             app.UseCors("AllowAll");

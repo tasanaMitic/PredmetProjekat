@@ -20,61 +20,28 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpPost]
         public ActionResult<CategoryDto> AddCategory([FromBody]CategoryDto category)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                return BadRequest(ModelState);
+            }
 
-                Guid categoryId = _categoryService.AddCategory(category);
-                return CreatedAtAction("AddCategory", new { Id = categoryId }, category);
-            }
-            catch (ArgumentException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddCategory)}!", ex.Message, statusCode: 400);
-            }
-            catch (DuplicateNameException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddCategory)}!", ex.Message, statusCode: 400);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AddCategory)}!", ex.Message, statusCode: 500);
-            }
+            Guid categoryId = _categoryService.AddCategory(category);
+            return CreatedAtAction("AddCategory", new { Id = categoryId }, category);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<CategoryDtoId>> GetAllCategories()
         {
-            try
-            {
-                return Ok(_categoryService.GetCategories());
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(GetAllCategories)}!", ex.Message, statusCode: 500);
-            }
+            return Ok(_categoryService.GetCategories());
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(Guid id)  
         {
-            try
-            {
-                _categoryService.DeleteCategory(id);
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteCategory)}!", "Category with that id not found!", statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteCategory)}!", ex.Message, statusCode: 500);
-            }
+            _categoryService.DeleteCategory(id);
+            return NoContent();
         }
     }
 }

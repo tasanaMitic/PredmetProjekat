@@ -1,14 +1,12 @@
 ﻿using PredmetProjekat.Common.Dtos.ProductDtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace PredmetProjekat.Common.Dtos
 {
     public class SaleDto
     {
+
+        [Required(AllowEmptyStrings = false)]
         public Guid RegisterId { get; set; }
         public IEnumerable<SoldProductDto> SoldProducts { get; set; }
     }

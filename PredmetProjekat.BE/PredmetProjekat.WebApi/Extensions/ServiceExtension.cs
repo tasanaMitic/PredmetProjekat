@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +13,7 @@ using PredmetProjekat.Repositories.Context;
 using PredmetProjekat.Repositories.UnitOfWork;
 using PredmetProjekat.Services.Services;
 using PredmetProjekat.Services.Services.AccountServices;
+using PredmetProjekat.WebApi.Helpers;
 using System.Text;
 
 namespace PredmetProjekat.WebApi.Extensions
@@ -49,7 +52,6 @@ namespace PredmetProjekat.WebApi.Extensions
                 });
         }
 
-
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IBrandService>(serviceProvider => new BrandService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
@@ -71,6 +73,39 @@ namespace PredmetProjekat.WebApi.Extensions
         public static void ConfigureAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MappingProfile));
+        }
+
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        {
+            app.UseExceptionHandler( error =>
+            {
+                error.Run(async context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    context.Response.ContentType = "application/json";
+
+                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    if (contextFeature != null)
+                    {
+                        var errorType = contextFeature.Error.GetType().Name;
+                        if (errorType == "KeyNotFoundException")
+                        {
+                            context.Response.StatusCode = StatusCodes.Status404NotFound;
+                        }
+                        else if (errorType == "DuplicateNameException")
+                        {
+                            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        }
+
+                        await context.Response.WriteAsync(new ErrorResponse
+                        {
+                            StatusCode = context.Response.StatusCode,
+                            Message = contextFeature.Error.Message,
+
+                        }.ToString());
+                    }
+                });
+            });
         }
     }
 }
