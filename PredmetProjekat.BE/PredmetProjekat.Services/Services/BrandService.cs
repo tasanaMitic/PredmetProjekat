@@ -1,6 +1,8 @@
 ﻿
+using AutoMapper;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Services.Services
@@ -8,34 +10,36 @@ namespace PredmetProjekat.Services.Services
     public class BrandService : IBrandService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public BrandService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public BrandService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public Guid AddBrand(BrandDto brandDto)
         {
             var id = Guid.NewGuid();
-           _unitOfWork.BrandRepository.Add(new Brand
+            _unitOfWork.BrandRepository.CreateBrand(new Brand
             {
                 BrandId = id,
                 Name = brandDto.Name
             });
+            _unitOfWork.SaveChanges();
 
             return id;
         }
 
-        public bool DeleteBrand(Guid id)
+        public void DeleteBrand(Guid id)
         {
-            return _unitOfWork.BrandRepository.Remove(id);
+            var brandToBeDeleted = _unitOfWork.BrandRepository.GetBrandById(id);
+            _unitOfWork.BrandRepository.DeleteBrand(brandToBeDeleted);
+            _unitOfWork.SaveChanges();
         }
 
         public IEnumerable<BrandDtoId> GetBrands()
         {
-            return _unitOfWork.BrandRepository.GetAll().Select(x => new BrandDtoId
-            {
-                BrandId = x.BrandId,
-                Name = x.Name
-            });
+            var brands = _unitOfWork.BrandRepository.GetAll();
+            return _mapper.Map<IEnumerable<BrandDtoId>>(brands);
         }
     }
 }

@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PredmetProjekat.Common.AutoMapper;
-using PredmetProjekat.Common.Interfaces;
-using PredmetProjekat.Repositories.Context;
-using PredmetProjekat.Repositories.Extensions;
-using PredmetProjekat.Repositories.UnitOfWork;
+﻿using PredmetProjekat.Common.AutoMapper;
+using PredmetProjekat.WebApi.Extensions;
 
 namespace PredmetProjekat.WebApi
 {
@@ -16,11 +12,8 @@ namespace PredmetProjekat.WebApi
         public IConfigurationRoot Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnectionString")));
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-
-            services.AddAutoMapper(typeof(MappingProfile));
-
+            services.ConfigureRepository(Configuration);
+            services.ConfigureAutoMapper();          
             
             services.AddAuthentication();
             services.ConfigureIdentity();

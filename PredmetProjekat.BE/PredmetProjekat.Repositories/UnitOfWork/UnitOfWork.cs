@@ -1,6 +1,9 @@
-﻿using PredmetProjekat.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IRepository;
 using PredmetProjekat.Repositories.Context;
 using PredmetProjekat.Repositories.Repositories;
+using System.Data;
 
 namespace PredmetProjekat.Repositories.UnitOfWork
 {
@@ -24,6 +27,23 @@ namespace PredmetProjekat.Repositories.UnitOfWork
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public void SaveChanges()
+        {
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new KeyNotFoundException();
+            }
+            catch (DbUpdateException)
+            {
+                throw new DuplicateNameException(); //create
+            }
+
         }
     }
 }

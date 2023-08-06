@@ -1,11 +1,11 @@
 ﻿using PredmetProjekat.Common.Dtos;
 
-namespace PredmetProjekat.Common.Interfaces
+namespace PredmetProjekat.Common.Interfaces.IService
 {
     public interface IRegisterService
     {
         Guid AddRegister(RegisterDto registerDto);
-        IEnumerable<RegisterDto> GetRegisters();
-        bool DeleteRegister(Guid id);
+        IEnumerable<RegisterDtoId> GetRegisters();
+        void DeleteRegister(Guid id);
     }
 }

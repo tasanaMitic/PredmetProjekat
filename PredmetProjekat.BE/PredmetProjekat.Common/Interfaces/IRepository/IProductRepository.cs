@@ -1,13 +1,14 @@
 ﻿using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Models.Models;
 
-namespace PredmetProjekat.Common.Interfaces
+namespace PredmetProjekat.Common.Interfaces.IRepository
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
-        bool DeleteProductsByCategory(Guid categoryId);
-        bool DeleteProductsByBrand(Guid brandId);
         IEnumerable<Product> GetAllProducts();
         IEnumerable<Product> GetAllStockedProducts();
+        void CreateProduct(Product product);
+        void DeleteProduct(Product product);
+        Product GetProductById(Guid productId);
     }
 }

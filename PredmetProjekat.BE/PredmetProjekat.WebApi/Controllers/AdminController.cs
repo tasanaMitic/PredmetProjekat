@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 
 namespace PredmetProjekat.WebApi.Controllers
 {

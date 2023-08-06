@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Enums;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Services.Services

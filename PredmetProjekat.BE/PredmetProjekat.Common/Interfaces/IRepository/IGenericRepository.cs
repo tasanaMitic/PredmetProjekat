@@ -1,16 +1,15 @@
 ﻿using System.Linq.Expressions;
 
-namespace PredmetProjekat.Common.Interfaces
+namespace PredmetProjekat.Common.Interfaces.IRepository
 {
     public interface IGenericRepository<T> where T : class
     {
         T GetById(Guid id);
         T GetByUsername(string username);
         IEnumerable<T> GetAll();
-        void Add(T entity);
-        bool Remove(Guid id);
-        bool RemoveByUsername(string username);
+        IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        void Create(T entity);
         void Update(T entity);
-        IEnumerable<T> Find(Expression<Func<T, bool>> expression);
+        void Delete(T entity);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 using System.Data;
 
 namespace PredmetProjekat.WebApi.Controllers
@@ -64,7 +64,12 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return _categoryService.DeleteCategory(id) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteCategory)}!", "Category with that id not found!", statusCode: 404);
+                _categoryService.DeleteCategory(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return Problem($"Something went wrong in the {nameof(DeleteCategory)}!", "Category with that id not found!", statusCode: 404);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 using System.Data;
 
 namespace PredmetProjekat.WebApi.Controllers
@@ -60,11 +60,16 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteBrand(Guid id) //TODO test foreign key contsraint
+        public IActionResult DeleteBrand(Guid id)
         {
             try
             {
-                return _brandService.DeleteBrand(id) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteBrand)}!", "Brand with that id not found!", statusCode: 404);
+                _brandService.DeleteBrand(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return Problem($"Something went wrong in the {nameof(DeleteBrand)}!", "Brand with that id not found!", statusCode: 404);
             }
             catch (Exception ex)
             {

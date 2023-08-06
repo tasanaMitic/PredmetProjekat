@@ -1,11 +1,11 @@
 ﻿using PredmetProjekat.Common.Dtos;
 
-namespace PredmetProjekat.Common.Interfaces
+namespace PredmetProjekat.Common.Interfaces.IService
 {
     public interface ICategoryService
     {
         Guid AddCategory(CategoryDto categoryDto);
         IEnumerable<CategoryDtoId> GetCategories();
-        bool DeleteCategory(Guid id);
+        void DeleteCategory(Guid id);
     }
 }

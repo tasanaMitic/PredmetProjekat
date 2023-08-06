@@ -1,11 +1,11 @@
 ﻿using PredmetProjekat.Common.Dtos;
 
-namespace PredmetProjekat.Common.Interfaces
+namespace PredmetProjekat.Common.Interfaces.IService
 {
     public interface IBrandService
     {
         Guid AddBrand(BrandDto brandDto);
         IEnumerable<BrandDtoId> GetBrands();
-        bool DeleteBrand(Guid id);
+        void DeleteBrand(Guid id);
     }
 }

@@ -1,5 +1,7 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using AutoMapper;
+using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Services.Services
@@ -7,37 +9,37 @@ namespace PredmetProjekat.Services.Services
     public class RegisterService : IRegisterService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public RegisterService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public RegisterService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public Guid AddRegister(RegisterDto registerDto)
         {
             var id = Guid.NewGuid();
-            _unitOfWork.RegisterRepository.Add(new Register
+            _unitOfWork.RegisterRepository.CreateRegister(new Register
             {
                 RegisterId = id,
                 RegisterCode = registerDto.RegisterCode,
                 Location = registerDto.Location
             });
+            _unitOfWork.SaveChanges();
 
             return id;
         }
 
-        public bool DeleteRegister(Guid id)
+        public void DeleteRegister(Guid id)
         {
-
-            return _unitOfWork.RegisterRepository.Remove(id);
+            var registerToBeDeleted = _unitOfWork.RegisterRepository.GetRegisterById(id);
+            _unitOfWork.RegisterRepository.DeleteRegister(registerToBeDeleted);
+            _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<RegisterDto> GetRegisters()
+        public IEnumerable<RegisterDtoId> GetRegisters()
         {
-            return _unitOfWork.RegisterRepository.GetAll().Select(x => new RegisterDtoId
-            {
-                RegisterId = x.RegisterId,
-                RegisterCode = x.RegisterCode,
-                Location = x.Location
-            });
+            var registers = _unitOfWork.RegisterRepository.GetAllRegisters();
+            return _mapper.Map<IEnumerable<RegisterDtoId>>(registers);
         }
     }
 }

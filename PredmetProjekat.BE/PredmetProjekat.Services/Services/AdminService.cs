@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Enums;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Services.Services
@@ -22,7 +22,7 @@ namespace PredmetProjekat.Services.Services
             var userToBeDeleted = await _userManager.FindByNameAsync(username);
             if(userToBeDeleted == null)
             {
-                throw new KeyNotFoundException("User not found in the database!");
+                throw new KeyNotFoundException($"User with username: {username} not found in the database!");
             }
 
             var result = await _userManager.DeleteAsync(userToBeDeleted);
@@ -40,7 +40,7 @@ namespace PredmetProjekat.Services.Services
             var user = await _userManager.FindByNameAsync(userDto.Username);
             if (user == null)
             {
-                throw new KeyNotFoundException("User not found in the database!");
+                throw new KeyNotFoundException($"User with username: {userDto.Username} not found in the database!");
             }
 
             var result = await _userManager.UpdateAsync(user);

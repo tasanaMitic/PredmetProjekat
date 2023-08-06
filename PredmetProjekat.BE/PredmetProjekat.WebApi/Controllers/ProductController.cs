@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IService;
 using System.Data;
 using System.Net;
 
@@ -91,7 +91,12 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             try
             {
-                return _productService.DeleteProduct(id) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteProduct)}!", "Product with that id not found!", statusCode: 404);
+                _productService.DeleteProduct(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return Problem($"Something went wrong in the {nameof(DeleteProduct)}!", "Product with that id not found!", statusCode: 404);
             }
             catch (Exception ex)
             {

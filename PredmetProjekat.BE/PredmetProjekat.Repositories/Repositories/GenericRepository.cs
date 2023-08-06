@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IRepository;
 using PredmetProjekat.Repositories.Context;
 using System.Data;
 using System.Linq.Expressions;
@@ -13,27 +13,10 @@ namespace PredmetProjekat.Repositories.Repositories
         {
             _context = context;
         }
-        public void Add(T entity)
-        {
-            try
-            {
-                _context.Set<T>().Add(entity);
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw new DuplicateNameException();
-            }
-        }
 
         public IEnumerable<T> GetAll()
         {
             return _context.Set<T>().ToList();
-        }
-
-        public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
-        {
-            return _context.Set<T>().Where(expression).ToList();
         }
 
         public T GetById(Guid id)
@@ -41,7 +24,7 @@ namespace PredmetProjekat.Repositories.Repositories
             var entity = _context.Set<T>().Find(id);
             if (entity == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Entity with id: {id}, was not found in the database!");
             }
             return entity;            
         }
@@ -56,55 +39,61 @@ namespace PredmetProjekat.Repositories.Repositories
             return entity;
         }
 
-        public bool Remove(Guid id)
+        //public bool RemoveByUsername(string username)
+        //{
+        //    try
+        //    {
+        //        var entity = _context.Set<T>().Find(username);
+        //        _context.Set<T>().Remove(entity);
+        //        _context.SaveChanges();
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        //public void RemoveRange(IEnumerable<T> entities)
+        //{
+        //    _context.Set<T>().RemoveRange(entities);
+        //}
+
+        //public void Update(T entity)    //todo
+        //{
+        //    try
+        //    {
+        //        _context.Set<T>().Update(entity);
+        //        _context.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        throw new KeyNotFoundException();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        throw new DuplicateNameException();
+        //    }
+        //}
+
+        public void Create(T entity)
         {
-            try
-            {
-                var entity = _context.Set<T>().Find(id);
-                _context.Set<T>().Remove(entity);
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool RemoveByUsername(string username)
-        {
-            try
-            {
-                var entity = _context.Set<T>().Find(username);
-                _context.Set<T>().Remove(entity);
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _context.Set<T>().Add(entity);
         }
 
-        public void RemoveRange(IEnumerable<T> entities)
+        public void Delete(T entity)
         {
-            _context.Set<T>().RemoveRange(entities);
+            _context.Set<T>().Remove(entity);
+        }
+
+        public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        {
+            return _context.Set<T>().Where(expression).ToList();
         }
 
         public void Update(T entity)
         {
-            try
-            {
-                _context.Set<T>().Update(entity);
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw new KeyNotFoundException();
-            }
-            catch (DbUpdateException)
-            {
-                throw new DuplicateNameException();
-            }
+            _context.Set<T>().Update(entity);
         }
     }
 }

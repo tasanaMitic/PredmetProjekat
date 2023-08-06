@@ -1,4 +1,6 @@
-﻿namespace PredmetProjekat.Common.Interfaces
+﻿using PredmetProjekat.Common.Interfaces.IRepository;
+
+namespace PredmetProjekat.Common.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
@@ -6,5 +8,6 @@
         ICategoryRepository CategoryRepository { get; }
         IProductRepository ProductRepository { get; }
         IRegisterRepository RegisterRepository { get; }
+        void SaveChanges();
     }
 }

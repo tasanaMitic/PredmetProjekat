@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PredmetProjekat.Common.Dtos;
-using PredmetProjekat.Common.Interfaces;
+using PredmetProjekat.Common.Interfaces.IRepository;
 using PredmetProjekat.Models.Models;
 using PredmetProjekat.Repositories.Context;
 
@@ -12,49 +12,24 @@ namespace PredmetProjekat.Repositories.Repositories
         {
         }
 
-        public bool DeleteProductsByBrand(Guid brandId)     //not used atm
+        public void CreateProduct(Product product)
         {
-            try
-            {
-                var productsToDelete = _context.Products.Where(p => p.Brand.BrandId == brandId);
-                _context.Products.RemoveRange(productsToDelete);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Create(product);
         }
 
-        public bool DeleteProductsByCategory(Guid categoryId)   //not used atm
+        public void DeleteProduct(Product product)
         {
-            try
-            {
-                var productsToDelete = _context.Products.Where(p => p.Category.CategoryId == categoryId);
-                _context.Products.RemoveRange(productsToDelete);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Delete(product);
         }
 
         public IEnumerable<Product> GetAllProducts()
         {
-            try
-            {
-                return _context.Products.Include(x => x.Category).Include(x => x.Brand).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return _context.Products.Include(x => x.Category).Include(x => x.Brand).ToList();  
         }
 
         public IEnumerable<Product> GetAllStockedProducts()
         {
-            try
+            try//todo
             {
                 return _context.Products.Include(x => x.Category).Include(x => x.Brand).Where(x => x.IsInStock == true && x.Quantity > 0).ToList();
             }
@@ -62,6 +37,11 @@ namespace PredmetProjekat.Repositories.Repositories
             {
                 throw;
             }
+        }
+
+        public Product GetProductById(Guid productId)
+        {
+            return GetById(productId);
         }
     }
 }
