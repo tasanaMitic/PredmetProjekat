@@ -22,9 +22,11 @@ namespace PredmetProjekat.Repositories.Repositories
         public T GetById(Guid id)
         {      
             var entity = _context.Set<T>().Find(id);
+
             if (entity == null)
             {
-                throw new KeyNotFoundException($"Entity with id: {id}, was not found in the database!");
+                var type = typeof(T).ToString().Split('.').Last();
+                throw new KeyNotFoundException($"{type} with id: {id}, was not found in the database!");
             }
             return entity;            
         }
@@ -34,47 +36,11 @@ namespace PredmetProjekat.Repositories.Repositories
             var entity = _context.Set<T>().Find(username);
             if (entity == null)
             {
-                throw new KeyNotFoundException();
+                var type = typeof(T).ToString().Split('.').Last();
+                throw new KeyNotFoundException($"{type} with username: {username}, was not found in the database!");
             }
             return entity;
         }
-
-        //public bool RemoveByUsername(string username)
-        //{
-        //    try
-        //    {
-        //        var entity = _context.Set<T>().Find(username);
-        //        _context.Set<T>().Remove(entity);
-        //        _context.SaveChanges();
-        //        return true;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //public void RemoveRange(IEnumerable<T> entities)
-        //{
-        //    _context.Set<T>().RemoveRange(entities);
-        //}
-
-        //public void Update(T entity)    //todo
-        //{
-        //    try
-        //    {
-        //        _context.Set<T>().Update(entity);
-        //        _context.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        throw new KeyNotFoundException();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        throw new DuplicateNameException();
-        //    }
-        //}
 
         public void Create(T entity)
         {
@@ -85,7 +51,7 @@ namespace PredmetProjekat.Repositories.Repositories
         {
             _context.Set<T>().Remove(entity);
         }
-
+        
         public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
             return _context.Set<T>().Where(expression).ToList();

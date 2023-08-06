@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Dtos.UserDtos;
 using PredmetProjekat.Common.Interfaces.IService;
 using System.Data;
 

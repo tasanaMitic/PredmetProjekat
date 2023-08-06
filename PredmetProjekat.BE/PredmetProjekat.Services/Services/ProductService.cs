@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Dtos.ProductDtos;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
@@ -10,10 +12,12 @@ namespace PredmetProjekat.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly UserManager<Account> _userManager;
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<Account> userManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public Guid AddProduct(ProductDto productDto)
@@ -43,37 +47,71 @@ namespace PredmetProjekat.Services.Services
             _unitOfWork.SaveChanges();
         }
 
-        public StockedProductDtoId GetProduct(Guid id)
+        public StockedProductDto GetProduct(Guid id)
         {
             var product = _unitOfWork.ProductRepository.GetProductById(id);
-            return _mapper.Map<StockedProductDtoId>(product);
+            return _mapper.Map<StockedProductDto>(product);
         }
 
-        public IEnumerable<StockedProductDtoId> GetProducts()
+        public IEnumerable<StockedProductDto> GetProducts()
         {
             var stockedProducts = _unitOfWork.ProductRepository.GetAllProducts();
-            return _mapper.Map<IEnumerable<StockedProductDtoId>>(stockedProducts);
+            return _mapper.Map<IEnumerable<StockedProductDto>>(stockedProducts);
         }
 
-        public IEnumerable<StockedProductDtoId> GetStockedProducts()
+        public IEnumerable<StockedProductDto> GetStockedProducts()
         {
             var stockedProducts = _unitOfWork.ProductRepository.GetAllStockedProducts();
-            return _mapper.Map<IEnumerable<StockedProductDtoId>>(stockedProducts);
+            return _mapper.Map<IEnumerable<StockedProductDto>>(stockedProducts);
         }
 
-        public bool SellProduct(IEnumerable<ProductDtoId> products)
+        public void SellProduct(SaleDto saleDto, string username)
         {
-            //todo
-            throw new NotImplementedException();
+            var user = _userManager.FindByNameAsync(username).Result;
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
+            }
+
+            foreach(var obj in saleDto.SoldProducts)
+            {
+                var product = _unitOfWork.ProductRepository.GetProductById(obj.ProductId);
+                if(product.Quantity - obj.Quantity >= 0)
+                {
+                    product.Quantity -= obj.Quantity;
+
+                    if (product.Quantity - obj.Quantity == 0)
+                    {
+                        product.IsInStock = false;
+                    }
+                }
+                _unitOfWork.ProductRepository.UpdateProduct(product);
+            }
+
+            //create receipt
+            var receipt = new Receipt
+            {
+                Date = DateTime.Now,
+                ReceiptId = Guid.NewGuid(),
+                SoldBy = user,
+                SoldProducts = _mapper.Map<IEnumerable<SoldProduct>>(saleDto.SoldProducts),
+                Register = _unitOfWork.RegisterRepository.GetRegisterById(saleDto.RegisterId)
+            };
+
+            _unitOfWork.ReceiptRepository.CreateReceipt(receipt);
+
+            _unitOfWork.SaveChanges();
         }
 
         public void StockProduct(Guid productId, int quantity)
         {
-            var product = _unitOfWork.ProductRepository.GetById(productId);
+            var product = _unitOfWork.ProductRepository.GetProductById(productId);
             product.Quantity += quantity;
             product.IsInStock = true;
 
-            _unitOfWork.ProductRepository.Update(product);
+            _unitOfWork.ProductRepository.UpdateProduct(product);
+            _unitOfWork.SaveChanges();
         }
     }
 }

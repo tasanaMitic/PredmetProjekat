@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PredmetProjekat.Repositories.Context;
 
@@ -11,9 +12,11 @@ using PredmetProjekat.Repositories.Context;
 namespace PredmetProjekat.Repositories.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230806173225_receipt-entity-created")]
+    partial class receiptentitycreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +54,15 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2daf6e47-1a13-4b8c-80cf-f97dc0798b2c",
-                            ConcurrencyStamp = "82d32220-6f34-4202-9ceb-30a2c2bdbc03",
+                            Id = "41a1d19a-a5c8-4496-b85c-3430ba429646",
+                            ConcurrencyStamp = "04507d92-ba3b-47f6-a525-dfb9f08f3a8f",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "8fa24992-ff62-4f78-b3bc-b0e8d3b27f82",
-                            ConcurrencyStamp = "54c9c005-6a1a-4e45-b115-1c789be68a13",
+                            Id = "9d584fc8-a422-4aba-bd27-2329dc9403c5",
+                            ConcurrencyStamp = "971de783-9f53-4e9e-94c9-7e529650fc0b",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         });
@@ -401,6 +404,8 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasKey("SoldProductId");
 
+                    b.HasIndex("ProductId");
+
                     b.HasIndex("ReceiptId");
 
                     b.ToTable("SoldProduct");
@@ -506,9 +511,17 @@ namespace PredmetProjekat.Repositories.Migrations
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.SoldProduct", b =>
                 {
+                    b.HasOne("PredmetProjekat.Models.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PredmetProjekat.Models.Models.Receipt", null)
                         .WithMany("SoldProducts")
                         .HasForeignKey("ReceiptId");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Account", b =>

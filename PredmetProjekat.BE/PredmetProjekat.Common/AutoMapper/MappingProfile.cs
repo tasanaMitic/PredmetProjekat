@@ -1,21 +1,25 @@
 ﻿using AutoMapper;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Dtos.IdentityDtos;
+using PredmetProjekat.Common.Dtos.ProductDtos;
+using PredmetProjekat.Common.Dtos.UserDtos;
 using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Common.AutoMapper
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile() //TODO
+        public MappingProfile()
         {
             CreateMap<Brand, BrandDtoId>().ReverseMap();
             CreateMap<Category, CategoryDtoId>().ReverseMap();
-            CreateMap<Product, StockedProductDtoId>().ReverseMap();
+            CreateMap<Product, StockedProductDto>().ReverseMap();
+            CreateMap<SoldProduct, SoldProductDto>().ReverseMap();
             CreateMap<Register, RegisterDtoId>().ReverseMap();
             CreateMap<Account, RegistrationDto>().ReverseMap();
             CreateMap<Account, UserDto>().ReverseMap();
             CreateMap<Account, EmployeeDto>().ReverseMap();
+
         }
     }
 }

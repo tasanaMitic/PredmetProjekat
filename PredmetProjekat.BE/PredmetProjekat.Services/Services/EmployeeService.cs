@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Dtos.UserDtos;
 using PredmetProjekat.Common.Enums;
 using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
@@ -38,11 +38,11 @@ namespace PredmetProjekat.Services.Services
 
             if (manager == null)
             {
-                throw new KeyNotFoundException("Username of manager not found in the database!");
+                throw new KeyNotFoundException($"Manager with username: {managerUsername} not found in the database!");
             }
             else if (employee == null)
             {
-                throw new KeyNotFoundException("Username of employee not found in the database!");
+                throw new KeyNotFoundException($"Employee with username: {employeeUsername} not found in the database!");
             }
             else if (manager == employee)
             {
@@ -61,11 +61,11 @@ namespace PredmetProjekat.Services.Services
 
             if (employee == null)
             {
-                throw new KeyNotFoundException("Username of employee not found in the database!");
+                throw new KeyNotFoundException($"Employee with username: {employeeUsername} not found in the database!");
             }
             else if (employee.Manager == null)
             {
-                throw new KeyNotFoundException("Selected employee doesn't have a manager!");
+                throw new KeyNotFoundException($"Employee with username: {employeeUsername} doesn't have a manager!");
             }
 
             employee.Manager = null;
@@ -79,7 +79,7 @@ namespace PredmetProjekat.Services.Services
             var user = await _userManager.Users.Include(x => x.Manages).FirstOrDefaultAsync(x => x.UserName == username); 
             if (user == null)
             {
-                throw new KeyNotFoundException("User not found in the database!");
+                throw new KeyNotFoundException($"User with username: {username} not found in the database!");
             }
             var managedByUser = user.Manages.ToList();
 
@@ -107,10 +107,10 @@ namespace PredmetProjekat.Services.Services
             var user = await _userManager.FindByNameAsync(userDto.Username);
             if (user == null)
             {
-                throw new KeyNotFoundException("User not found in the database!");
+                throw new KeyNotFoundException($"User with username: {userDto.Username} not found in the database!");
             }
 
-            var result = await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(_mapper.Map<Account>(userDto));
             return result.Succeeded;
         }
     }

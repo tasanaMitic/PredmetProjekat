@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Dtos.UserDtos;
 using PredmetProjekat.Common.Enums;
 using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
@@ -43,7 +43,7 @@ namespace PredmetProjekat.Services.Services
                 throw new KeyNotFoundException($"User with username: {userDto.Username} not found in the database!");
             }
 
-            var result = await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(_mapper.Map<Account>(userDto));
             return result.Succeeded;
         }
     }

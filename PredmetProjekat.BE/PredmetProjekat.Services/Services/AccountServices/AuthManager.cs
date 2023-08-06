@@ -72,5 +72,13 @@ namespace PredmetProjekat.Services.Services.AccountServices
             _user = await _userManager.FindByEmailAsync(loginDto.Email);
             return _user != null && await _userManager.CheckPasswordAsync(_user, loginDto.Password);
         }
+
+        public string DecodeToken(string tokenString)
+        {
+            var jwtEncodedString = tokenString.Substring(7);
+            var token = new JwtSecurityToken(jwtEncodedString);
+
+            return token.Claims.First(x => x.Type == ClaimTypes.Name).Value;
+        }
     }
 }

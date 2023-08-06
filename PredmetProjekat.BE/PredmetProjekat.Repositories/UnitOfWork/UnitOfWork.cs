@@ -14,6 +14,8 @@ namespace PredmetProjekat.Repositories.UnitOfWork
         public ICategoryRepository CategoryRepository { get; private set; }
         public IProductRepository ProductRepository { get; private set; }
         public IRegisterRepository RegisterRepository { get; private set; }
+        public IReceiptRepository ReceiptRepository { get; private set; }
+
         public UnitOfWork(StoreContext context)
         {
             _context = context;
@@ -22,6 +24,7 @@ namespace PredmetProjekat.Repositories.UnitOfWork
             CategoryRepository = new CategoryRepository(_context);
             ProductRepository = new ProductRepository(_context);
             RegisterRepository = new RegisterRepository(_context);
+            ReceiptRepository = new ReceiptRepository(_context);
         }
 
         public void Dispose()
@@ -37,11 +40,11 @@ namespace PredmetProjekat.Repositories.UnitOfWork
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException();   //update?
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                throw new DuplicateNameException(); //create
+                throw new DuplicateNameException(); 
             }
 
         }

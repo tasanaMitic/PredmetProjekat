@@ -1,4 +1,4 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using PredmetProjekat.Common.Dtos.UserDtos;
 
 namespace PredmetProjekat.Common.Interfaces.IService
 {

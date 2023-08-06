@@ -1,5 +1,4 @@
-﻿using PredmetProjekat.Common.AutoMapper;
-using PredmetProjekat.WebApi.Extensions;
+﻿using PredmetProjekat.WebApi.Extensions;
 
 namespace PredmetProjekat.WebApi
 {
@@ -13,8 +12,8 @@ namespace PredmetProjekat.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureRepository(Configuration);
-            services.ConfigureAutoMapper();          
-            
+            services.ConfigureAutoMapper();
+
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
@@ -22,10 +21,19 @@ namespace PredmetProjekat.WebApi
             services.ConfigureServices();
 
             services.AddControllers();
+            services.AddCors(x =>
+            {
+                x.AddPolicy("AllowAll", builder =>
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
         }
         public void Configure(IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAll");
 
             app.UseRouting();
 

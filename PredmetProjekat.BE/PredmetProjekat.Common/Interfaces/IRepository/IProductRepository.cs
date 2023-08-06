@@ -10,5 +10,6 @@ namespace PredmetProjekat.Common.Interfaces.IRepository
         void CreateProduct(Product product);
         void DeleteProduct(Product product);
         Product GetProductById(Guid productId);
+        void UpdateProduct(Product product);
     }
 }

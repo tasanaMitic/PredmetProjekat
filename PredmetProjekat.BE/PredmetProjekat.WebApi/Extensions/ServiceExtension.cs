@@ -49,11 +49,12 @@ namespace PredmetProjekat.WebApi.Extensions
                 });
         }
 
+
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IBrandService>(serviceProvider => new BrandService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<ICategoryService>(serviceProvider => new CategoryService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
-            services.AddScoped<IProductService>(serviceProvider => new ProductService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
+            services.AddScoped<IProductService>(serviceProvider => new ProductService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>(), serviceProvider.GetService<UserManager<Account>>()));
             services.AddScoped<IRegisterService>(serviceProvider => new RegisterService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<IAdminService>(serviceProvider => new AdminService(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<IEmployeeService>(serviceProvider => new EmployeeService(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IMapper>()));

@@ -29,19 +29,17 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public IEnumerable<Product> GetAllStockedProducts()
         {
-            try//todo
-            {
-                return _context.Products.Include(x => x.Category).Include(x => x.Brand).Where(x => x.IsInStock == true && x.Quantity > 0).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return _context.Products.Include(x => x.Category).Include(x => x.Brand).Where(x => x.IsInStock == true && x.Quantity > 0).ToList();
         }
 
         public Product GetProductById(Guid productId)
         {
             return GetById(productId);
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            Update(product);
         }
     }
 }

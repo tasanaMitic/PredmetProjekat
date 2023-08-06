@@ -1,10 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using PredmetProjekat.Common.Dtos;
+using PredmetProjekat.Common.Dtos.ProductDtos;
+using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Common.Interfaces.IService;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 
 namespace PredmetProjekat.WebApi.Controllers
 {
@@ -13,9 +19,11 @@ namespace PredmetProjekat.WebApi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        public ProductController(IProductService productService)
+        private readonly IAuthManager _authManager;
+        public ProductController(IProductService productService, IAuthManager authManager)
         {
             _productService = productService;
+            _authManager = authManager;
         }
 
         [Authorize(Roles = "Admin")]
@@ -58,7 +66,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [Authorize(Roles = "Admin,Employee")]
         [HttpGet]
         [Route("stocked")]
-        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllStockedProducts()
+        public ActionResult<IEnumerable<StockedProductDto>> GetAllStockedProducts()
         {
             try
             {
@@ -73,7 +81,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("all")]
-        public ActionResult<IEnumerable<StockedProductDtoId>> GetAllProducts()
+        public ActionResult<IEnumerable<StockedProductDto>> GetAllProducts()
         {
             try
             {
@@ -116,7 +124,7 @@ namespace PredmetProjekat.WebApi.Controllers
                 }
 
                 _productService.StockProduct(id, quantity.Value);
-                return Accepted();
+                return NoContent();
             }
             catch (KeyNotFoundException ex)
             {
@@ -129,17 +137,20 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [Authorize(Roles = "Employee")]
-        [HttpPatch("{id}")]
-        public IActionResult SellProduct(IEnumerable<ProductDtoId> products)    //TODO
+        [HttpPatch]
+        public IActionResult SellProduct(SaleDto saleDto)
         {
             try
             {
-                _productService.SellProduct(products);
-                return Accepted();
+                var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
+                var username = _authManager.DecodeToken(tokenString);
+
+                _productService.SellProduct(saleDto, username);
+                return NoContent();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
+                return Problem($"Something went wrong in the {nameof(SellProduct)}!", ex.Message, statusCode: 500);
             }
         }
     }

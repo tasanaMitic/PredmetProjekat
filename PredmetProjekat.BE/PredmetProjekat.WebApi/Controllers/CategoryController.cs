@@ -60,7 +60,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(Guid id)    //TODO test foreign key contsraint
+        public IActionResult DeleteCategory(Guid id)  
         {
             try
             {
