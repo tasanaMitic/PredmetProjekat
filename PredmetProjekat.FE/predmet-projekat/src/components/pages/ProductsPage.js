@@ -1,12 +1,12 @@
 import { Button, Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import useFetch from "../useFetch";
 import ProductTable from "../ProductTable";
 import AlertDissmisable from "../Alert";
 
 function ProductsPage() {
-    const { data, isPending, error } = useFetch('https://localhost:7155/api/category');
-    //const { data: allProducts, isPending, error } = useFetch('https://localhost:7155/api/category');
+    const [data, setData] = useState(null);
+    const [isPending, setIsPending] = useState(true);
+    const [error, setError] = useState(null);
 
     const [allProductsAreShown, setAllProductsAreShown] = useState(false);
     const [stockedProductsAreShown, setStockedProductsAreShown] = useState(false);

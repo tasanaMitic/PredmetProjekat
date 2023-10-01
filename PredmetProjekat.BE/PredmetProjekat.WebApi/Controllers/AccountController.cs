@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos.IdentityDtos;
@@ -20,6 +21,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _registrationService = registrationService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("admin")]
         public async Task<ActionResult> RegisterAdmin([FromBody] RegistrationDto registrationDto)
@@ -44,6 +46,7 @@ namespace PredmetProjekat.WebApi.Controllers
             return Accepted();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("employee")]
         public async Task<ActionResult> RegisterEmployee([FromBody] RegistrationDto registrationDto)

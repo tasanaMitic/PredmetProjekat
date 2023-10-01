@@ -1,22 +1,18 @@
-import { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
 
-function AlertDissmisable() {
-  const [show, setShow] = useState(true); //todo izmesti ovo da radi kako treba, kada se ponovi request, da se prikaze
+function AlertDissmisable({error, setError}) {  //todo constants
+  //console.log(error.response.data);
+  //console.log(error.response.data);
 
-  if (show) {
     return (
-      <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+      <Alert variant="danger" onClose={() => setError(false)} dismissible>
+        <Alert.Heading>Oh snap!  {error.response && error.response.data.title}</Alert.Heading>
         <p>
-          Change this and that and try again. Duis mollis, est non commodo
-          luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-          Cras mattis consectetur purus sit amet fermentum.
+          {error.response ? error.response.data.title : "Something went wrong! Try again shortly!"}  
         </p>
       </Alert>
     );
-  }
+  
 }
 
 export default AlertDissmisable;

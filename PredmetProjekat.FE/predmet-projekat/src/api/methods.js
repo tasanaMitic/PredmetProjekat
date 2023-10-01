@@ -1,12 +1,11 @@
 import { post, get, remove } from './httpMethods'
 
 const login = (body) => {
-    const res =  post('/api/account/login', body)
-    .then(function(res){
-        return res;
-    });
-    console.log('login');
-    //console.log(res);
+    return post('/api/account/login', body);
 }
 
-export default login;
+const register = (body, userType) => {
+    return post('/api/account/' + userType, body);
+}
+
+export { login, register };

@@ -1,7 +1,7 @@
-function HomePage() {
+function HomePage({ user }) {
 
     return (
-        <div>Home Page</div>
+        <div> Pozdrav </div>
     );
 }
 

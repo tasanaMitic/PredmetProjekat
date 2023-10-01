@@ -1,8 +1,10 @@
 import { Button, Container } from "react-bootstrap";
-import useFetch from "../useFetch";
+import { useState } from "react";
 
 function EmployeesPage() {
-    const { data: employees, isPending, error } = useFetch('https://localhost:7155/api/category');
+    const [data, setData] = useState(null);
+    const [isPending, setIsPending] = useState(true);
+    const [error, setError] = useState(null);
 
 
     return (

@@ -48,12 +48,12 @@ namespace PredmetProjekat.Services.Services.AccountServices
 
         private async Task<List<Claim>> GetClaims()
         {
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, _user.UserName) };
+            var claims = new List<Claim> { new Claim("username", _user.UserName) };
             var roles = await _userManager.GetRolesAsync(_user);
 
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim("role", role));
             }
 
             return claims;
@@ -78,7 +78,7 @@ namespace PredmetProjekat.Services.Services.AccountServices
             var jwtEncodedString = tokenString.Substring(7);
             var token = new JwtSecurityToken(jwtEncodedString);
 
-            return token.Claims.First(x => x.Type == ClaimTypes.Name).Value;
+            return token.Claims.First(x => x.Type == "username").Value;
         }
     }
 }

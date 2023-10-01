@@ -1,17 +1,12 @@
 import api from './server'
+import Cookies from 'universal-cookie';
 
 const post = (url, body) => {
-    api.post(url, body, {
+    return api.post(url, body, {
         headers: {
             'Content-Type': 'application/json', //todo constants
+            'Authorization' : new Cookies().get("jwt_authorization")
         }
-    }).then(function (response) {
-        console.log('post http');
-        console.log('post http' + response);
-        return response;
-    }).catch(function (error) {
-        console.log(error);
-        return error;
     });
 }
 
@@ -19,6 +14,7 @@ const get = (url) => {
     api.get(url, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization' : new Cookies().get("jwt_authorization")
         }
     }).then(function (response) {
         return response;
