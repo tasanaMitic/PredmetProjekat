@@ -6,6 +6,9 @@ namespace PredmetProjekat.Models.Models
     {
         [Key]
         public Guid BrandId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
     }
 }

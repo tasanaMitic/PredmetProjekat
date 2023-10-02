@@ -26,8 +26,13 @@ namespace PredmetProjekat.Repositories.Context
             builder.Entity<Product>().Property(x => x.Quantity).HasDefaultValue(0);
             builder.Entity<Product>().Property(x => x.IsInStock).HasDefaultValue(false);
             builder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
+            builder.Entity<Account>().Property(x => x.IsDeleted).HasDefaultValue(false);
+            builder.Entity<Brand>().Property(x => x.IsDeleted).HasDefaultValue(false);
+            builder.Entity<Category>().Property(x => x.IsDeleted).HasDefaultValue(false);
+            builder.Entity<Product>().Property(x => x.IsDeleted).HasDefaultValue(false);
 
             //TODO Seed the db with values?
+            //One Admin
 
         }
     }

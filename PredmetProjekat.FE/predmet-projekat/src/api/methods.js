@@ -1,7 +1,7 @@
-import { post, get, remove } from './httpMethods'
+import { post, get, remove, postWOToken } from './httpMethods'
 
 const login = (body) => {
-    return post('/api/account/login', body);
+    return postWOToken('/api/account/login', body);
 }
 
 const register = (body, userType) => {

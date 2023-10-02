@@ -92,14 +92,17 @@ namespace PredmetProjekat.Services.Services
                 }
             }
 
-            var result = await _userManager.DeleteAsync(user);
+            user.IsDeleted = true;
+
+            var result = await _userManager.UpdateAsync(user);
             return result.Succeeded;
         }
 
         public async Task<IEnumerable<EmployeeDto>> GetEmloyees()
         {
             var users = await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString());
-            return _mapper.Map<IEnumerable<EmployeeDto>>(users);
+            var activeUsers = users.Where(user => user.IsDeleted == false).ToList();
+            return _mapper.Map<IEnumerable<EmployeeDto>>(activeUsers);
         }
 
         public async Task<bool> UpdateEmployee(UserDto userDto)

@@ -12,6 +12,8 @@ namespace PredmetProjekat.Models.Models
         public string Lastname { get; set; }
         public Account? Manager { get; set; }
         public List<Account> Manages { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
 
     }
 }

@@ -22,5 +22,7 @@ namespace PredmetProjekat.Models.Models
         public Category Category { get; set; }
         [Required]
         public bool IsInStock { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
     }
 }

@@ -10,6 +10,14 @@ const post = (url, body) => {
     });
 }
 
+const postWOToken = (url, body) => {
+    return api.post(url, body, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
 const get = (url) => {
     return api.get(url, {
         headers: {
@@ -28,4 +36,4 @@ const remove = (url) => {
     });
 }
 
-export { post, get, remove };
+export { post, get, remove, postWOToken };
