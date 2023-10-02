@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Container, Form, Button, Spinner } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 import AlertDissmisable from "../Alert";
 import { login } from '../../api/methods'
 
@@ -20,7 +20,7 @@ function LoginPage({loginUser}) {
 
         const payload = { email, password };
         login(payload).then(res => {
-            if (res.status != 202) {       
+            if (res.status !== 202) {       
                 throw Error('There was an error with the request!'); 
             }
             return res.data;
@@ -50,7 +50,6 @@ function LoginPage({loginUser}) {
                         We'll never share your email with anyone else.
                     </Form.Text>
                 </Form.Group>
-
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>

@@ -13,34 +13,35 @@ function AppHeader({ user, logout }) {
         <Navbar.Collapse id="basic-navbar-nav">
           {user ? (
             user.role === 'Admin' ?
-            <Nav className="me-auto">            
-              <Nav.Link onClick={logout} >Logout</Nav.Link>
-              <Nav.Link as={Link} to="/register">Register</Nav.Link>
-              <Nav.Link as={Link} to="/admins">Admins</Nav.Link>
-              <Nav.Link as={Link} to="/employees">Employees</Nav.Link>
-              <Nav.Link as={Link} to="/products">Products</Nav.Link>
-              <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
-              <Nav.Link as={Link} to="#order">Order</Nav.Link>
-              <NavDropdown title={user.username} id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>   
-            :
-            <Nav className="me-auto">            
-              <Nav.Link onClick={logout} >Logout</Nav.Link>
-              <Nav.Link as={Link} to="/products">Products</Nav.Link>
-              <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
-              <Nav.Link as={Link} to="#sell">Sell</Nav.Link>
-              <NavDropdown title={user.username} id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="#historyofsales">History of sales</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>   
-                       
+              <Nav className="me-auto">
+
+                <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                <Nav.Link as={Link} to="/admins">Admins</Nav.Link>
+                <Nav.Link as={Link} to="/employees">Employees</Nav.Link>
+                <Nav.Link as={Link} to="/products">Products</Nav.Link>               
+                <Nav.Link as={Link} to="/brands&categories">Brands&Categories</Nav.Link>
+                <Nav.Link as={Link} to="/order">Order</Nav.Link>
+                <NavDropdown title={user.username} id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>
+                  <NavDropdown.Divider />                  
+                  <NavDropdown.Item onClick={logout} >Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+              :
+              <Nav className="me-auto">
+                <Nav.Link as={Link} to="/products">Products</Nav.Link>
+                <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
+                <Nav.Link as={Link} to="#sell">Sell</Nav.Link>
+                <NavDropdown title={user.username} id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="#historyofsales">History of sales</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>
+                  <NavDropdown.Divider />                  
+                  <NavDropdown.Item onClick={logout} >Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+
           ) : (
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/login">Login</Nav.Link>

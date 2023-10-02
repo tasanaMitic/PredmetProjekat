@@ -8,4 +8,24 @@ const register = (body, userType) => {
     return post('/api/account/' + userType, body);
 }
 
-export { login, register };
+const getAdmins = () => {
+    return get('/api/admin');
+}
+
+const getEmployees = () => {
+    return get('/api/employee');
+}
+
+const getCategories = () => {
+    return get('/api/category');
+}
+
+const getBrands = () => {
+    return get('/api/brand');
+}
+
+const deleteEmployee = (username) => {
+    return remove('/api/employee/' + username);
+}
+
+export { login, register, getAdmins, getEmployees, getCategories, getBrands, deleteEmployee };

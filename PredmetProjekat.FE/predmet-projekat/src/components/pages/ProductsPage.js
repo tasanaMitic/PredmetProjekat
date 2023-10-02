@@ -15,10 +15,6 @@ function ProductsPage() {
     const [allProducts, setAllProducts] = useState(null);
     const [stockedProducts, setStockedroducts] = useState(null);
 
-    const handleClick = () => {
-        console.log(allProducts);
-    }
-
     const handleDelete = (productId) => {
         console.log('Delete : ' + productId);
     }
@@ -43,9 +39,8 @@ function ProductsPage() {
 
     return (
         <Container>
-            <h1>Product page component</h1>
-            {isPending && <div>Loading..</div>}
-            {error && <AlertDissmisable />}
+            <h1>Products</h1>
+            {error && <AlertDissmisable error={error} setError={setError}/>}
             {!error && <Button onClick={() => setStockedProductsAreShown(current => !current)}>Na stanju</Button>}
             {!error && stockedProductsAreShown && stockedProducts &&
                 <ProductTable products={stockedProducts}
@@ -54,7 +49,6 @@ function ProductsPage() {
             {!error && allProductsAreShown && allProducts &&
                 <ProductTable products={allProducts}
                     handleDelete={handleDelete} />}
-            <Button onClick={handleClick}>Click</Button>
         </Container>
     );
 }

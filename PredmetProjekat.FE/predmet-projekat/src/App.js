@@ -10,6 +10,8 @@ import HomePage from './components/pages/HomePage';
 import AccountPage from './components/pages/AccountPage'
 import OrderPage from './components/pages/OrderPage';
 import EmployeesPage from './components/pages/EmployeesPage';
+import BrandsAndCetegoriesPage from './components/pages/BrandsAndCategoriesPage';
+import AdminsPage from './components/pages/AdminsPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -54,14 +56,20 @@ function App() {
           <Route path="/products">
             <ProductsPage></ProductsPage>
           </Route>
+          <Route path="/brands&categories">
+            <BrandsAndCetegoriesPage></BrandsAndCetegoriesPage>
+          </Route>
           <Route path="/account">
             <AccountPage></AccountPage>
           </Route>
           <Route path="/order">
             <OrderPage></OrderPage>
-          </Route>
+          </Route>       
           <Route path="/employees">
             <EmployeesPage></EmployeesPage>
+          </Route>
+          <Route path="/admins">
+            <AdminsPage></AdminsPage>
           </Route>
         </Switch>
         ) : (

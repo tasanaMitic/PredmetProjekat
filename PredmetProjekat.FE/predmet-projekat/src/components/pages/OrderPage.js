@@ -1,7 +1,10 @@
+import { Container } from "react-bootstrap";
+
 function OrderPage() {
 
     return (
-        <div>Order Page</div>
+        <Container>
+        </Container>
     );
 }
 
