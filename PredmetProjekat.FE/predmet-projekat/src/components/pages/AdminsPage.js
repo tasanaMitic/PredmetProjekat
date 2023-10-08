@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import UsersTable from '../UsersTable'
 import { getAdmins } from '../../api/methods'
 
-function AdminsPage() {
+function AdminsPage({user}) {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -35,7 +35,7 @@ function AdminsPage() {
         <Container>        
             <h1>All Admins</h1>
             {error && <div>{error}</div>}
-            {!isPending && <UsersTable admins={data} />}
+            {!isPending && <UsersTable admins={data} loggedInUser={user} />}
         </Container>
     );
 }

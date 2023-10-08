@@ -33,8 +33,8 @@ namespace PredmetProjekat.Services.Services
 
         private async Task<bool> AssignManager(string managerUsername, string employeeUsername)
         {
-            var manager = await _userManager.FindByNameAsync(managerUsername);
-            var employee = await _userManager.FindByNameAsync(employeeUsername);
+            var manager = (await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString())).Where(x => x.UserName == managerUsername).FirstOrDefault();
+            var employee = (await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString())).Where(x => x.UserName == employeeUsername).FirstOrDefault();
 
             if (manager == null)
             {
@@ -100,9 +100,11 @@ namespace PredmetProjekat.Services.Services
 
         public async Task<IEnumerable<EmployeeDto>> GetEmloyees()
         {
-            var users = await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString());
-            var activeUsers = users.Where(user => user.IsDeleted == false).ToList();
-            return _mapper.Map<IEnumerable<EmployeeDto>>(activeUsers);
+            var employees = (await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString())).Where(x => !x.IsDeleted).ToList();
+            var allUsers = await _userManager.Users.Include(x => x.Manager).ToListAsync();
+
+            var employeesWithManagers = allUsers.Where(x => employees.Any(y => y.UserName == x.UserName)).ToList();
+            return _mapper.Map<IEnumerable<EmployeeDto>>(employeesWithManagers);
         }
 
         public async Task<bool> UpdateEmployee(UserDto userDto)

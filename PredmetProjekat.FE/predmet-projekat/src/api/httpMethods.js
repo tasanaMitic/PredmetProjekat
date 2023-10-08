@@ -36,4 +36,12 @@ const remove = (url) => {
     });
 }
 
-export { post, get, remove, postWOToken };
+const patch = (url, body) => {
+    return api.patch(url, body, {
+        headers: {
+            'Authorization' : 'Bearer ' + new Cookies().get("jwt_authorization")
+        }
+    });
+}
+
+export { post, get, remove, postWOToken, patch };

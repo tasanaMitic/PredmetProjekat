@@ -1,6 +1,6 @@
 import {Modal, Button} from 'react-bootstrap'
 
-function StaticExample({show, setShow, clearData}) {
+function ModalSuccess({show, setShow, clearData, message}) {
     const handleClose = () => setShow(false);
     const handleOk = () =>{
         setShow(false);
@@ -12,9 +12,9 @@ function StaticExample({show, setShow, clearData}) {
         <Modal.Header closeButton>
           <Modal.Title>Success!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body>{message}</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleOk}>
+          <Button variant="outline-dark" onClick={handleOk}>
             OK
           </Button>
         </Modal.Footer>
@@ -22,4 +22,4 @@ function StaticExample({show, setShow, clearData}) {
     );
   }
   
-  export default StaticExample;
+  export default ModalSuccess;

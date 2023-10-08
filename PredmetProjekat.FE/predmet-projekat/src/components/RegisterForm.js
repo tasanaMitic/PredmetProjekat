@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import AlertDissmisable from './Alert'
-import StaticExample from './ModalSuccess' 
+import ModalSuccess from './ModalSuccess' 
 import { register } from '../api/methods'
 import Cookies from 'universal-cookie';
 
@@ -10,6 +10,7 @@ function RegisterForm({userType}) {
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(false);
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -44,6 +45,7 @@ function RegisterForm({userType}) {
             setData(data);
             //todo
             setShow(true);
+            setSuccessMessage("You have successfully creates a user with username " + username);
             setIsPending(false);
             setError(null);
         })
@@ -56,7 +58,7 @@ function RegisterForm({userType}) {
 
     return (
         <Form onSubmit={handleSubmit}>
-        <StaticExample setShow={setShow} show={show} clearData={clearData}/>
+        <ModalSuccess setShow={setShow} show={show} clearData={clearData} message={successMessage}/>
         {error && <AlertDissmisable error={error} setError={setError}/>}
             <Form.Group className="mb-3" controlId={"formBasicEmail" + userType}>
                 <Form.Label>Email address</Form.Label>

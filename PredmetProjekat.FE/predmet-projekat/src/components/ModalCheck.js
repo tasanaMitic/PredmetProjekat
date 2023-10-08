@@ -14,7 +14,7 @@ function ModalCheck({show, setShow, confirm}) {   //to do message
         </Modal.Header>
         <Modal.Body>Are you sure you want to do this?</Modal.Body>  
         <Modal.Footer>
-          <Button variant="primary" onClick={handleOk}>
+          <Button variant="outline-dark" onClick={handleOk}>
             OK
           </Button>
         </Modal.Footer>

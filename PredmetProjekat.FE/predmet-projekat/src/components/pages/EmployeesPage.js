@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import UsersTable from '../UsersTable'
 import { getEmployees } from '../../api/methods'
 
-function EmployeesPage() {
+function EmployeesPage({ user }) {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ function EmployeesPage() {
             }
             return res.data;
         })
-        .then(data => {
+            .then(data => {
                 setData(data);
                 setIsPending(false);
                 setError(null);
@@ -26,13 +26,13 @@ function EmployeesPage() {
                 setIsPending(false);
                 setError(err);
             })
-    }, []); 
+    }, []);
 
     return (
-        <Container>        
+        <Container>
             <h1>All Employees</h1>
             {error && <div>{error}</div>}
-            {!isPending && <UsersTable users={data} />}
+            {!isPending && <UsersTable users={data} loggedInUser={user} />}
         </Container>
     );
 }

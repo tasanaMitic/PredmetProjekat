@@ -66,10 +66,10 @@ function App() {
             <OrderPage></OrderPage>
           </Route>       
           <Route path="/employees">
-            <EmployeesPage></EmployeesPage>
+            <EmployeesPage user={user}></EmployeesPage>
           </Route>
           <Route path="/admins">
-            <AdminsPage></AdminsPage>
+            <AdminsPage user={user}></AdminsPage>
           </Route>
         </Switch>
         ) : (

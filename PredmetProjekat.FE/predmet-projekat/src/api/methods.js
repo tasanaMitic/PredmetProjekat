@@ -1,4 +1,4 @@
-import { post, get, remove, postWOToken } from './httpMethods'
+import { post, get, remove, postWOToken, patch } from './httpMethods'
 
 const login = (body) => {
     return postWOToken('/api/account/login', body);
@@ -6,6 +6,10 @@ const login = (body) => {
 
 const register = (body, userType) => {
     return post('/api/account/' + userType, body);
+}
+
+const assignManager = (body) => {
+    return patch('/api/employee', body);
 }
 
 const getAdmins = () => {
@@ -28,4 +32,6 @@ const deleteEmployee = (username) => {
     return remove('/api/employee/' + username);
 }
 
-export { login, register, getAdmins, getEmployees, getCategories, getBrands, deleteEmployee };
+
+
+export { login, register, getAdmins, getEmployees, getCategories, getBrands, deleteEmployee, assignManager };
