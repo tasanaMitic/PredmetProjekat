@@ -24,10 +24,7 @@ const BrandsPage = () => {
                 setIsPending(false);
                 setError(err);
             })
-    }, []);
-
-    
-
+    }, []);  
 
     return (
         <Container>        

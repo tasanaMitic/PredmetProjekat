@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
-import ModalCheck from './ModalCheck'
+import ModalCheck from './ModalCheck';
+import PropTypes from 'prop-types';
 
 const BrandsAndCategoriesTable = ({ categories, brands }) => {
     const [check, setCheck] = useState(false);
@@ -29,22 +30,22 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    { categories && data.map((categorie) => (
+                    {categories && data.map((categorie) => (
                         <tr key={categorie.categoryId}>
                             <td>{categorie.name}</td>
-                                <td>
-                                    <Button variant="dark" onClick={() => setCheck(true)}>Delete</Button>
-                                </td>
-                            
+                            <td>
+                                <Button variant="dark" onClick={() => setCheck(true)}>Delete</Button>
+                            </td>
+
                         </tr>
                     ))}
-                    { brands && data.map((brand) => (
+                    {brands && data.map((brand) => (
                         <tr key={brand.brandId}>
                             <td>{brand.name}</td>
-                                <td>
-                                    <Button variant="dark" onClick={() => setCheck(true)}>Delete</Button>
-                                </td>
-                            
+                            <td>
+                                <Button variant="dark" onClick={() => setCheck(true)}>Delete</Button>
+                            </td>
+
                         </tr>
                     ))}
                 </tbody>
@@ -52,6 +53,17 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
             }
         </Container>
     );
+}
+
+BrandsAndCategoriesTable.propTypes = {
+    brands: PropTypes.arrayOf(PropTypes.shape({
+        brandId: PropTypes.string,
+        name: PropTypes.string
+    })),
+    categories: PropTypes.arrayOf(PropTypes.shape({
+        categoryId: PropTypes.string,
+        name: PropTypes.string
+    }))
 }
 
 export default BrandsAndCategoriesTable;

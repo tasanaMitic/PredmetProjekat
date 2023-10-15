@@ -1,4 +1,4 @@
-function HomePage({ user }) {
+const HomePage = ({ user }) => {
 
     return (
         <div> Pozdrav </div>

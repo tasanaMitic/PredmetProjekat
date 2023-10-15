@@ -1,9 +1,10 @@
-import { Button, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import UsersTable from '../UsersTable'
-import { getAdmins } from '../../api/methods'
+import UsersTable from '../UsersTable';
+import { getAdmins } from '../../api/methods';
+import PropTypes from 'prop-types';
 
-function AdminsPage({user}) {
+const AdminsPage = ({user}) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -24,10 +25,7 @@ function AdminsPage({user}) {
                 setIsPending(false);
                 setError(err);
             })
-    }, []);
-
-    
-
+    }, []);   
 
     return (
         <Container>        
@@ -36,6 +34,13 @@ function AdminsPage({user}) {
             {!isPending && <UsersTable admins={data} loggedInUser={user} />}
         </Container>
     );
+}
+
+AdminsPage.propTypes = {
+    user: PropTypes.shape({
+        role: PropTypes.string,
+        username: PropTypes.string
+    })
 }
 
 export default AdminsPage;

@@ -5,6 +5,7 @@ import { assignManager, deleteEmployee, getEmployees } from "../api/methods";
 import AlertDissmisable from "./Alert";
 import ModalManager from "./ModalManager";
 import ModalSuccess from "./ModalSuccess";
+import PropTypes from 'prop-types';
 
 const UsersTable = ({ admins, users, loggedInUser }) => {
     const [data, setData] = useState(null);
@@ -52,20 +53,23 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
 
     const confirmDelete = () => {
         deleteEmployee(userToDelete).then(res => {
-            if (res.status !== 204) {
+            if (res.status !== 200) {
                 throw Error('There was an error with the request!');
+
             }
-            setData(data.filter(user => userToDelete !== user.username));
-            data.map((user) => {
-                if(user.manager.username === userToDelete)
-                {
-                    return user.manager = null;
-                }
-                else{
-                    return user;
-                }
-            });
+            return res.data;
+            // setData(data.filter(user => userToDelete !== user.username));
+            // data.map((user) => {
+            //     if(user.manager.username === userToDelete)
+            //     {
+            //         return user.manager = null;
+            //     }
+            //     else{
+            //         return user;
+            //     }
+            // });
         })
+            .then(data => setData(data))
             .catch(err => {
                 setError(err);
             })
@@ -79,7 +83,7 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             }
             setSuccessModal(true);
             setSuccessMessage("You have successfully assigned " + selectedManager + " as a manager to " + userToAssignManager);
-            data.map((user) => {
+            data.map((user) => {    //ni ovo nije dobro     //todo
                 if(user.username === userToAssignManager)
                 {
                     return user.manager = { username : selectedManager}
@@ -153,6 +157,27 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             }
         </Container>
     );
+}
+
+UsersTable.propTypes = {
+    admins: PropTypes.arrayOf(PropTypes.shape({
+        email: PropTypes.string,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        username: PropTypes.string
+    })),
+    users: PropTypes.arrayOf(PropTypes.shape({
+        email: PropTypes.string,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        username: PropTypes.string,
+        managerId: PropTypes.string, 
+        manager: PropTypes.object   //todo
+    })),
+    loggedInUser: PropTypes.shape({
+        role: PropTypes.string,
+        username: PropTypes.string
+    })
 }
 
 export default UsersTable;

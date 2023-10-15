@@ -17,7 +17,7 @@ const getAdmins = () => {
 }
 
 const getEmployees = () => {
-    return get('/api/employee');
+    return get('/api/employee/all');
 }
 
 const getCategories = () => {

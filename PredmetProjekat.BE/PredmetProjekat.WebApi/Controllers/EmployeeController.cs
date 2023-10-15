@@ -18,6 +18,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
+        [Route("all")]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmloyees()
         {
             return Ok(await _employeeService.GetEmloyees());
@@ -25,6 +26,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Employee")]
         [HttpGet]
+        [Route("select")]
         public async Task<ActionResult<EmployeeDto>> GetEmployee([FromRoute] string username)
         {
             return Ok(await _employeeService.GetEmloyee(username));
@@ -32,11 +34,11 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{username}")]
-        public async Task<IActionResult> DeleteEmloyee([FromRoute] string username)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> DeleteEmloyee([FromRoute] string username)
         {
             try
             {
-                return await _employeeService.DeleteEmloyee(username) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteEmloyee)}!", statusCode: 500);
+                return Ok(await _employeeService.DeleteEmloyee(username));
             }
             catch (KeyNotFoundException ex)
             {

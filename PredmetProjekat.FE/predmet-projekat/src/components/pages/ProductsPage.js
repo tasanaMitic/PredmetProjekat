@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import ProductTable from "../ProductTable";
 import AlertDissmisable from "../Alert";
 
-function ProductsPage() {
+const ProductsPage = () => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);

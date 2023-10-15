@@ -3,8 +3,9 @@ import { useHistory } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import AlertDissmisable from "../Alert";
 import { login } from '../../api/methods'
+import PropTypes from 'prop-types';
 
-function LoginPage({loginUser}) {
+const LoginPage = ({loginUser}) => {
     const history = useHistory();
 
     const [isPending, setIsPending] = useState(false);
@@ -59,6 +60,10 @@ function LoginPage({loginUser}) {
             </Form>
         </Container>
     );
+}
+
+LoginPage.propTypes = {
+    loginUser: PropTypes.func,
 }
 
 export default LoginPage;

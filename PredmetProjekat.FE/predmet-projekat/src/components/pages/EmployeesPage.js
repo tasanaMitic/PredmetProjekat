@@ -1,9 +1,10 @@
 import { Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import UsersTable from '../UsersTable'
-import { getEmployees } from '../../api/methods'
+import UsersTable from '../UsersTable';
+import { getEmployees } from '../../api/methods';
+import PropTypes from 'prop-types';
 
-function EmployeesPage({ user }) {
+const EmployeesPage = ({user}) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -33,6 +34,13 @@ function EmployeesPage({ user }) {
             {!isPending && <UsersTable users={data} loggedInUser={user} />}
         </Container>
     );
+}
+
+EmployeesPage.propTypes = {
+    user: PropTypes.shape({
+        role: PropTypes.string,
+        username: PropTypes.string
+    })
 }
 
 export default EmployeesPage;

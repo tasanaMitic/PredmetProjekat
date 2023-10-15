@@ -1,6 +1,7 @@
-import {Modal, Button} from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
-function ModalCheck({show, setShow, confirm}) {   //to do message
+const ModalCheck = ({show, setShow, confirm}) => {   //to do message
     const handleClose = () => setShow(false);
     const handleOk = () =>{
         setShow(false);
@@ -20,6 +21,12 @@ function ModalCheck({show, setShow, confirm}) {   //to do message
         </Modal.Footer>
       </Modal>
     );
+  }
+
+  ModalCheck.propTypes = {
+    show: PropTypes.bool,
+    setShow: PropTypes.func,
+    confirm: PropTypes.func
   }
   
   export default ModalCheck;

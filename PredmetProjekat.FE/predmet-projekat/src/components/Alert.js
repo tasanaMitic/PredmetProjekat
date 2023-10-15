@@ -1,6 +1,7 @@
 import Alert from 'react-bootstrap/Alert';
+import PropTypes from 'prop-types';
 
-function AlertDissmisable({error, setError}) {  //todo constants
+const AlertDissmisable = ({error, setError}) => {  //todo constants
   const renderSwitch = (param) => {
     switch(param){
       case 400:
@@ -20,8 +21,12 @@ function AlertDissmisable({error, setError}) {  //todo constants
           {error.response ? renderSwitch(error.response.status) : "Something went wrong! Try again shortly!"}  
         </p>
       </Alert>
-    );
-  
+    );  
+}
+
+AlertDissmisable.propTypes = {
+  error: PropTypes.object,
+  setError: PropTypes.func
 }
 
 export default AlertDissmisable;

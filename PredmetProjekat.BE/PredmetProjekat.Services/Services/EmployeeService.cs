@@ -74,7 +74,7 @@ namespace PredmetProjekat.Services.Services
             return result.Succeeded;
         }
 
-        public async Task<bool> DeleteEmloyee(string username)
+        public async Task<IEnumerable<EmployeeDto>> DeleteEmloyee(string username)
         {
             var user = await _userManager.Users.Include(x => x.Manages).FirstOrDefaultAsync(x => x.UserName == username); 
             if (user == null)
@@ -93,9 +93,12 @@ namespace PredmetProjekat.Services.Services
             }
 
             user.IsDeleted = true;
-
             var result = await _userManager.UpdateAsync(user);
-            return result.Succeeded;
+            if (!result.Succeeded)
+            {
+                throw new Exception($"There was an error deleting employee with username: {username}");
+            }
+            return await GetEmloyees();
         }
 
         public async Task<IEnumerable<EmployeeDto>> GetEmloyees()

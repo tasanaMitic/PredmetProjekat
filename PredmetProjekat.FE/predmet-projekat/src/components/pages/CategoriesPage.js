@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import CategoriesTable from '../BrandsAndCategoriesTable'
 import { getCategories } from '../../api/methods'
 
-function CategoriesPage() {
+const CategoriesPage = () => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ function CategoriesPage() {
             }
             return res.data;
         })
-        .then(data => {
+            .then(data => {
                 setData(data);
                 setIsPending(false);
                 setError(null);
@@ -26,11 +26,8 @@ function CategoriesPage() {
             })
     }, []);
 
-    
-
-
     return (
-        <Container>        
+        <Container>
             <h1>Categories</h1>
             {error && <div>{error}</div>}
             {!isPending && <CategoriesTable categories={data} />}

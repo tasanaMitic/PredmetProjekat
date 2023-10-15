@@ -1,6 +1,6 @@
 import { Container, Form, Button } from "react-bootstrap";
 
-function AccountPage() {
+const AccountPage = () => {
     
 //zapoceto pozivanje endpointa za dobavljanje svih info o ulogovanom useru/
 //odradjen eednpoint na beku

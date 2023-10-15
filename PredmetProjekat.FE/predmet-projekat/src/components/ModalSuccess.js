@@ -1,6 +1,7 @@
-import {Modal, Button} from 'react-bootstrap'
+import {Modal, Button} from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
-function ModalSuccess({show, setShow, clearData, message}) {
+const ModalSuccess = ({show, setShow, clearData, message}) => {
     const handleClose = () => setShow(false);
     const handleOk = () =>{
         setShow(false);
@@ -20,6 +21,13 @@ function ModalSuccess({show, setShow, clearData, message}) {
         </Modal.Footer>
       </Modal>
     );
+  }
+
+  ModalSuccess.propTypes = {
+    show: PropTypes.bool,
+    setShow: PropTypes.func,
+    clearData: PropTypes.func,
+    message: PropTypes.string
   }
   
   export default ModalSuccess;

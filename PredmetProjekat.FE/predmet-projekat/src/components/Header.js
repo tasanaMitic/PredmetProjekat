@@ -3,8 +3,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function AppHeader({ user, logout }) {
+const AppHeader = ({ user, logout }) => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -52,6 +53,14 @@ function AppHeader({ user, logout }) {
       </Container>
     </Navbar>
   )
+}
+
+AppHeader.propTypes = {
+  user: PropTypes.shape({
+    role: PropTypes.string,
+    username: PropTypes.string
+  }),
+  logout: PropTypes.func
 }
 
 export default AppHeader;

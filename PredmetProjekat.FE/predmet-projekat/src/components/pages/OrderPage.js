@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 
-function OrderPage() {
+const OrderPage = () => {
 
     return (
         <Container>

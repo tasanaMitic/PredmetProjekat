@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Table } from "react-bootstrap";
+import PropTypes from 'prop-types';
 
 const ManagersTable = ({ managers, loggedInUser, setSelectedManager, selectedManager, selectedUser }) => {
     const [data, setData] = useState(null);
@@ -9,14 +10,14 @@ const ManagersTable = ({ managers, loggedInUser, setSelectedManager, selectedMan
     }, []);
 
     const highlightColor = (username) => {
-        if(username === selectedManager){
+        if (username === selectedManager) {
             return "silver";
         }
         if (username === loggedInUser.username) {
             return "#FFE4E1";
         }
     }
-    
+
     const handleClick = (username) => {
         setSelectedManager(username);
     }
@@ -42,6 +43,24 @@ const ManagersTable = ({ managers, loggedInUser, setSelectedManager, selectedMan
             }
         </Container>
     );
+}
+
+ManagersTable.propTypes = {
+    managers: PropTypes.arrayOf(PropTypes.shape({
+        email: PropTypes.string,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        username: PropTypes.string,
+        managerId: PropTypes.string,
+        manager: PropTypes.object   //todo
+    })),
+    loggedInUser: PropTypes.shape({
+        role: PropTypes.string,
+        username: PropTypes.string
+    }),
+    setSelectedManager: PropTypes.func,
+    selectedManager: PropTypes.string,
+    selectedUser: PropTypes.string
 }
 
 export default ManagersTable;

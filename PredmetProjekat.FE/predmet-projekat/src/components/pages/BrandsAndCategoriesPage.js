@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import CategoriesPage from "./CategoriesPage";
 import BrandsPage from "./BrandsPage";
 
-function BrandsAndCetegoriesPage() {
+const BrandsAndCetegoriesPage = () => {
 
     return (
         <Container>

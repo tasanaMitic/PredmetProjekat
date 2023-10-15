@@ -1,8 +1,7 @@
 import { Container, Accordion } from "react-bootstrap";
-import { useState } from "react";
 import RegisterForm from "../RegisterForm";
 
-function RegisterPage() {
+const RegisterPage = () => {
     return (
         <Container>
             <h1>Register Page</h1>

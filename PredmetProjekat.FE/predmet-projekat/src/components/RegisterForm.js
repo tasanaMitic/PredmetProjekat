@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import AlertDissmisable from './Alert'
-import ModalSuccess from './ModalSuccess' 
-import { register } from '../api/methods'
+import AlertDissmisable from './Alert';
+import ModalSuccess from './ModalSuccess';
+import { register } from '../api/methods';
+import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
-function RegisterForm({userType}) {
+const RegisterForm = ({userType}) => {
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
@@ -25,8 +26,8 @@ function RegisterForm({userType}) {
         setLastName('');
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (e) => {   //todo username limited to 4-12 char
+        e.preventDefault(); 
         setIsPending(true);
         setError(null);
 
@@ -43,6 +44,7 @@ function RegisterForm({userType}) {
         })
         .catch(err => {
             setIsPending(false);
+            console.log(err);
             setError(err);
         })
     }
@@ -60,7 +62,7 @@ function RegisterForm({userType}) {
             </Form.Group>
             <Form.Group className="mb-3" controlId={"formBasicUsername" + userType}>
                 <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required /> 
             </Form.Group>
             <Form.Group className="mb-3" controlId={"formBasicPassword" + userType}>
                     <Form.Label>Password</Form.Label>
@@ -79,6 +81,10 @@ function RegisterForm({userType}) {
             </Button>
         </Form>
     );
+}
+
+RegisterForm.propTypes = {
+    userType: PropTypes.string
 }
 
 export default RegisterForm;
