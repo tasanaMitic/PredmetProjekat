@@ -53,11 +53,11 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPatch]
-        public async Task<IActionResult> AssignManager([FromBody] ManagerDto managerDto)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> AssignManager([FromBody] ManagerDto managerDto)
         {
             try
             {
-                return await _employeeService.AssignManager(managerDto) ? Ok() : Problem($"Something went wrong in the {nameof(AssignManager)}!", statusCode: 500); 
+                return Ok(await _employeeService.AssignManager(managerDto));
             } 
             catch (KeyNotFoundException ex)
             {

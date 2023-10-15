@@ -1,7 +1,7 @@
 import { post, get, remove, postWOToken, patch } from './httpMethods'
 
 const login = (body) => {
-    return postWOToken('/api/account/login', body);
+    return postWOToken('/api/account/login', body); //todo constants
 }
 
 const register = (body, userType) => {

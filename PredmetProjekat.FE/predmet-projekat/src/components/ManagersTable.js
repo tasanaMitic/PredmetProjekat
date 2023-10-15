@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Table } from "react-bootstrap";
 import PropTypes from 'prop-types';
 
-const ManagersTable = ({ managers, loggedInUser, setSelectedManager, selectedManager, selectedUser }) => {
-    const [data, setData] = useState(null);
-
-    useEffect(() => {
-        setData(managers.filter(manager => manager.username !== selectedUser));
-    }, []);
-
+const ManagersTable = ({ managers, loggedInUser, setSelectedManager, selectedManager}) => {
     const highlightColor = (username) => {
         if (username === selectedManager) {
             return "silver";
@@ -24,7 +18,7 @@ const ManagersTable = ({ managers, loggedInUser, setSelectedManager, selectedMan
 
     return (
         <Container>
-            {data && <Table striped hover>
+            {managers && <Table striped hover>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -32,7 +26,7 @@ const ManagersTable = ({ managers, loggedInUser, setSelectedManager, selectedMan
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((user) => (
+                    {managers.map((user) => (
                         <tr key={user.username} onClick={() => handleClick(user.username)}>
                             <td style={{ backgroundColor: highlightColor(user.username) }}>{user.firstName} {user.lastName}</td>
                             <td style={{ backgroundColor: highlightColor(user.username) }}>{user.username}</td>
@@ -59,8 +53,7 @@ ManagersTable.propTypes = {
         username: PropTypes.string
     }),
     setSelectedManager: PropTypes.func,
-    selectedManager: PropTypes.string,
-    selectedUser: PropTypes.string
+    selectedManager: PropTypes.string
 }
 
 export default ManagersTable;

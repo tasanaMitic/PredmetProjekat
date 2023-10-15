@@ -11,9 +11,9 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [checkModal, setCheckModal] = useState(false);
-    const [managerModal, setManagerModal] = useState(false);    
-    const [successModal, setSuccessModal] = useState(false); 
-    const [successMessage, setSuccessMessage] = useState(false);
+    const [managerModal, setManagerModal] = useState(false);
+    const [successModal, setSuccessModal] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(null);
     const [managers, setManagers] = useState(null);
     const [userToDelete, setUserToDelete] = useState(null);
     const [userToAssignManager, setUserToAssignManager] = useState(null);
@@ -42,9 +42,9 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             return res.data;
         })
             .then(data => {
-                setManagers(data);
+                setManagers(data.filter(user => user.username !== username));
                 setError(null);
-                setManagerModal(true);
+                setManagerModal(true);       
             })
             .catch(err => {
                 setError(err);
@@ -58,16 +58,6 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
 
             }
             return res.data;
-            // setData(data.filter(user => userToDelete !== user.username));
-            // data.map((user) => {
-            //     if(user.manager.username === userToDelete)
-            //     {
-            //         return user.manager = null;
-            //     }
-            //     else{
-            //         return user;
-            //     }
-            // });
         })
             .then(data => setData(data))
             .catch(err => {
@@ -81,18 +71,13 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             if (res.status !== 200) {
                 throw Error('There was an error with the request!');
             }
-            setSuccessModal(true);
-            setSuccessMessage("You have successfully assigned " + selectedManager + " as a manager to " + userToAssignManager);
-            data.map((user) => {    //ni ovo nije dobro     //todo
-                if(user.username === userToAssignManager)
-                {
-                    return user.manager = { username : selectedManager}
-                }
-                else{
-                    return user;
-                }
-            });
+            return res.data;
         })
+            .then(data => {
+                setData(data);
+                setSuccessModal(true);
+                setSuccessMessage('You have successfully assigned ' + selectedManager + ' as a manager to ' + userToAssignManager);
+            })
             .catch(err => {
                 setError(err);
             })
@@ -115,8 +100,8 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             {error && <AlertDissmisable error={error} setError={setError} />}
             {data && <Table striped hover>
                 <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
-                <ModalManager setShow={setManagerModal} show={managerModal} managers={managers} confirm={confirmAssign} loggedInUser={loggedInUser} selectedUser={userToAssignManager} />
-                <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={clearData} message={successMessage}/>
+                <ModalManager setShow={setManagerModal} show={managerModal} managers={managers} confirm={confirmAssign} loggedInUser={loggedInUser}/>
+                <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={clearData} message={successMessage} />
                 <thead>
                     <tr>
                         <th>First name</th>
@@ -171,7 +156,7 @@ UsersTable.propTypes = {
         firstName: PropTypes.string,
         lastName: PropTypes.string,
         username: PropTypes.string,
-        managerId: PropTypes.string, 
+        managerId: PropTypes.string,
         manager: PropTypes.object   //todo
     })),
     loggedInUser: PropTypes.shape({

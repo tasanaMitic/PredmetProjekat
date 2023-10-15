@@ -1,15 +1,19 @@
-import { Modal, Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { Modal, Button, Container } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import ManagersTable from './ManagersTable';
 import PropTypes from 'prop-types';
 
-const ModalManager = ({ show, setShow, managers, confirm, loggedInUser, selectedUser }) => { //todo  if managers == null show message
+const ModalManager = ({ show, setShow, managers, confirm, loggedInUser }) => { //todo  if managers == null show message
   const [selectedManager, setSelectedManager] = useState(null);
   const handleClose = () => {
     setShow(false);
     setSelectedManager(null);
   }
   const handleOk = () => {
+    setShow(false);
+    setSelectedManager(null);
+  }
+  const handleConfirm = () => {
     setShow(false);
     setSelectedManager(null);
     confirm(selectedManager);
@@ -20,14 +24,30 @@ const ModalManager = ({ show, setShow, managers, confirm, loggedInUser, selected
       <Modal.Header closeButton>
         <Modal.Title>Please select one manager</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <ManagersTable managers={managers} loggedInUser={loggedInUser} setSelectedManager={setSelectedManager} selectedManager={selectedManager} selectedUser={selectedUser} />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outline-dark" onClick={handleOk} disabled={!selectedManager}>
-          Confirm
-        </Button>
-      </Modal.Footer>
+      {managers && managers.length > 0 ?
+        <Container>
+          <Modal.Body>
+            <ManagersTable managers={managers} loggedInUser={loggedInUser} setSelectedManager={setSelectedManager} selectedManager={selectedManager} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="outline-dark" onClick={handleConfirm} disabled={!selectedManager}>
+              Confirm
+            </Button>
+          </Modal.Footer>
+        </Container>
+        :
+        <Container>
+          <Modal.Body>
+            <p>There are not available managers.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="outline-dark" onClick={handleOk}>
+              Ok
+            </Button>
+          </Modal.Footer>
+        </Container>
+      }
+
     </Modal>
   );
 }
@@ -37,7 +57,7 @@ ModalManager.propTypes = {
   setShow: PropTypes.func,
   confirm: PropTypes.func,
   selectedUser: PropTypes.string,
-  managers: PropTypes.arrayOf(PropTypes.shape({
+  employees: PropTypes.arrayOf(PropTypes.shape({
     email: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,

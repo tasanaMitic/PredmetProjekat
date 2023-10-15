@@ -6,7 +6,7 @@ namespace PredmetProjekat.Common.Interfaces.IService
     {
         Task<IEnumerable<EmployeeDto>> GetEmloyees();
         Task<IEnumerable<EmployeeDto>> DeleteEmloyee(string username);
-        Task<bool> AssignManager(ManagerDto managerDto);
+        Task<IEnumerable<EmployeeDto>> AssignManager(ManagerDto managerDto);
         Task<bool> UpdateEmployee(UserDto useDtos);
         Task<EmployeeDto> GetEmloyee(string username);
     }

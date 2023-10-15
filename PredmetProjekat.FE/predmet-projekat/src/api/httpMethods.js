@@ -3,10 +3,7 @@ import Cookies from 'universal-cookie';
 
 const post = (url, body) => {
     return api.post(url, body, {
-        headers: {
-            'Content-Type': 'application/json', //todo constants                // + za login mi ne treba bearer pa srediti to
-            'Authorization' : 'Bearer ' + new Cookies().get("jwt_authorization")
-        }
+        headers: setHeaders()
     });
 }
 
@@ -20,28 +17,27 @@ const postWOToken = (url, body) => {
 
 const get = (url) => {
     return api.get(url, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization' : 'Bearer ' + new Cookies().get("jwt_authorization")
-        }
+        headers: setHeaders()
     });
 }
 
 const remove = (url) => {
     return api.delete(url, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization' : 'Bearer ' + new Cookies().get("jwt_authorization")
-        }
+        headers: setHeaders()
     });
 }
 
 const patch = (url, body) => {
     return api.patch(url, body, {
-        headers: {
-            'Authorization' : 'Bearer ' + new Cookies().get("jwt_authorization")
-        }
+        headers: setHeaders()
     });
+}
+
+const setHeaders = () => {
+    return {
+        'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ' + new Cookies().get("jwt_authorization")
+    };
 }
 
 export { post, get, remove, postWOToken, patch };

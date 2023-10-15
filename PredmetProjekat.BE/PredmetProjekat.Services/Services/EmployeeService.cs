@@ -18,7 +18,7 @@ namespace PredmetProjekat.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> AssignManager(ManagerDto managerDto)
+        public async Task<IEnumerable<EmployeeDto>> AssignManager(ManagerDto managerDto)
         {
             if (managerDto.ManagerUsername == null)
             {
@@ -31,7 +31,7 @@ namespace PredmetProjekat.Services.Services
 
         }
 
-        private async Task<bool> AssignManager(string managerUsername, string employeeUsername)
+        private async Task<IEnumerable<EmployeeDto>> AssignManager(string managerUsername, string employeeUsername)
         {
             var manager = (await _userManager.GetUsersInRoleAsync(Constants.EmployeeRole)).Where(x => x.UserName == managerUsername).FirstOrDefault();
             var employee = (await _userManager.GetUsersInRoleAsync(Constants.EmployeeRole)).Where(x => x.UserName == employeeUsername).FirstOrDefault();
@@ -46,16 +46,20 @@ namespace PredmetProjekat.Services.Services
             }
             else if (manager == employee)
             {
-                return false;
+                throw new Exception($"Employee cannot be his own manager!");
             }
 
             employee.Manager = manager;
 
             var result = await _userManager.UpdateAsync(employee);
-            return result.Succeeded;
+            if (!result.Succeeded)
+            {
+                throw new Exception($"There was an error removing manager with username: {employeeUsername}");
+            }
+            return await GetEmloyees();
         }
 
-        private async Task<bool> RemoveManager(string employeeUsername)
+        private async Task<IEnumerable<EmployeeDto>> RemoveManager(string employeeUsername)
         {
             var employee = _userManager.Users.Include(x => x.Manager).FirstOrDefault(x => x.UserName == employeeUsername);
 
@@ -71,7 +75,11 @@ namespace PredmetProjekat.Services.Services
             employee.Manager = null;
 
             var result = await _userManager.UpdateAsync(employee);
-            return result.Succeeded;
+            if (!result.Succeeded)
+            {
+                throw new Exception($"There was an error removing manager with username: {employeeUsername}");
+            }
+            return await GetEmloyees();
         }
 
         public async Task<IEnumerable<EmployeeDto>> DeleteEmloyee(string username)

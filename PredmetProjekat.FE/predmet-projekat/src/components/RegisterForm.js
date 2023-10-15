@@ -44,7 +44,6 @@ const RegisterForm = ({userType}) => {
         })
         .catch(err => {
             setIsPending(false);
-            console.log(err);
             setError(err);
         })
     }
