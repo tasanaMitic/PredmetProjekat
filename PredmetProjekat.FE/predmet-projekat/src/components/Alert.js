@@ -1,7 +1,6 @@
 import Alert from 'react-bootstrap/Alert';
 
 function AlertDissmisable({error, setError}) {  //todo constants
-  console.log(error.response);
   const renderSwitch = (param) => {
     switch(param){
       case 400:

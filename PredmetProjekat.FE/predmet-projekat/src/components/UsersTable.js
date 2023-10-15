@@ -22,7 +22,6 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             setData(admins);
         }
         else if (users) {
-            console.log(users);
             setData(users);
         }
     }, []);
@@ -47,7 +46,6 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
                 setManagerModal(true);
             })
             .catch(err => {
-                console.log("error")
                 setError(err);
             })
     }
@@ -69,7 +67,6 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             });
         })
             .catch(err => {
-                console.log("error")
                 setError(err);
             })
     }
@@ -93,7 +90,6 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
             });
         })
             .catch(err => {
-                console.log(err);
                 setError(err);
             })
     }

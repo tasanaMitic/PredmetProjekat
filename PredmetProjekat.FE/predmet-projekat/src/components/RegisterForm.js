@@ -6,7 +6,6 @@ import { register } from '../api/methods'
 import Cookies from 'universal-cookie';
 
 function RegisterForm({userType}) {
-    const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
@@ -32,25 +31,17 @@ function RegisterForm({userType}) {
         setError(null);
 
         const payload = { email, username, firstName, lastName, password };
-        console.log(new Cookies().get("jwt_authorization"));
-
         register(payload, userType).then(res => {
             if (res.status !== 202) {       
-                console.log("status not 202");
                 throw Error('There was an error with the request!'); 
             }
-            return res.data;
-        })
-        .then(data => {
-            setData(data);
-            //todo
             setShow(true);
             setSuccessMessage("You have successfully creates a user with username " + username);
             setIsPending(false);
-            setError(null);
+            setError(null);            
+            return res.data;
         })
         .catch(err => {
-            //console.log(err);
             setIsPending(false);
             setError(err);
         })

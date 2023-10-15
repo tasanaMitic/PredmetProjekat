@@ -70,7 +70,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPatch("{id}")]
-        public IActionResult StockProduct(Guid id, Quantity quantity)
+        public IActionResult StockProduct([FromRoute] Guid id, [FromBody] Quantity quantity)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Employee")]
         [HttpPatch]
-        public IActionResult SellProduct(SaleDto saleDto)
+        public IActionResult SellProduct([FromBody] SaleDto saleDto)
         {
             var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
             var username = _authManager.DecodeToken(tokenString);

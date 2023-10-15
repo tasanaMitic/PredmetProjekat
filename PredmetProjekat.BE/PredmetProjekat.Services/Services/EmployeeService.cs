@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PredmetProjekat.Common.Constants;
 using PredmetProjekat.Common.Dtos.UserDtos;
-using PredmetProjekat.Common.Enums;
 using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
 
@@ -33,8 +33,8 @@ namespace PredmetProjekat.Services.Services
 
         private async Task<bool> AssignManager(string managerUsername, string employeeUsername)
         {
-            var manager = (await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString())).Where(x => x.UserName == managerUsername).FirstOrDefault();
-            var employee = (await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString())).Where(x => x.UserName == employeeUsername).FirstOrDefault();
+            var manager = (await _userManager.GetUsersInRoleAsync(Constants.EmployeeRole)).Where(x => x.UserName == managerUsername).FirstOrDefault();
+            var employee = (await _userManager.GetUsersInRoleAsync(Constants.EmployeeRole)).Where(x => x.UserName == employeeUsername).FirstOrDefault();
 
             if (manager == null)
             {
@@ -57,7 +57,7 @@ namespace PredmetProjekat.Services.Services
 
         private async Task<bool> RemoveManager(string employeeUsername)
         {
-            var employee = await _userManager.Users.Include(x => x.Manager).FirstOrDefaultAsync(x => x.UserName == employeeUsername);
+            var employee = _userManager.Users.Include(x => x.Manager).FirstOrDefault(x => x.UserName == employeeUsername);
 
             if (employee == null)
             {
@@ -100,7 +100,7 @@ namespace PredmetProjekat.Services.Services
 
         public async Task<IEnumerable<EmployeeDto>> GetEmloyees()
         {
-            var employees = (await _userManager.GetUsersInRoleAsync(UserRole.Employee.ToString())).Where(x => !x.IsDeleted).ToList();
+            var employees = (await _userManager.GetUsersInRoleAsync(Constants.EmployeeRole)).Where(x => !x.IsDeleted).ToList();
             var allUsers = await _userManager.Users.Include(x => x.Manager).ToListAsync();
 
             var employeesWithManagers = allUsers.Where(x => employees.Any(y => y.UserName == x.UserName)).ToList();
@@ -117,6 +117,26 @@ namespace PredmetProjekat.Services.Services
 
             var result = await _userManager.UpdateAsync(_mapper.Map<Account>(userDto));
             return result.Succeeded;
+        }
+
+        public async Task<EmployeeDto> GetEmloyee(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if(user == null)
+            {
+                throw new KeyNotFoundException($"User with username: {username} not found in the database!");
+            }
+
+            var role = _userManager.GetRolesAsync(user).ToString(); //todo if not me -> error
+
+            if(role != Constants.EmployeeRole)
+            {
+                throw new KeyNotFoundException($"User with username {username} is not an Employee!");
+                
+            }
+
+            return _mapper.Map<EmployeeDto>(user);
         }
     }
 }

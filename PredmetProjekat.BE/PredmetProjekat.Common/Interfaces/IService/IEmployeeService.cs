@@ -8,5 +8,6 @@ namespace PredmetProjekat.Common.Interfaces.IService
         Task<bool> DeleteEmloyee(string username);
         Task<bool> AssignManager(ManagerDto managerDto);
         Task<bool> UpdateEmployee(UserDto useDtos);
+        Task<EmployeeDto> GetEmloyee(string username);
     }
 }

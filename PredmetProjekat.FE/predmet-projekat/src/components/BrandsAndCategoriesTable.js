@@ -19,7 +19,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
         }
     }, []);
     return (
-        <Container>
+        <Container >
             {data && <Table striped hover>
                 <ModalCheck setShow={setCheck} show={check} confirm={confirmDelete} />
                 <thead>

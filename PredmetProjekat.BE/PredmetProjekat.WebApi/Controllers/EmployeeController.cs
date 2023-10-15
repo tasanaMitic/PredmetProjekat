@@ -23,9 +23,16 @@ namespace PredmetProjekat.WebApi.Controllers
             return Ok(await _employeeService.GetEmloyees());
         }
 
+        [Authorize(Roles = "Employee")]
+        [HttpGet]
+        public async Task<ActionResult<EmployeeDto>> GetEmployee([FromRoute] string username)
+        {
+            return Ok(await _employeeService.GetEmloyee(username));
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpDelete("{username}")]
-        public async Task<IActionResult> DeleteEmloyee(string username)
+        public async Task<IActionResult> DeleteEmloyee([FromRoute] string username)
         {
             try
             {
@@ -44,7 +51,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPatch]
-        public async Task<IActionResult> AssignManager(ManagerDto managerDto)
+        public async Task<IActionResult> AssignManager([FromBody] ManagerDto managerDto)
         {
             try
             {
@@ -63,7 +70,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Employee")]
         [HttpPut]
-        public async Task<IActionResult> UpdateEmployee(UserDto userDto)
+        public async Task<IActionResult> UpdateEmployee([FromBody] UserDto userDto)
         {
             try
             {

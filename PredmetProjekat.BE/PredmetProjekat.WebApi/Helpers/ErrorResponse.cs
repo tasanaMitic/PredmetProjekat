@@ -2,7 +2,7 @@
 
 namespace PredmetProjekat.WebApi.Helpers
 {
-    public class ErrorResponse
+    public class ErrorResponse  //todo expand fields
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }

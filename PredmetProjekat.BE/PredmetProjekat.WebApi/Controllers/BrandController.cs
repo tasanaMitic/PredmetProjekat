@@ -38,7 +38,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteBrand(Guid id)
+        public IActionResult DeleteBrand([FromRoute] Guid id)
         {
             _brandService.DeleteBrand(id);
             return NoContent();

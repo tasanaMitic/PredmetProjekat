@@ -18,7 +18,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult<RegisterDto> AddRegister(RegisterDto register)
+        public ActionResult<RegisterDto> AddRegister([FromBody] RegisterDto register)
         {
             if (!ModelState.IsValid)
             {
@@ -39,7 +39,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteRegister(Guid id)
+        public IActionResult DeleteRegister([FromRoute] Guid id)
         {
             _registerService.DeleteRegister(id);
             return NoContent();

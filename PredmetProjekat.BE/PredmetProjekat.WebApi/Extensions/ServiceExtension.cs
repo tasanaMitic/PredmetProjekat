@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PredmetProjekat.Common.AutoMapper;
+using PredmetProjekat.Common.Constants;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
@@ -30,8 +30,8 @@ namespace PredmetProjekat.WebApi.Extensions
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("Jwt");
-            var key = jwtSettings.GetSection("key").Value;
+            var jwtSettings = configuration.GetSection(Constants.Jwt);
+            var key = jwtSettings.GetSection(Constants.Key).Value;
 
             services.AddAuthentication(o =>
             {
@@ -45,7 +45,7 @@ namespace PredmetProjekat.WebApi.Extensions
                         ValidateIssuer = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtSettings.GetSection("Issuer").Value,
+                        ValidIssuer = jwtSettings.GetSection(Constants.Issuer).Value,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
                         ValidateAudience = false,
                     };
@@ -66,7 +66,7 @@ namespace PredmetProjekat.WebApi.Extensions
 
         public static void ConfigureRepository(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<StoreContext>(options => options.UseSqlServer(configuration.GetConnectionString("DbConnectionString")));
+            services.AddDbContext<StoreContext>(options => options.UseSqlServer(configuration.GetConnectionString(Constants.DbConnectionString)));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
@@ -75,7 +75,7 @@ namespace PredmetProjekat.WebApi.Extensions
             services.AddAutoMapper(typeof(MappingProfile));
         }
 
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app)  //to do constants
         {
             app.UseExceptionHandler( error =>
             {

@@ -9,7 +9,6 @@ function AdminsPage({user}) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log('tasana');
         getAdmins().then(res => {
             if (res.status !== 200) {
                 throw Error('There was an error with the request!');
@@ -22,7 +21,6 @@ function AdminsPage({user}) {
                 setError(null);
             })
             .catch(err => {
-                console.log("error")
                 setIsPending(false);
                 setError(err);
             })

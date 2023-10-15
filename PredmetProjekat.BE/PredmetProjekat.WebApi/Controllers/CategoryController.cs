@@ -38,7 +38,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(Guid id)  
+        public IActionResult DeleteCategory([FromRoute] Guid id)  
         {
             _categoryService.DeleteCategory(id);
             return NoContent();

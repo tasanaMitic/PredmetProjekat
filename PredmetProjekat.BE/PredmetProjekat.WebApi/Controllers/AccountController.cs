@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PredmetProjekat.Common.Dtos.IdentityDtos;
-using PredmetProjekat.Common.Enums;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 

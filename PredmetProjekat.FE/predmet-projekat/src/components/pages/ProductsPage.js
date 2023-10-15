@@ -20,7 +20,6 @@ function ProductsPage() {
     }
 
     useEffect(() => {
-        console.log('useEffect ran');
 
         //initial set of data here
         setAllProducts([

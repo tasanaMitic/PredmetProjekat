@@ -32,7 +32,6 @@ function LoginPage({loginUser}) {
             setError(null);
         })
         .catch(err => {
-            console.log("error")
             setIsPending(false);
             setError(err);
         })

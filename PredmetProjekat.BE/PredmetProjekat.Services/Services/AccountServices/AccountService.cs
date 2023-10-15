@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using PredmetProjekat.Common.Constants;
 using PredmetProjekat.Common.Dtos.IdentityDtos;
-using PredmetProjekat.Common.Enums;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Models.Models;
 
@@ -28,7 +28,7 @@ namespace PredmetProjekat.Services.Services.AccountServices
                 return result;
             }
 
-            var roleResult = await _userManager.AddToRoleAsync(account, UserRole.Admin.ToString());
+            var roleResult = await _userManager.AddToRoleAsync(account, Constants.AdminRole);
             if (!roleResult.Succeeded)
             {
                 //TODO
@@ -49,7 +49,7 @@ namespace PredmetProjekat.Services.Services.AccountServices
                 return result;
             }
 
-            var roleResult = await _userManager.AddToRoleAsync(account, UserRole.Employee.ToString());
+            var roleResult = await _userManager.AddToRoleAsync(account, Constants.EmployeeRole);
             if (!roleResult.Succeeded)
             {
                 //TODO

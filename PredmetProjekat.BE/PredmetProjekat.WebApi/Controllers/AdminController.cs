@@ -32,7 +32,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{username}")]
-        public async Task<IActionResult> DeleteAdmin(string username)
+        public async Task<IActionResult> DeleteAdmin([FromRoute] string username)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut]
-        public async Task<IActionResult> UpdateAdmin(UserDto userDto)
+        public async Task<IActionResult> UpdateAdmin([FromBody] UserDto userDto)
         {
             try
             {

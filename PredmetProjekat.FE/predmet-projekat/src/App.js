@@ -20,6 +20,7 @@ function App() {
   const cookies = new Cookies();
   const [user, setUser] = useState(null);
 
+
   const logout = () => {
     setUser(null);
     cookies.remove("jwt_authorization");
@@ -36,6 +37,7 @@ function App() {
 
   useEffect(() => {
     console.log(user);
+
   },[user]);
 
   return (
@@ -60,7 +62,7 @@ function App() {
             <BrandsAndCetegoriesPage></BrandsAndCetegoriesPage>
           </Route>
           <Route path="/account">
-            <AccountPage></AccountPage>
+            <AccountPage user={user}></AccountPage>
           </Route>
           <Route path="/order">
             <OrderPage></OrderPage>

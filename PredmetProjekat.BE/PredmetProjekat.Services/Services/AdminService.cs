@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using PredmetProjekat.Common.Constants;
 using PredmetProjekat.Common.Dtos.UserDtos;
-using PredmetProjekat.Common.Enums;
 using PredmetProjekat.Common.Interfaces.IService;
 using PredmetProjekat.Models.Models;
 
@@ -31,7 +31,7 @@ namespace PredmetProjekat.Services.Services
 
         public async Task<IEnumerable<UserDto>> GetAdmins()
         {
-            var admins = await _userManager.GetUsersInRoleAsync(UserRole.Admin.ToString());
+            var admins = await _userManager.GetUsersInRoleAsync(Constants.AdminRole);
             return _mapper.Map<IEnumerable<UserDto>>(admins);
         }
 

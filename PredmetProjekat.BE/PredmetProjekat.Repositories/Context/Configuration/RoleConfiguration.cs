@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PredmetProjekat.Common.Enums;
+using PredmetProjekat.Common.Constants;
 
 namespace PredmetProjekat.Repositories.Context.Configuration
 {
@@ -12,13 +12,13 @@ namespace PredmetProjekat.Repositories.Context.Configuration
             builder.HasData(
                     new IdentityRole 
                     { 
-                        Name = UserRole.Admin.ToString(),
-                        NormalizedName = UserRole.Admin.ToString().Normalize()
+                        Name = Constants.AdminRole,
+                        NormalizedName = Constants.AdminRole.Normalize()
                     },
                     new IdentityRole
                     {
-                        Name = UserRole.Employee.ToString(),
-                        NormalizedName = UserRole.Employee.ToString().Normalize()
+                        Name = Constants.EmployeeRole,
+                        NormalizedName = Constants.EmployeeRole.Normalize()
                     }
                 );
         }
