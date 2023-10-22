@@ -18,15 +18,15 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult<BrandDto> AddBrand([FromBody]BrandDto brand)
+        public ActionResult<BrandDto> AddBrand([FromBody]BrandDto brandDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Guid brandId = _brandService.AddBrand(brand);
-            return CreatedAtAction("AddBrand", new { Id = brandId }, brand);
+            var brand = _brandService.AddBrand(brandDto);
+            return CreatedAtAction("AddBrand", new { Id = brand.BrandId }, brand);
         }
 
         [Authorize(Roles = "Admin")]
@@ -38,10 +38,9 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteBrand([FromRoute] Guid id)
+        public ActionResult<IEnumerable<BrandDtoId>> DeleteBrand([FromRoute] Guid id)
         {
-            _brandService.DeleteBrand(id);
-            return NoContent();
+            return Ok(_brandService.DeleteBrand(id));
         }
     }
 }

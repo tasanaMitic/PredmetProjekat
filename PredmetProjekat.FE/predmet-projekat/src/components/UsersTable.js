@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
-import ModalCheck from './ModalCheck'
 import { assignManager, deleteEmployee, getEmployees } from "../api/methods";
-import AlertDissmisable from "./Alert";
-import ModalManager from "./ModalManager";
-import ModalSuccess from "./ModalSuccess";
+import ModalError from "./modals/ModalError";
+import ModalCheck from './modals/ModalCheck'
+import ModalManager from "./modals/ModalManager";
+import ModalSuccess from "./modals/ModalSuccess";
 import PropTypes from 'prop-types';
 
 const UsersTable = ({ admins, users, loggedInUser }) => {
@@ -12,11 +12,13 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
     const [error, setError] = useState(null);
     const [checkModal, setCheckModal] = useState(false);
     const [managerModal, setManagerModal] = useState(false);
-    const [successModal, setSuccessModal] = useState(false);
+    const [successModal, setSuccessModal] = useState(false);    
+    const [errorModal, setErrorModal] = useState(false);
     const [successMessage, setSuccessMessage] = useState(null);
     const [managers, setManagers] = useState(null);
     const [userToDelete, setUserToDelete] = useState(null);
     const [userToAssignManager, setUserToAssignManager] = useState(null);
+    
 
     useEffect(() => {
         if (admins) {
@@ -25,7 +27,7 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
         else if (users) {
             setData(users);
         }
-    }, []);
+    }, [admins, users]);
 
     const handleDelete = (username) => {
         setCheckModal(true);
@@ -61,7 +63,8 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
         })
             .then(data => setData(data))
             .catch(err => {
-                setError(err);
+                setError(err.response);
+                setErrorModal(true);
             })
     }
 
@@ -79,7 +82,8 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
                 setSuccessMessage('You have successfully assigned ' + selectedManager + ' as a manager to ' + userToAssignManager);
             })
             .catch(err => {
-                setError(err);
+                setError(err.response);
+                setErrorModal(true);
             })
     }
 
@@ -94,10 +98,9 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
         setUserToAssignManager(null);
     }
 
-
     return (
         <Container>
-            {error && <AlertDissmisable error={error} setError={setError} />}
+            {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError}/>}
             {data && <Table striped hover>
                 <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
                 <ModalManager setShow={setManagerModal} show={managerModal} managers={managers} confirm={confirmAssign} loggedInUser={loggedInUser}/>

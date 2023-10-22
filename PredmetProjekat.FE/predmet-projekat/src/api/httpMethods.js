@@ -21,6 +21,12 @@ const get = (url) => {
     });
 }
 
+const put = (url, body) => {
+    return api.put(url, body, {
+        headers: setHeaders()
+    });
+}
+
 const remove = (url) => {
     return api.delete(url, {
         headers: setHeaders()
@@ -40,4 +46,4 @@ const setHeaders = () => {
     };
 }
 
-export { post, get, remove, postWOToken, patch };
+export { post, get, remove, postWOToken, patch, put };

@@ -25,8 +25,7 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [Authorize(Roles = "Employee")]
-        [HttpGet]
-        [Route("select")]
+        [HttpGet("{username}")]
         public async Task<ActionResult<EmployeeDto>> GetEmployee([FromRoute] string username)
         {
             return Ok(await _employeeService.GetEmloyee(username));
@@ -36,18 +35,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpDelete("{username}")]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> DeleteEmloyee([FromRoute] string username)
         {
-            try
-            {
-                return Ok(await _employeeService.DeleteEmloyee(username));
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteEmloyee)}!", ex.Message, statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteEmloyee)}!", ex.Message, statusCode: 500);
-            }
+            return Ok(await _employeeService.DeleteEmloyee(username));
 
         }
 
@@ -55,18 +43,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpPatch]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> AssignManager([FromBody] ManagerDto managerDto)
         {
-            try
-            {
-                return Ok(await _employeeService.AssignManager(managerDto));
-            } 
-            catch (KeyNotFoundException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AssignManager)}!", ex.Message, statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(AssignManager)}!", ex.Message, statusCode: 500);
-            }
+            return Ok(await _employeeService.AssignManager(managerDto));
 
         }
 
@@ -74,18 +51,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateEmployee([FromBody] UserDto userDto)
         {
-            try
-            {
-                return await _employeeService.UpdateEmployee(userDto) ? NoContent() : Problem($"Something went wrong in the {nameof(UpdateEmployee)}!", statusCode: 500);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(UpdateEmployee)}!", ex.Message, statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(UpdateEmployee)}!", ex.Message, statusCode: 500);
-            }
+            return await _employeeService.UpdateEmployee(userDto) ? NoContent() : Problem($"Something went wrong in the {nameof(UpdateEmployee)}!", statusCode: 500);
         }
     }
 }

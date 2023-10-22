@@ -1,12 +1,15 @@
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import CategoriesTable from '../BrandsAndCategoriesTable'
 import { getCategories } from '../../api/methods'
+import ModalCategory from "../modals/ModalCategory";
+import ModalError from "../modals/ModalError";
 
 const CategoriesPage = () => {
     const [data, setData] = useState(null);
-    const [isPending, setIsPending] = useState(true);
+    const [categoryModal, setCategoryModal] = useState(false);
     const [error, setError] = useState(null);
+    const [errorModal, setErrorModal] = useState(false);
 
     useEffect(() => {
         getCategories().then(res => {
@@ -14,23 +17,24 @@ const CategoriesPage = () => {
                 throw Error('There was an error with the request!');
             }
             return res.data;
+        }).then(data => {
+            setData(data);
         })
-            .then(data => {
-                setData(data);
-                setIsPending(false);
-                setError(null);
-            })
             .catch(err => {
-                setIsPending(false);
-                setError(err);
+                setError(err.response);
             })
-    }, []);
+    }, [data]);
+
+    const handleClick = () => {
+        setCategoryModal(true);
+    }
 
     return (
-        <Container>
-            <h1>Categories</h1>
-            {error && <div>{error}</div>}
-            {!isPending && <CategoriesTable categories={data} />}
+        <Container className="d-fex p-3">
+            <ModalCategory setShow={setCategoryModal} show={categoryModal} setError={setError} setErrorModal={setErrorModal} setData={setData}></ModalCategory>
+            {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
+            <Button variant="outline-dark" onClick={() => handleClick()}>Add category</Button>
+            <CategoriesTable categories={data} />
         </Container>
     );
 }

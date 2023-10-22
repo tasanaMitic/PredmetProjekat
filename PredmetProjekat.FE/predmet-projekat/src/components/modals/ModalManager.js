@@ -1,6 +1,6 @@
 import { Modal, Button, Container } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
-import ManagersTable from './ManagersTable';
+import { useState } from 'react';
+import ManagersTable from '../ManagersTable';
 import PropTypes from 'prop-types';
 
 const ModalManager = ({ show, setShow, managers, confirm, loggedInUser }) => { //todo  if managers == null show message

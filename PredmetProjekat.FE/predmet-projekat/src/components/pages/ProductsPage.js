@@ -1,12 +1,13 @@
 import { Button, Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import ProductTable from "../ProductTable";
-import AlertDissmisable from "../Alert";
+import ModalError from "../modals/ModalError";
 
 const ProductsPage = () => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
+    const [show, setShow] = useState(false);
 
     const [allProductsAreShown, setAllProductsAreShown] = useState(false);
     const [stockedProductsAreShown, setStockedProductsAreShown] = useState(false);
@@ -39,7 +40,7 @@ const ProductsPage = () => {
     return (
         <Container>
             <h1>Products</h1>
-            {error && <AlertDissmisable error={error} setError={setError}/>}
+            {error && <ModalError setShow={setShow} show={show} error={error} setError={setError}/>}
             {!error && <Button onClick={() => setStockedProductsAreShown(current => !current)}>Na stanju</Button>}
             {!error && stockedProductsAreShown && stockedProducts &&
                 <ProductTable products={stockedProducts}

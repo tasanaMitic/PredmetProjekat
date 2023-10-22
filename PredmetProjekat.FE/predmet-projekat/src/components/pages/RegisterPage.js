@@ -9,13 +9,13 @@ const RegisterPage = () => {
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Register admin</Accordion.Header>
                     <Accordion.Body>
-                    <RegisterForm userType='admin'></RegisterForm>
+                    <RegisterForm userRole='admin'></RegisterForm>
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
                     <Accordion.Header>Register employee</Accordion.Header>
                     <Accordion.Body>
-                    <RegisterForm userType='employee'></RegisterForm>
+                    <RegisterForm userRole='employee'></RegisterForm>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

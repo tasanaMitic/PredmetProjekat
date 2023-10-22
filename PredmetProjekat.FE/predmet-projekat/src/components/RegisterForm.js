@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import AlertDissmisable from './Alert';
-import ModalSuccess from './ModalSuccess';
+import ModalError from "./modals/ModalError";
+import ModalSuccess from './modals/ModalSuccess';
 import { register } from '../api/methods';
 import PropTypes from 'prop-types';
-import Cookies from 'universal-cookie';
 
-const RegisterForm = ({userType}) => {
+const RegisterForm = ({userRole}) => {
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
-    const [show, setShow] = useState(false);
-    const [successMessage, setSuccessMessage] = useState(false);
+    const [successModal, setSuccessModal] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(null);
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -18,7 +18,7 @@ const RegisterForm = ({userType}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     
-    const clearData = () => {
+    const clearData = () => {   //doto kao u account page
         setEmail('');
         setUsername('');
         setPassword('');
@@ -32,11 +32,11 @@ const RegisterForm = ({userType}) => {
         setError(null);
 
         const payload = { email, username, firstName, lastName, password };
-        register(payload, userType).then(res => {
+        register(userRole, payload).then(res => {
             if (res.status !== 202) {       
                 throw Error('There was an error with the request!'); 
             }
-            setShow(true);
+            setSuccessModal(true);
             setSuccessMessage("You have successfully creates a user with username " + username);
             setIsPending(false);
             setError(null);            
@@ -44,34 +44,35 @@ const RegisterForm = ({userType}) => {
         })
         .catch(err => {
             setIsPending(false);
-            setError(err);
+            setError(err.response);
+            setErrorModal(true);
         })
     }
 
     return (
         <Form onSubmit={handleSubmit}>
-        <ModalSuccess setShow={setShow} show={show} clearData={clearData} message={successMessage}/>
-        {error && <AlertDissmisable error={error} setError={setError}/>}
-            <Form.Group className="mb-3" controlId={"formBasicEmail" + userType}>
+        <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={clearData} message={successMessage}/>
+        {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError}/>}
+            <Form.Group className="mb-3" controlId={"formBasicEmail" + userRole}>
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                 <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                 </Form.Text>
             </Form.Group>
-            <Form.Group className="mb-3" controlId={"formBasicUsername" + userType}>
+            <Form.Group className="mb-3" controlId={"formBasicUsername" + userRole}>
                 <Form.Label>Username</Form.Label>
                 <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required /> 
             </Form.Group>
-            <Form.Group className="mb-3" controlId={"formBasicPassword" + userType}>
+            <Form.Group className="mb-3" controlId={"formBasicPassword" + userRole}>
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             </Form.Group>
-            <Form.Group className="mb-3" controlId={"formBasicFirstName" + userType}>
+            <Form.Group className="mb-3" controlId={"formBasicFirstName" + userRole}>
                 <Form.Label>First name</Form.Label>
                 <Form.Control type="text" placeholder="FirstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
             </Form.Group>
-            <Form.Group className="mb-3" controlId={"formBasicLastName" + userType}>
+            <Form.Group className="mb-3" controlId={"formBasicLastName" + userRole}>
                 <Form.Label>Last name</Form.Label>
                 <Form.Control type="text" placeholder="LastName" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
             </Form.Group>
@@ -83,7 +84,7 @@ const RegisterForm = ({userType}) => {
 }
 
 RegisterForm.propTypes = {
-    userType: PropTypes.string
+    userRole: PropTypes.string
 }
 
 export default RegisterForm;

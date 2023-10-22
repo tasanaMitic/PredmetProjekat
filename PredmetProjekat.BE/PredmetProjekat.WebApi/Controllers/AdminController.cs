@@ -17,54 +17,31 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
+        [Route("all")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAdmins()
         {
-            try
-            {
-                return Ok(await _adminService.GetAdmins());
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(GetAllAdmins)}!", ex.Message, statusCode: 500);
-            }
-            
+            return Ok(await _adminService.GetAdmins());
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{username}")]
+        public async Task<ActionResult<UserDto>> GetAdmin([FromRoute] string username)
+        {
+            return Ok(await _adminService.GetAdmin(username));
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{username}")]
-        public async Task<IActionResult> DeleteAdmin([FromRoute] string username)
+        public async Task<IActionResult> DeleteAdmin([FromRoute] string username)   //todo not used
         {
-            try
-            {
-                return await _adminService.DeleteAdmin(username) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteAdmin)}!", statusCode: 500);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteAdmin)}!", ex.Message, statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(DeleteAdmin)}!", ex.Message, statusCode: 500);
-            }
-
+            return await _adminService.DeleteAdmin(username) ? NoContent() : Problem($"Something went wrong in the {nameof(DeleteAdmin)}!", statusCode: 500);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPut]
-        public async Task<IActionResult> UpdateAdmin([FromBody] UserDto userDto)
+        public async Task<IActionResult> UpdateAdmin([FromBody] UserDto userDto)   //todo not used
         {
-            try
-            {
-                return await _adminService.UpdateAdmin(userDto) ? NoContent() : Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", statusCode: 500);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", ex.Message, statusCode: 404);
-            }
-            catch (Exception ex)
-            {
-                return Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", ex.Message, statusCode: 500);
-            }
+            return await _adminService.UpdateAdmin(userDto) ? NoContent() : Problem($"Something went wrong in the {nameof(UpdateAdmin)}!", statusCode: 500);
         }
     }
 }

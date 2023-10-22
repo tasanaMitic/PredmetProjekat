@@ -1,4 +1,4 @@
-import {Modal, Button} from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const ModalSuccess = ({show, setShow, clearData, message}) => {
@@ -29,5 +29,6 @@ const ModalSuccess = ({show, setShow, clearData, message}) => {
     clearData: PropTypes.func,
     message: PropTypes.string
   }
+
   
   export default ModalSuccess;

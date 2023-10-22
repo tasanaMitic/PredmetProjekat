@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 const EmployeesPage = ({user}) => {
     const [data, setData] = useState(null);
-    const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -18,20 +17,17 @@ const EmployeesPage = ({user}) => {
         })
             .then(data => {
                 setData(data);
-                setIsPending(false);
                 setError(null);
             })
             .catch(err => {
-                setIsPending(false);
-                setError(err);
+                setError(err);  //todo
             })
     }, []);
 
     return (
         <Container>
             <h1>All Employees</h1>
-            {error && <div>{error}</div>}
-            {!isPending && <UsersTable users={data} loggedInUser={user} />}
+            <UsersTable users={data} loggedInUser={user} />
         </Container>
     );
 }

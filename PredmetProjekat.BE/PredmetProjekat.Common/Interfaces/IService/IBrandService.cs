@@ -4,8 +4,8 @@ namespace PredmetProjekat.Common.Interfaces.IService
 {
     public interface IBrandService
     {
-        Guid AddBrand(BrandDto brandDto);
+        BrandDtoId AddBrand(BrandDto brandDto);
         IEnumerable<BrandDtoId> GetBrands();
-        void DeleteBrand(Guid id);
+        IEnumerable<BrandDtoId> DeleteBrand(Guid id);
     }
 }

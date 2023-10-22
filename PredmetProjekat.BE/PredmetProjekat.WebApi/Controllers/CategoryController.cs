@@ -18,15 +18,15 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult<CategoryDto> AddCategory([FromBody]CategoryDto category)
+        public ActionResult<CategoryDto> AddCategory([FromBody]CategoryDto categoryDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Guid categoryId = _categoryService.AddCategory(category);
-            return CreatedAtAction("AddCategory", new { Id = categoryId }, category);
+            var category = _categoryService.AddCategory(categoryDto);
+            return CreatedAtAction("AddCategory", new { Id = category.CategoryId }, category);
         }
 
         [Authorize(Roles = "Admin")]
@@ -38,10 +38,9 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory([FromRoute] Guid id)  
+        public ActionResult<IEnumerable<CategoryDtoId>> DeleteCategory([FromRoute] Guid id)  
         {
-            _categoryService.DeleteCategory(id);
-            return NoContent();
+            return Ok(_categoryService.DeleteCategory(id));
         }
     }
 }

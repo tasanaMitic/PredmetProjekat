@@ -64,7 +64,7 @@ namespace PredmetProjekat.WebApi.Controllers
                     ModelState.AddModelError(error.Code, error.Description);
                 }
 
-                return BadRequest(ModelState);
+                return BadRequest(ModelState);//to do throw error
             }
 
             return Accepted();
@@ -82,7 +82,7 @@ namespace PredmetProjekat.WebApi.Controllers
 
             if (!await _authManager.ValidateUser(loginDto))
             {
-                return Unauthorized();
+                return Unauthorized();  //to do throw error
             }
 
 

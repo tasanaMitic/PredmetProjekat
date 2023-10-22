@@ -91,7 +91,7 @@ namespace PredmetProjekat.Services.Services
             }
             var managedByUser = user.Manages.ToList();
 
-            if (managedByUser.Count > 0)
+            if (managedByUser.Count() > 0)
             {
                 foreach (var employee in managedByUser)
                 {
@@ -125,8 +125,11 @@ namespace PredmetProjekat.Services.Services
             {
                 throw new KeyNotFoundException($"User with username: {userDto.Username} not found in the database!");
             }
+            user.FirstName = userDto.FirstName;
+            user.Lastname = userDto.LastName;
+            user.Email = userDto.Email;
 
-            var result = await _userManager.UpdateAsync(_mapper.Map<Account>(userDto));
+            var result = await _userManager.UpdateAsync(user);
             return result.Succeeded;
         }
 

@@ -16,24 +16,27 @@ namespace PredmetProjekat.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public Guid AddBrand(BrandDto brandDto)
+        public BrandDtoId AddBrand(BrandDto brandDto)
         {
             var id = Guid.NewGuid();
-            _unitOfWork.BrandRepository.CreateBrand(new Brand
+            var brand = new Brand
             {
                 BrandId = id,
                 Name = brandDto.Name
-            });
+            };
+            _unitOfWork.BrandRepository.CreateBrand(brand);
             _unitOfWork.SaveChanges();
 
-            return id;
+            return _mapper.Map<BrandDtoId>(brand); ;
         }
 
-        public void DeleteBrand(Guid id)
+        public IEnumerable<BrandDtoId> DeleteBrand(Guid id)
         {
             var brandToBeDeleted = _unitOfWork.BrandRepository.GetBrandById(id);
             _unitOfWork.BrandRepository.DeleteBrand(brandToBeDeleted);
             _unitOfWork.SaveChanges();
+
+            return GetBrands();
         }
 
         public IEnumerable<BrandDtoId> GetBrands()

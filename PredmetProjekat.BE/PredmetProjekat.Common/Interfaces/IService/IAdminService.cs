@@ -6,6 +6,7 @@ namespace PredmetProjekat.Common.Interfaces.IService
     {
         Task<bool> DeleteAdmin(string username);
         Task<IEnumerable<UserDto>> GetAdmins();
+        Task<UserDto> GetAdmin(string username);
         Task<bool> UpdateAdmin(UserDto userDto);
     }
 }

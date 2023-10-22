@@ -15,24 +15,27 @@ namespace PredmetProjekat.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public Guid AddCategory(CategoryDto categoryDto)
+        public CategoryDtoId AddCategory(CategoryDto categoryDto)
         {
             var id = Guid.NewGuid();
-            _unitOfWork.CategoryRepository.CreateCategory(new Category 
-            { 
+            var category = new Category
+            {
                 CategoryId = id,
                 Name = categoryDto.Name
-            });
+            };
+            _unitOfWork.CategoryRepository.CreateCategory(category);
             _unitOfWork.SaveChanges();
 
-            return id;
+            return _mapper.Map<CategoryDtoId>(category);
         }
 
-        public void DeleteCategory(Guid id)
+        public IEnumerable<CategoryDtoId> DeleteCategory(Guid id)
         {
             var categoryToBeDeleted = _unitOfWork.CategoryRepository.GetCategoryById(id);
             _unitOfWork.CategoryRepository.DeleteCategory(categoryToBeDeleted);
             _unitOfWork.SaveChanges();
+
+            return GetCategories();
         }
 
         public IEnumerable<CategoryDtoId> GetCategories()

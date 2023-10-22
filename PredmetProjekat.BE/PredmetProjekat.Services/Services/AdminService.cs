@@ -29,6 +29,16 @@ namespace PredmetProjekat.Services.Services
             return result.Succeeded;
         }
 
+        public async Task<UserDto> GetAdmin(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User with username: {username} not found in the database!");
+            }
+            return _mapper.Map<UserDto>(user);
+        }
+
         public async Task<IEnumerable<UserDto>> GetAdmins()
         {
             var admins = await _userManager.GetUsersInRoleAsync(Constants.AdminRole);
@@ -43,7 +53,11 @@ namespace PredmetProjekat.Services.Services
                 throw new KeyNotFoundException($"User with username: {userDto.Username} not found in the database!");
             }
 
-            var result = await _userManager.UpdateAsync(_mapper.Map<Account>(userDto));
+            user.FirstName = userDto.FirstName;
+            user.Lastname = userDto.LastName;
+            user.Email = userDto.Email;
+
+            var result = await _userManager.UpdateAsync(user);
             return result.Succeeded;
         }
     }

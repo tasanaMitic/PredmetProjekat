@@ -1,27 +1,26 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
-import AlertDissmisable from "../Alert";
+import ModalError from "../modals/ModalError";
 import { login } from '../../api/methods'
 import PropTypes from 'prop-types';
 
 const LoginPage = ({loginUser}) => {
     const history = useHistory();
 
-    const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
+    const [show, setShow] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsPending(true);
         setError(null);
 
         const payload = { email, password };
         login(payload).then(res => {
-            if (res.status !== 202) {       
+            if (res.status !== 202) {   
                 throw Error('There was an error with the request!'); 
             }
             return res.data;
@@ -29,19 +28,19 @@ const LoginPage = ({loginUser}) => {
         .then(data => {
             loginUser(data.token);
             history.replace('/');  
-            setIsPending(false);
             setError(null);
         })
         .catch(err => {
-            setIsPending(false);
-            setError(err);
+            setError(err);  //todo ako je nedostupan server, ne postoji response polje. treba to primeniti svuda
+            setShow(true);
+            console.log(err);    
         })
     }
 
     return (
         <Container>
-            <h1>Login Page</h1>
-            {error && <AlertDissmisable error={error} setError={setError} />}
+            <h1>Login Page</h1>         
+            {error && <ModalError setShow={setShow} show={show} error={error} setError={setError}/>}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -54,7 +53,7 @@ const LoginPage = ({loginUser}) => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 </Form.Group>
-                <Button variant="outline-dark" type="submit" disabled={isPending} >
+                <Button variant="outline-dark" type="submit">
                     Submit
                 </Button>
             </Form>
