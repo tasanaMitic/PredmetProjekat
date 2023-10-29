@@ -1,56 +1,47 @@
 import { Button, Container } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 import ProductTable from "../ProductTable";
-import ModalError from "../modals/ModalError";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { getProducts } from "../../api/methods";
 
-const ProductsPage = () => {
-    const [data, setData] = useState(null);
-    const [isPending, setIsPending] = useState(true);
-    const [error, setError] = useState(null);
-    const [show, setShow] = useState(false);
+const ProductsPage = ({ user }) => {
+    const history = useHistory();
 
-    const [allProductsAreShown, setAllProductsAreShown] = useState(false);
-    const [stockedProductsAreShown, setStockedProductsAreShown] = useState(false);
-
-    // data
-    const [allProducts, setAllProducts] = useState(null);
-    const [stockedProducts, setStockedroducts] = useState(null);
-
-    const handleDelete = (productId) => {
-        console.log('Delete : ' + productId);
-    }
+    const [products, setProducts] = useState(null);
 
     useEffect(() => {
-
-        //initial set of data here
-        setAllProducts([
-            { name: 'dress', size: 'M', season: 'spring', sex: 'F', productId: 123 },
-            { name: 't-shirt', size: 'S', season: 'summer', sex: 'F', productId: 456 },
-            { name: 'jacket', size: 'L', season: 'winter', sex: 'F', productId: 789 },
-        ]);
-        setStockedroducts([
-            { name: 'dress', size: 'M', season: 'spring', sex: 'F', productId: 123, quantity: 6 },
-            { name: 't-shirt', size: 'S', season: 'summer', sex: 'F', productId: 456, quantity: 7 },
-            { name: 'jacket', size: 'L', season: 'winter', sex: 'F', productId: 789, quantity: 8 },
-        ]);
-
-        //dont change state here - infinity loop
+        getProducts().then(res => {
+            if (res.status !== 200) {
+                throw Error('There was an error with the request!');
+            }
+            return res.data;
+        }).then((data) => {
+            setProducts(data);
+        }).catch(err => {
+            console.log(err);
+        })
     }, []);
+
+    const handleClick = () => {
+        history.replace('/addproduct'); 
+    }
+
 
     return (
         <Container>
             <h1>Products</h1>
-            {error && <ModalError setShow={setShow} show={show} error={error} setError={setError}/>}
-            {!error && <Button onClick={() => setStockedProductsAreShown(current => !current)}>Na stanju</Button>}
-            {!error && stockedProductsAreShown && stockedProducts &&
-                <ProductTable products={stockedProducts}
-                    handleDelete={handleDelete} />}
-            {!error && <Button onClick={() => setAllProductsAreShown(current => !current)}>Prikaži sve proizvode</Button>}
-            {!error && allProductsAreShown && allProducts &&
-                <ProductTable products={allProducts}
-                    handleDelete={handleDelete} />}
+            <Button variant="outline-dark" onClick={handleClick}>Add products</Button>
+            <ProductTable products={products} user={user}></ProductTable>
         </Container>
     );
+}
+
+ProductsPage.propTypes = {
+    user: PropTypes.shape({
+        role: PropTypes.string,
+        username: PropTypes.string
+    })
 }
 
 export default ProductsPage;

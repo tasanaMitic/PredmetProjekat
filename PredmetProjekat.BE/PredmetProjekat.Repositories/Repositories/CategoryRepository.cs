@@ -17,12 +17,13 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public void DeleteCategory(Category category)
         {
-            Delete(category);
+            category.IsDeleted = true;
+            Update(category);
         }
 
-        public IEnumerable<Category> GetAllCategories()
+        public IEnumerable<Category> GetAllCategories() 
         {
-            return GetAll();
+            return FindByCondition(x => x.IsDeleted == false);
         }
 
         public Category GetCategoryById(Guid categoryId)

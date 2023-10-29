@@ -34,6 +34,7 @@ namespace PredmetProjekat.Services.Services
             var categoryToBeDeleted = _unitOfWork.CategoryRepository.GetCategoryById(id);
             _unitOfWork.CategoryRepository.DeleteCategory(categoryToBeDeleted);
             _unitOfWork.SaveChanges();
+            //todo handle products
 
             return GetCategories();
         }

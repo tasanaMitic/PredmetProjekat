@@ -14,6 +14,7 @@ import BrandsAndCetegoriesPage from './components/pages/BrandsAndCategoriesPage'
 import AdminsPage from './components/pages/AdminsPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
+import ProductForm from './components/ProductForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
@@ -56,22 +57,22 @@ function App() {
             <RegisterPage></RegisterPage>
           </Route>
           <Route path="/products">
-            <ProductsPage></ProductsPage>
+            <ProductsPage user={user}></ProductsPage>
           </Route>
           <Route path="/brands&categories">
             <BrandsAndCetegoriesPage></BrandsAndCetegoriesPage>
           </Route>
           <Route path="/account">
             <AccountPage user={user}></AccountPage>
-          </Route>
-          <Route path="/order">
-            <OrderPage></OrderPage>
-          </Route>       
+          </Route>   
           <Route path="/employees">
             <EmployeesPage user={user}></EmployeesPage>
           </Route>
           <Route path="/admins">
             <AdminsPage user={user}></AdminsPage>
+          </Route>
+          <Route path="/addproduct">
+            <ProductForm></ProductForm>
           </Route>
         </Switch>
         ) : (

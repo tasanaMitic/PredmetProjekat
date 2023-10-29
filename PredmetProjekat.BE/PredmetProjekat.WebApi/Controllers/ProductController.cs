@@ -62,10 +62,9 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(Guid id)
+        public ActionResult<IEnumerable<StockedProductDto>> DeleteProduct(Guid id)
         {
-            _productService.DeleteProduct(id);
-            return NoContent();
+            return Ok(_productService.DeleteProduct(id));
         }
 
         [Authorize(Roles = "Admin")]

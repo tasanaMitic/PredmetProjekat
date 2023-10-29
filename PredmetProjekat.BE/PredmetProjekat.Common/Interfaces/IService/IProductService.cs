@@ -9,7 +9,7 @@ namespace PredmetProjekat.Common.Interfaces.IService
         IEnumerable<StockedProductDto> GetProducts();
         IEnumerable<StockedProductDto> GetStockedProducts();
         StockedProductDto GetProduct(Guid id);
-        void DeleteProduct(Guid id);
+        IEnumerable<StockedProductDto> DeleteProduct(Guid id);
         void StockProduct(Guid productId, int quantity);
         void SellProduct(SaleDto saleDto, string username);
     }

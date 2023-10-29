@@ -52,6 +52,8 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                         setErrorModal(true);
                     })
                 break;
+            default:
+                break;
         }
     }
 
@@ -82,7 +84,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                         </thead>
                         <tbody>
                             {categories && data.map((categorie) => (
-                                <tr key={categorie.categoryId}>
+                                <tr>
                                     <td>{categorie.name}</td>
                                     <td>
                                         <Button variant="dark" onClick={() => handleDelete(categorie.categoryId)}>Delete</Button>
@@ -91,7 +93,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                                 </tr>
                             ))}
                             {brands && data.map((brand) => (
-                                <tr key={brand.brandId}>
+                                <tr>
                                     <td>{brand.name}</td>
                                     <td>
                                         <Button variant="dark" onClick={() => handleDelete(brand.brandId)}>Delete</Button>

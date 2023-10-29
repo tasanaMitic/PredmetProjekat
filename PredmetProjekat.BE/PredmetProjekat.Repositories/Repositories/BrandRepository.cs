@@ -16,12 +16,13 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public void DeleteBrand(Brand brand)
         {
-            Delete(brand);
+            brand.IsDeleted = true;
+            Update(brand);
         }
 
         public IEnumerable<Brand> GetAllBrands()
         {
-            return GetAll();
+            return FindByCondition(x => x.IsDeleted == false);
         }
 
         public Brand GetBrandById(Guid brandId)

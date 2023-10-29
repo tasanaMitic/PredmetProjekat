@@ -22,7 +22,7 @@ const BrandsPage = () => {
         })
             .catch(err => {
                 setError(err);
-            })
+            });
     }, [data]);
 
     const handleClick = () => {
@@ -33,7 +33,7 @@ const BrandsPage = () => {
         <Container className="d-fex p-3">
             <ModalBrand setShow={setBrandModal} show={brandModal} setError={setError} setErrorModal={setErrorModal} setData={setData}></ModalBrand>
             {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
-            <Button variant="outline-dark" onClick={() => handleClick()}>Add brand</Button>
+            <Button variant="outline-dark" onClick={handleClick}>Add brand</Button>
             <BrandsTable brands={data} />
         </Container>
     );

@@ -43,8 +43,8 @@ const getCategories = () => {
     return get('/api/category');
 }
 
-const addCategory = (payload) => {
-    return post('/api/category', payload);
+const addCategory = (body) => {
+    return post('/api/category', body);
 }
 
 //brand
@@ -56,17 +56,45 @@ const getBrands = () => {
     return get('/api/brand');
 }
 
-const addBrand = (payload) => {
-    return post('/api/brand', payload);
+const addBrand = (body) => {
+    return post('/api/brand', body);
+}
+
+//product
+const getProducts = () => {
+    return get('/api/product/all');
+}
+
+const deleteProduct = (productId) => {
+    return remove('/api/product/' + productId);
+}
+
+const createProduct = (body) => {
+    return post('/api/product', body);
 }
 
 //proptypes
+createProduct.propTypes = {
+    body: PropTypes.shape({
+        name: PropTypes.string,
+        size: PropTypes.string,
+        sex: PropTypes.string,
+        season: PropTypes.string,
+        categoryId: PropTypes.number,
+        brandId: PropTypes.number
+    })
+}
+
 addBrand.propTypes = {
-    payload: PropTypes.string
+    body: PropTypes.string
+}
+
+deleteProduct.propTypes = {
+    productId: PropTypes.number
 }
 
 addCategory.propTypes = {
-    payload: PropTypes.string
+    body: PropTypes.string
 }
 
 deleteBrand.propTypes = {
@@ -111,8 +139,8 @@ updateUser.propTypes = {
 
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser,
-    deleteEmployee, deleteCategory, deleteBrand,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts,
+    deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
     assignManager, updateUser,
-    addCategory, addBrand
+    addCategory, addBrand, createProduct
 };

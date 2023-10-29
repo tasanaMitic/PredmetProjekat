@@ -40,11 +40,13 @@ namespace PredmetProjekat.Services.Services
             return id;
         }
 
-        public void DeleteProduct(Guid id)
+        public IEnumerable<StockedProductDto> DeleteProduct(Guid id)
         {
             var productToBeDeleted = _unitOfWork.ProductRepository.GetProductById(id);
             _unitOfWork.ProductRepository.DeleteProduct(productToBeDeleted);
             _unitOfWork.SaveChanges();
+
+            return GetProducts();
         }
 
         public StockedProductDto GetProduct(Guid id)
@@ -55,8 +57,8 @@ namespace PredmetProjekat.Services.Services
 
         public IEnumerable<StockedProductDto> GetProducts()
         {
-            var stockedProducts = _unitOfWork.ProductRepository.GetAllProducts();
-            return _mapper.Map<IEnumerable<StockedProductDto>>(stockedProducts);
+            var products = _unitOfWork.ProductRepository.GetAllProducts();
+            return _mapper.Map<IEnumerable<StockedProductDto>>(products);
         }
 
         public IEnumerable<StockedProductDto> GetStockedProducts()

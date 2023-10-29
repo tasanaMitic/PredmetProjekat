@@ -21,7 +21,6 @@ const AppHeader = ({ user, logout }) => {
                 <Nav.Link as={Link} to="/employees">Employees</Nav.Link>
                 <Nav.Link as={Link} to="/products">Products</Nav.Link>               
                 <Nav.Link as={Link} to="/brands&categories">Brands&Categories</Nav.Link>
-                <Nav.Link as={Link} to="/order">Order</Nav.Link>
                 <NavDropdown title={user.username} id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>

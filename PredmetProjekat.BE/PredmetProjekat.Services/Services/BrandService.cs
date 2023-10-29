@@ -35,13 +35,14 @@ namespace PredmetProjekat.Services.Services
             var brandToBeDeleted = _unitOfWork.BrandRepository.GetBrandById(id);
             _unitOfWork.BrandRepository.DeleteBrand(brandToBeDeleted);
             _unitOfWork.SaveChanges();
+            //todo handle products
 
             return GetBrands();
         }
 
         public IEnumerable<BrandDtoId> GetBrands()
         {
-            var brands = _unitOfWork.BrandRepository.GetAll();
+            var brands = _unitOfWork.BrandRepository.GetAllBrands();
             return _mapper.Map<IEnumerable<BrandDtoId>>(brands);
         }
     }

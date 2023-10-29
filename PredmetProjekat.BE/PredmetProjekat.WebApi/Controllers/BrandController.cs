@@ -40,6 +40,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult<IEnumerable<BrandDtoId>> DeleteBrand([FromRoute] Guid id)
         {
+            //todo logicko brisanje
             return Ok(_brandService.DeleteBrand(id));
         }
     }
