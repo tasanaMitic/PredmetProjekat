@@ -107,31 +107,31 @@ const ProductForm = () => {
             <Form.Group className="mb-3" controlId="formBasicSize" key="formBasicSize" >
                 <Form.Label>Size</Form.Label>
                 <Form.Select aria-label="Default select example" onChange={(e) => handleSizeChange(e.target.value)}>
-                    <option value="default">Select size</option>
-                    <option value="xs">XS</option>
-                    <option value="xs">S</option>
-                    <option value="xs">M</option>
-                    <option value="xs">L</option>
-                    <option value="xs">XL</option>
+                    <option value="default" key="default">Select size</option>
+                    <option value="xs" key="xs">XS</option>
+                    <option value="s" key="s">S</option>
+                    <option value="m" key="m">M</option>
+                    <option value="l" key="l">L</option>
+                    <option value="xl" key="xl">XL</option>
                 </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicSex" key="formBasicSex" >
                 <Form.Label>Sex</Form.Label>
                 <Form.Select aria-label="Default select example" onChange={(e) => handleSexChange(e.target.value)}>
-                    <option value="default">Select sex</option>
-                    <option value="m">Male</option>
-                    <option value="f">Female</option>
-                    <option value="k">Kids</option>
+                    <option value="default" key="default">Select sex</option>
+                    <option value="m" key="m">Male</option>
+                    <option value="f" key="f">Female</option>
+                    <option value="k" key="k">Kids</option>
                 </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicSeason" key="formBasicSeason" >
                 <Form.Label>Season</Form.Label>
                 <Form.Select aria-label="Default select example" onChange={(e) => handleSeasonChange(e.target.value)}>
-                    <option value="default">Select season</option>
-                    <option value="summer">Summer</option>
-                    <option value="fall">Fall</option>
-                    <option value="winter">Winter</option>
-                    <option value="spring">Spring</option>
+                    <option value="default" key="default">Select season</option>
+                    <option value="summer" key="summer">Summer</option>
+                    <option value="fall" key="fall">Fall</option>
+                    <option value="winter" key="winter">Winter</option>
+                    <option value="spring" key="spring">Spring</option>
                 </Form.Select>
             </Form.Group>
             {categories &&
@@ -139,8 +139,8 @@ const ProductForm = () => {
                     <Form.Label>Category</Form.Label>
                     {categories.length > 0 ? 
                     <Form.Select aria-label="Default select example" onChange={(e) => handleCategoryChange(e.target.value)}>
-                        <option value="default">Select category</option>
-                        {categories.map((category) => <option value={category.categoryId}>{category.name}</option>)}
+                        <option value="default" key="default">Select category</option>
+                        {categories.map((category) => <option value={category.categoryId} key={category.categoryId}>{category.name}</option>)}
                     </Form.Select> : <p value="default">There are no available categories.</p>}
                 </Form.Group>}
             {brands &&
@@ -148,8 +148,8 @@ const ProductForm = () => {
                     <Form.Label>Brand</Form.Label>
                     {brands.length > 0 ?
                         <Form.Select aria-label="Default select example" onChange={(e) => handleBrandChange(e.target.value)}>
-                            <option value="default">Select brand</option>
-                            {brands.map((brand) => <option value={brand.brandId}>{brand.name}</option>)}
+                            <option value="default" key="default">Select brand</option>
+                            {brands.map((brand) => <option value={brand.brandId} key={brand.brandId}>{brand.name}</option>)}
                         </Form.Select> : <p value="default">There are no available brands.</p>}
                 </Form.Group>}
             <Button variant="outline-dark" onClick={handleCancel}>Cancel</Button>

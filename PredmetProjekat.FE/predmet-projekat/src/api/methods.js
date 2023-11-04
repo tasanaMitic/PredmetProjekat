@@ -65,6 +65,10 @@ const getProducts = () => {
     return get('/api/product/all');
 }
 
+const getStockedProducts = () => {
+    return get('/api/product/stocked');
+}
+
 const deleteProduct = (productId) => {
     return remove('/api/product/' + productId);
 }
@@ -73,7 +77,18 @@ const createProduct = (body) => {
     return post('/api/product', body);
 }
 
+const stockProduct = (productId, body) => {
+    return patch('/api/product/' + productId, body);
+}
+
 //proptypes
+stockProduct.propTypes = {
+    productId: PropTypes.string,
+    body: PropTypes.shape({
+        value: PropTypes.number,
+    })
+}
+
 createProduct.propTypes = {
     body: PropTypes.shape({
         name: PropTypes.string,
@@ -139,8 +154,8 @@ updateUser.propTypes = {
 
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts,
     deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
-    assignManager, updateUser,
+    assignManager, updateUser, stockProduct,
     addCategory, addBrand, createProduct
 };

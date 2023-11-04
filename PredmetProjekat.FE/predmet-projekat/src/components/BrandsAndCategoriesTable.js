@@ -84,7 +84,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                         </thead>
                         <tbody>
                             {categories && data.map((categorie) => (
-                                <tr>
+                                <tr key={categorie.categoryId}>
                                     <td>{categorie.name}</td>
                                     <td>
                                         <Button variant="dark" onClick={() => handleDelete(categorie.categoryId)}>Delete</Button>
@@ -93,7 +93,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                                 </tr>
                             ))}
                             {brands && data.map((brand) => (
-                                <tr>
+                                <tr key={brand.brandId}>
                                     <td>{brand.name}</td>
                                     <td>
                                         <Button variant="dark" onClick={() => handleDelete(brand.brandId)}>Delete</Button>

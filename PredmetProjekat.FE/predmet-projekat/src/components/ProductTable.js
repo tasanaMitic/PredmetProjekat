@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 import ModalCheck from './modals/ModalCheck'
 import { deleteProduct } from "../api/methods";
 import ModalError from "./modals/ModalError";
+import ModalStock from "./modals/ModalStockProducts";
 
 const ProductTable = ({ products, user }) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [errorModal, setErrorModal] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
+    const [stockModal, setStockModal] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
+    const [productIdToStock, setProductIdToStock] = useState(null);
 
     useEffect(() => {
         setData(products);
@@ -18,7 +21,8 @@ const ProductTable = ({ products, user }) => {
 
 
     const handleStock = (productId) => {
-        console.log(productId);
+        setProductIdToStock(productId);
+        setStockModal(true);
     }
 
     const handleDelete = (productId) => {
@@ -42,6 +46,7 @@ const ProductTable = ({ products, user }) => {
 
     return (
         <Container>
+        <ModalStock  setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock}/>
             {data && data.length > 0 ?
                 <Container>
                     <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />

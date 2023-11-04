@@ -87,7 +87,7 @@ namespace PredmetProjekat.Services.Services
             var user = await _userManager.Users.Include(x => x.Manages).FirstOrDefaultAsync(x => x.UserName == username); 
             if (user == null)
             {
-                throw new KeyNotFoundException($"User with username: {username} not found in the database!");
+                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
             }
             var managedByUser = user.Manages.ToList();
 
@@ -123,8 +123,9 @@ namespace PredmetProjekat.Services.Services
             var user = await _userManager.FindByNameAsync(userDto.Username);
             if (user == null)
             {
-                throw new KeyNotFoundException($"User with username: {userDto.Username} not found in the database!");
+                throw new KeyNotFoundException($"Employee with username: {userDto.Username} not found in the database!");
             }
+
             user.FirstName = userDto.FirstName;
             user.Lastname = userDto.LastName;
             user.Email = userDto.Email;
@@ -135,22 +136,19 @@ namespace PredmetProjekat.Services.Services
 
         public async Task<EmployeeDto> GetEmloyee(string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
-
-            if(user == null)
+            var user = await _userManager.Users.Include(x => x.Manages).Include(x => x.Manager).FirstOrDefaultAsync(x => x.UserName == username);
+            if (user == null)
             {
-                throw new KeyNotFoundException($"User with username: {username} not found in the database!");
+                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
             }
 
-            var role = _userManager.GetRolesAsync(user).ToString(); //todo if not me -> error
-
-            if(role != Constants.EmployeeRole)
+            var isEmployee = await _userManager.IsInRoleAsync(user, Constants.EmployeeRole); //todo if not me -> error
+            if(!isEmployee)
             {
-                throw new KeyNotFoundException($"User with username {username} is not an Employee!");
-                
+                throw new KeyNotFoundException($"Employee with username {username} is not an Employee!");
             }
 
-            return _mapper.Map<EmployeeDto>(user);
+            return _mapper.Map<EmployeeDto>(user);     
         }
     }
 }

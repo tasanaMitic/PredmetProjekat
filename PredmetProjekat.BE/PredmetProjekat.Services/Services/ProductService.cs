@@ -106,7 +106,7 @@ namespace PredmetProjekat.Services.Services
             _unitOfWork.SaveChanges();
         }
 
-        public void StockProduct(Guid productId, int quantity)
+        public IEnumerable<StockedProductDto> StockProduct(Guid productId, int quantity)
         {
             var product = _unitOfWork.ProductRepository.GetProductById(productId);
             product.Quantity += quantity;
@@ -114,6 +114,8 @@ namespace PredmetProjekat.Services.Services
 
             _unitOfWork.ProductRepository.UpdateProduct(product);
             _unitOfWork.SaveChanges();
+
+            return GetProducts();
         }
     }
 }

@@ -8,7 +8,6 @@ import AppHeader from './components/Header';
 import ProductsPage from './components/pages/ProductsPage';
 import HomePage from './components/pages/HomePage';
 import AccountPage from './components/pages/AccountPage'
-import OrderPage from './components/pages/OrderPage';
 import EmployeesPage from './components/pages/EmployeesPage';
 import BrandsAndCetegoriesPage from './components/pages/BrandsAndCategoriesPage';
 import AdminsPage from './components/pages/AdminsPage';
@@ -16,6 +15,7 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import ProductForm from './components/ProductForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ManagersPage from './components/pages/ManagersPage';
 
 function App() {
   const cookies = new Cookies();
@@ -70,6 +70,9 @@ function App() {
           </Route>
           <Route path="/admins">
             <AdminsPage user={user}></AdminsPage>
+          </Route>
+          <Route path="/managers">
+            <ManagersPage user={user}></ManagersPage>
           </Route>
           <Route path="/addproduct">
             <ProductForm></ProductForm>

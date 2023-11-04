@@ -44,7 +44,7 @@ namespace PredmetProjekat.WebApi.Controllers
             return CreatedAtAction("AddProduct", new { Id = productId }, product);
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Employee")]
         [HttpGet]
         [Route("stocked")]
         public ActionResult<IEnumerable<StockedProductDto>> GetAllStockedProducts()
@@ -69,15 +69,14 @@ namespace PredmetProjekat.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPatch("{id}")]
-        public IActionResult StockProduct([FromRoute] Guid id, [FromBody] Quantity quantity)
+        public ActionResult<IEnumerable<StockedProductDto>> StockProduct([FromRoute] Guid id, [FromBody] Quantity quantity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _productService.StockProduct(id, quantity.Value);
-            return NoContent();
+            return Ok(_productService.StockProduct(id, quantity.Value));
         }
 
         [Authorize(Roles = "Employee")]

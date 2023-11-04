@@ -33,7 +33,6 @@ const LoginPage = ({loginUser}) => {
         .catch(err => {
             setError(err);  //todo ako je nedostupan server, ne postoji response polje. treba to primeniti svuda
             setShow(true);
-            console.log(err);    
         })
     }
 

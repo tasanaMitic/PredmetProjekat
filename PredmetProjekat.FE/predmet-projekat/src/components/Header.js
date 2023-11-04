@@ -31,8 +31,8 @@ const AppHeader = ({ user, logout }) => {
               :
               <Nav className="me-auto">
                 <Nav.Link as={Link} to="/products">Products</Nav.Link>
-                <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
-                <Nav.Link as={Link} to="#sell">Sell</Nav.Link>
+                <Nav.Link as={Link} to="/managers">Managers</Nav.Link>
+                <Nav.Link as={Link} to="/sell">Sell</Nav.Link>
                 <NavDropdown title={user.username} id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="#historyofsales">History of sales</NavDropdown.Item>
