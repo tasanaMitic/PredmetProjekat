@@ -52,7 +52,7 @@ const ProductsPage = ({ user }) => {
             {user.role === "Admin" && <Container className="d-grid gap-2">
                 <h1>Products</h1>
                 <Button variant="outline-dark" onClick={handleClick} >Add products</Button>
-                <h2>Stocked products</h2>
+                <h3>Stocked products</h3>
                 <ProductTable products={products} user={user}></ProductTable>
             </Container>
             }

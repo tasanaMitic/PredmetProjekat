@@ -51,15 +51,15 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "beb48474-aac4-4863-956f-d380798bebd9",
-                            ConcurrencyStamp = "453bc7bd-16ed-44f7-9499-906abe172d0a",
+                            Id = "c2a28101-6ac9-4b06-9443-80e18411e343",
+                            ConcurrencyStamp = "674501dc-a343-4280-9ede-05a38a1bcdcc",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "c7c4d95c-2d0c-486e-a034-08d1b4f31e04",
-                            ConcurrencyStamp = "a9f8cb02-6c08-4c41-aef3-55e44d47bf1c",
+                            Id = "d3b3e389-e070-4f93-b646-5c14c9b37705",
+                            ConcurrencyStamp = "dcd55bc1-54fa-4322-8379-a009530eab84",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         });
@@ -302,9 +302,8 @@ namespace PredmetProjekat.Repositories.Migrations
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
                 {
-                    b.Property<Guid>("ProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
@@ -324,7 +323,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .ValueGeneratedOnAdd()
@@ -348,9 +347,6 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });

@@ -13,6 +13,7 @@ const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId
     const handleSubmit = (e) => {
         e.preventDefault();
         const payload = { value: quantity };
+        console.log(productId);
 
         stockProduct(productId, payload).then(res => {
             if (res.status !== 200) {
@@ -42,7 +43,13 @@ const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicName">
                         <Form.Label>Quantity of product</Form.Label>
-                        <Form.Control type="number" placeholder="Enter quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
+                        <Form.Control type="number"
+                         placeholder="Enter quantity" 
+                         value={quantity} 
+                         onChange={(e) => setQuantity(e.target.value)} 
+                         required
+                         min={0}
+                         max={50} />
                     </Form.Group>
                     <Button variant="dark" type="submit">
                         Submit

@@ -29,7 +29,7 @@ namespace PredmetProjekat.WebApi.Controllers
             return CreatedAtAction("AddRegister", new { Id = registerId }, register);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
         public ActionResult<IEnumerable<RegisterDtoId>> GetAllRegisters()
         {

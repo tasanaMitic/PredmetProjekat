@@ -47,7 +47,6 @@ const ModalManager = ({ show, setShow, managers, confirm, loggedInUser }) => { /
           </Modal.Footer>
         </Container>
       }
-
     </Modal>
   );
 }

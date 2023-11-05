@@ -9,7 +9,7 @@ namespace PredmetProjekat.Common.Interfaces.IRepository
         IEnumerable<Product> GetAllStockedProducts();
         void CreateProduct(Product product);
         void DeleteProduct(Product product);
-        Product GetProductById(Guid productId);
+        Product GetProductById(string productId);
         void UpdateProduct(Product product);
     }
 }

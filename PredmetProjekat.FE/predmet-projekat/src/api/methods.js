@@ -60,6 +60,15 @@ const addBrand = (body) => {
     return post('/api/brand', body);
 }
 
+//registers
+const addRegister = (body) => {
+    return post('/api/register', body);
+}
+
+const getRegisters = () => {
+    return get('/api/register');
+}
+
 //product
 const getProducts = () => {
     return get('/api/product/all');
@@ -81,7 +90,28 @@ const stockProduct = (productId, body) => {
     return patch('/api/product/' + productId, body);
 }
 
+const sellProduct = (body) => {
+    return patch('/api/product/', body);
+}
+
 //proptypes
+addRegister.propTypes = {
+    body: PropTypes.shape({
+        registerCode: PropTypes.string,
+        location: PropTypes.string
+    })
+}
+
+sellProduct.propTypes = {
+    body: PropTypes.shape({
+        registerId: PropTypes.number,
+        soldProducts: PropTypes.arrayOf(PropTypes.shape({
+            productId: PropTypes.string,
+            quantity: PropTypes.number
+        }))
+    })
+}
+
 stockProduct.propTypes = {
     productId: PropTypes.string,
     body: PropTypes.shape({
@@ -154,8 +184,8 @@ updateUser.propTypes = {
 
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters,
     deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
-    assignManager, updateUser, stockProduct,
-    addCategory, addBrand, createProduct
+    assignManager, updateUser, stockProduct, sellProduct,
+    addCategory, addBrand, createProduct, addRegister
 };

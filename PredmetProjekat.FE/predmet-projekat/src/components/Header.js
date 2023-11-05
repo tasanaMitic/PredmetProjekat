@@ -15,12 +15,15 @@ const AppHeader = ({ user, logout }) => {
           {user ? (
             user.role === 'Admin' ?
               <Nav className="me-auto">
-
-                <Nav.Link as={Link} to="/register">Register</Nav.Link>
-                <Nav.Link as={Link} to="/admins">Admins</Nav.Link>
-                <Nav.Link as={Link} to="/employees">Employees</Nav.Link>
+              <NavDropdown title="Users" id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/register">Register</NavDropdown.Item>
+                  <NavDropdown.Divider />                  
+                  <NavDropdown.Item as={Link} to="/admins">Admins</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/employees">Employees</NavDropdown.Item>
+                </NavDropdown>
                 <Nav.Link as={Link} to="/products">Products</Nav.Link>               
                 <Nav.Link as={Link} to="/brands&categories">Brands&Categories</Nav.Link>
+                <Nav.Link as={Link} to="/registers">Registers</Nav.Link>
                 <NavDropdown title={user.username} id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>

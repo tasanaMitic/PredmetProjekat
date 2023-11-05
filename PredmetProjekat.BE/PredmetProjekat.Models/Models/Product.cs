@@ -5,7 +5,7 @@ namespace PredmetProjekat.Models.Models
     public class Product
     {
         [Key]
-        public Guid ProductId { get; set; }
+        public string ProductId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -24,5 +24,6 @@ namespace PredmetProjekat.Models.Models
         public bool IsInStock { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
+
     }
 }

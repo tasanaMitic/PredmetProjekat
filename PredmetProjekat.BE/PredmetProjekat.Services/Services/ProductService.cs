@@ -20,9 +20,9 @@ namespace PredmetProjekat.Services.Services
             _userManager = userManager;
         }
 
-        public Guid AddProduct(ProductDto productDto)
+        public string AddProduct(ProductDto productDto)
         {
-            var id = Guid.NewGuid();
+            var id = $"{productDto.Name.Replace(' ', '-')}-{productDto.Sex}-{productDto.Size}-{productDto.Season}";
             _unitOfWork.ProductRepository.CreateProduct(new Product
             {
                 ProductId = id,
@@ -40,18 +40,18 @@ namespace PredmetProjekat.Services.Services
             return id;
         }
 
-        public IEnumerable<StockedProductDto> DeleteProduct(Guid id)
+        public IEnumerable<StockedProductDto> DeleteProduct(string productId)
         {
-            var productToBeDeleted = _unitOfWork.ProductRepository.GetProductById(id);
+            var productToBeDeleted = _unitOfWork.ProductRepository.GetProductById(productId);
             _unitOfWork.ProductRepository.DeleteProduct(productToBeDeleted);
             _unitOfWork.SaveChanges();
 
             return GetProducts();
         }
 
-        public StockedProductDto GetProduct(Guid id)
+        public StockedProductDto GetProduct(string productId)
         {
-            var product = _unitOfWork.ProductRepository.GetProductById(id);
+            var product = _unitOfWork.ProductRepository.GetProductById(productId);
             return _mapper.Map<StockedProductDto>(product);
         }
 
@@ -90,6 +90,7 @@ namespace PredmetProjekat.Services.Services
                 }
                 _unitOfWork.ProductRepository.UpdateProduct(product);
             }
+            //todo ovde puca
 
             //create receipt
             var receipt = new Receipt
@@ -106,7 +107,7 @@ namespace PredmetProjekat.Services.Services
             _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<StockedProductDto> StockProduct(Guid productId, int quantity)
+        public IEnumerable<StockedProductDto> StockProduct(string productId, int quantity)
         {
             var product = _unitOfWork.ProductRepository.GetProductById(productId);
             product.Quantity += quantity;

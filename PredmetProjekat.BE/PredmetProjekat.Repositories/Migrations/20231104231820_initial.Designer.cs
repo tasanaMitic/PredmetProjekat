@@ -12,8 +12,8 @@ using PredmetProjekat.Repositories.Context;
 namespace PredmetProjekat.Repositories.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20230425160152_inital-migration")]
-    partial class initalmigration
+    [Migration("20231104231820_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,22 @@ namespace PredmetProjekat.Repositories.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c2a28101-6ac9-4b06-9443-80e18411e343",
+                            ConcurrencyStamp = "674501dc-a343-4280-9ede-05a38a1bcdcc",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "d3b3e389-e070-4f93-b646-5c14c9b37705",
+                            ConcurrencyStamp = "dcd55bc1-54fa-4322-8379-a009530eab84",
+                            Name = "Employee",
+                            NormalizedName = "Employee"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -166,10 +182,6 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -185,6 +197,11 @@ namespace PredmetProjekat.Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Lastname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -194,6 +211,9 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -224,6 +244,8 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ManagerId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -233,10 +255,6 @@ namespace PredmetProjekat.Repositories.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("AccountType").HasValue("account");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Brand", b =>
@@ -244,6 +262,11 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.Property<Guid>("BrandId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -263,6 +286,11 @@ namespace PredmetProjekat.Repositories.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -277,9 +305,8 @@ namespace PredmetProjekat.Repositories.Migrations
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
                 {
-                    b.Property<Guid>("ProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
@@ -287,12 +314,24 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsInStock")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Season")
                         .IsRequired()
@@ -312,10 +351,32 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Receipt", b =>
+                {
+                    b.Property<Guid>("ReceiptId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("RegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SoldById")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReceiptId");
+
+                    b.HasIndex("RegisterId");
+
+                    b.HasIndex("SoldById");
+
+                    b.ToTable("Receipts");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Register", b =>
@@ -340,18 +401,28 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.ToTable("Registers");
                 });
 
-            modelBuilder.Entity("PredmetProjekat.Models.Models.Admin", b =>
+            modelBuilder.Entity("PredmetProjekat.Models.Models.SoldProduct", b =>
                 {
-                    b.HasBaseType("PredmetProjekat.Models.Models.Account");
+                    b.Property<int>("SoldProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("admin");
-                });
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SoldProductId"));
 
-            modelBuilder.Entity("PredmetProjekat.Models.Models.Employee", b =>
-                {
-                    b.HasBaseType("PredmetProjekat.Models.Models.Account");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasDiscriminator().HasValue("employee");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ReceiptId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("SoldProductId");
+
+                    b.HasIndex("ReceiptId");
+
+                    b.ToTable("SoldProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -405,6 +476,15 @@ namespace PredmetProjekat.Repositories.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Account", b =>
+                {
+                    b.HasOne("PredmetProjekat.Models.Models.Account", "Manager")
+                        .WithMany("Manages")
+                        .HasForeignKey("ManagerId");
+
+                    b.Navigation("Manager");
+                });
+
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
                 {
                     b.HasOne("PredmetProjekat.Models.Models.Brand", "Brand")
@@ -422,6 +502,42 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Receipt", b =>
+                {
+                    b.HasOne("PredmetProjekat.Models.Models.Register", "Register")
+                        .WithMany()
+                        .HasForeignKey("RegisterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PredmetProjekat.Models.Models.Account", "SoldBy")
+                        .WithMany()
+                        .HasForeignKey("SoldById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Register");
+
+                    b.Navigation("SoldBy");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.SoldProduct", b =>
+                {
+                    b.HasOne("PredmetProjekat.Models.Models.Receipt", null)
+                        .WithMany("SoldProducts")
+                        .HasForeignKey("ReceiptId");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Account", b =>
+                {
+                    b.Navigation("Manages");
+                });
+
+            modelBuilder.Entity("PredmetProjekat.Models.Models.Receipt", b =>
+                {
+                    b.Navigation("SoldProducts");
                 });
 #pragma warning restore 612, 618
         }

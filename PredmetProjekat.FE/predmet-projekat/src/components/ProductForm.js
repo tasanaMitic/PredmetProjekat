@@ -50,23 +50,23 @@ const ProductForm = () => {
     }, [])
 
     const handleBrandChange = (brandId) => {
-        brandId === ('default') ? setBrand(null) : setBrand(brandId);
+        setBrand(brandId === 'default' ? null : brandId);
     }
-
+    
     const handleCategoryChange = (categoryId) => {
-        categoryId === ('default') ? setCategory(null) : setCategory(categoryId);
+        setCategory(categoryId === 'default' ? null : categoryId);
     }
-
+    
     const handleSeasonChange = (season) => {
-        season === ('default') ? setSeason(null) : setSeason(season);
+        setSeason(season === 'default' ? null : season);
     }
-
+    
     const handleSizeChange = (size) => {
-        size === ('default') ? setSize(null) : setSize(size);
+        setSize(size === 'default' ? null : size);
     }
-
+    
     const handleSexChange = (sex) => {
-        sex === ('default') ? setSex(null) : setSex(sex);
+        setSex(sex === 'default' ? null : sex);
     }
 
     const handleSave = () => {
@@ -152,7 +152,7 @@ const ProductForm = () => {
                             {brands.map((brand) => <option value={brand.brandId} key={brand.brandId}>{brand.name}</option>)}
                         </Form.Select> : <p value="default">There are no available brands.</p>}
                 </Form.Group>}
-            <Button variant="outline-dark" onClick={handleCancel}>Cancel</Button>
+            <Button variant="dark" onClick={handleCancel}>Cancel</Button>
             <Button variant="outline-dark" onClick={handleSave} disabled={!brand || !category || !name || !size || !season || !sex}>Save</Button>
         </Form>
     );

@@ -17,6 +17,17 @@ namespace PredmetProjekat.Repositories.Repositories
         {
             return _context.Set<T>().ToList();
         }
+        public T GetById(string id)
+        {
+            var entity = _context.Set<T>().Find(id);
+
+            if (entity == null)
+            {
+                var type = typeof(T).ToString().Split('.').Last();
+                throw new KeyNotFoundException($"{type} with id: {id}, was not found in the database!");
+            }
+            return entity; ;
+        }
 
         public T GetById(Guid id)
         {      

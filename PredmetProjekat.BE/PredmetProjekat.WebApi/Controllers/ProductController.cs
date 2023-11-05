@@ -40,7 +40,7 @@ namespace PredmetProjekat.WebApi.Controllers
                 return Problem($"Something went wrong in the {nameof(AddProduct)}!", "Brand/Category id missing!", statusCode: 404);
             }
 
-            Guid productId = _productService.AddProduct(product);
+            string productId = _productService.AddProduct(product);
             return CreatedAtAction("AddProduct", new { Id = productId }, product);
         }
 
@@ -61,22 +61,22 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public ActionResult<IEnumerable<StockedProductDto>> DeleteProduct(Guid id)
+        [HttpDelete("{productId}")]
+        public ActionResult<IEnumerable<StockedProductDto>> DeleteProduct(string productId)
         {
-            return Ok(_productService.DeleteProduct(id));
+            return Ok(_productService.DeleteProduct(productId));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("{id}")]
-        public ActionResult<IEnumerable<StockedProductDto>> StockProduct([FromRoute] Guid id, [FromBody] Quantity quantity)
+        [HttpPatch("{productId}")]
+        public ActionResult<IEnumerable<StockedProductDto>> StockProduct([FromRoute] string productId, [FromBody] Quantity quantity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            return Ok(_productService.StockProduct(id, quantity.Value));
+            return Ok(_productService.StockProduct(productId, quantity.Value));
         }
 
         [Authorize(Roles = "Employee")]

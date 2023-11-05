@@ -92,7 +92,7 @@ const ProductTable = ({ products, user }) => {
                     </Table>
                 </Container>
                 :
-                <h2>There are no available products!</h2>
+                <h3>There are no available products!</h3>
             }
         </Container>
 

@@ -85,7 +85,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                         <tbody>
                             {categories && data.map((categorie) => (
                                 <tr key={categorie.categoryId}>
-                                    <td>{categorie.name}</td>
+                                    <td key={categorie.name}>{categorie.name}</td>
                                     <td>
                                         <Button variant="dark" onClick={() => handleDelete(categorie.categoryId)}>Delete</Button>
                                     </td>
@@ -94,11 +94,10 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                             ))}
                             {brands && data.map((brand) => (
                                 <tr key={brand.brandId}>
-                                    <td>{brand.name}</td>
+                                    <td key={brand.name}>{brand.name}</td>
                                     <td>
                                         <Button variant="dark" onClick={() => handleDelete(brand.brandId)}>Delete</Button>
                                     </td>
-
                                 </tr>
                             ))}
                         </tbody>
@@ -106,7 +105,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
 
                 </Container>
                 :
-                <h2>There are no available {categories ? 'categories' : 'brands'}!</h2>
+                <h3>There are no available {categories ? 'categories' : 'brands'}!</h3>
             }
         </Container>
 

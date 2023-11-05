@@ -5,12 +5,12 @@ namespace PredmetProjekat.Common.Interfaces.IService
 {
     public interface IProductService
     {
-        Guid AddProduct(ProductDto productDto);
+        string AddProduct(ProductDto productDto);
         IEnumerable<StockedProductDto> GetProducts();
         IEnumerable<StockedProductDto> GetStockedProducts();
-        StockedProductDto GetProduct(Guid id);
-        IEnumerable<StockedProductDto> DeleteProduct(Guid id);
-        IEnumerable<StockedProductDto> StockProduct(Guid productId, int quantity);
+        StockedProductDto GetProduct(string productId);
+        IEnumerable<StockedProductDto> DeleteProduct(string productId);
+        IEnumerable<StockedProductDto> StockProduct(string productId, int quantity);
         void SellProduct(SaleDto saleDto, string username);
     }
 }

@@ -16,6 +16,7 @@ const EmployeesPage = ({user}) => {
             return res.data;
         })
             .then(data => {
+                console.log(data.le);
                 setData(data);
                 setError(null);
             })
@@ -27,7 +28,9 @@ const EmployeesPage = ({user}) => {
     return (
         <Container>
             <h1>All Employees</h1>
-            <UsersTable users={data} loggedInUser={user} />
+            {data && data.length > 0 ? 
+                <UsersTable users={data} loggedInUser={user} /> 
+                : <h3>Currently there are no employees!</h3>}
         </Container>
     );
 }

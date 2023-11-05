@@ -33,7 +33,7 @@ const ManagersPage = ({ user }) => {
         <Container>
         {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError}/>}
             <h1>Managers</h1>
-            <h2>Your manager</h2>
+            <h3>Your manager</h3>
             {manager !== null ? <Table striped hover>
                 <thead>
                     <tr>
@@ -51,7 +51,7 @@ const ManagersPage = ({ user }) => {
                 </tbody>
             </Table>
                 : <p>You currently don't have a manager.</p>}
-            <h2>You are managing</h2>
+            <h3>You are managing</h3>
             {managing !== null && managing.length > 0 ?
                 <Table striped hover>
                     <thead>

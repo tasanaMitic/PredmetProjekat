@@ -13,14 +13,15 @@ import BrandsAndCetegoriesPage from './components/pages/BrandsAndCategoriesPage'
 import AdminsPage from './components/pages/AdminsPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
+import SellProductsPage from './components/pages/SellProductsPage';
 import ProductForm from './components/ProductForm';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ManagersPage from './components/pages/ManagersPage';
+import RegistersPage from './components/pages/RegistersPage';
 
 function App() {
   const cookies = new Cookies();
   const [user, setUser] = useState(null);
-
 
   const logout = () => {
     setUser(null);
@@ -56,26 +57,32 @@ function App() {
           <Route exact path="/register">
             <RegisterPage></RegisterPage>
           </Route>
-          <Route path="/products">
+          <Route exact path="/products">
             <ProductsPage user={user}></ProductsPage>
           </Route>
-          <Route path="/brands&categories">
+          <Route exact path="/brands&categories">
             <BrandsAndCetegoriesPage></BrandsAndCetegoriesPage>
           </Route>
-          <Route path="/account">
+          <Route exact path="/account">
             <AccountPage user={user}></AccountPage>
           </Route>   
-          <Route path="/employees">
+          <Route exact path="/employees">
             <EmployeesPage user={user}></EmployeesPage>
           </Route>
-          <Route path="/admins">
+          <Route exact path="/admins">
             <AdminsPage user={user}></AdminsPage>
           </Route>
-          <Route path="/managers">
+          <Route exact path="/managers">
             <ManagersPage user={user}></ManagersPage>
           </Route>
-          <Route path="/addproduct">
+          <Route exact path="/addproduct">
             <ProductForm></ProductForm>
+          </Route>
+          <Route exact path="/sell">
+            <SellProductsPage user={user}></SellProductsPage>
+          </Route>          
+          <Route exact path="/registers">
+            <RegistersPage></RegistersPage>
           </Route>
         </Switch>
         ) : (
