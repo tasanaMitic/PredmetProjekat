@@ -1,17 +1,23 @@
 import { Button, Container, Table, InputGroup } from "react-bootstrap";
 import PropTypes from 'prop-types';
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getStockedProducts } from "../../api/methods";
 import ModalSell from "../modals/ModalSellProduct";
+import ModalError from "../modals/ModalError";
+import ModalSuccess from "../modals/ModalSuccess";
 
 const SellProductsPage = ({ user }) => {
+    const history = useHistory();
     const [data, setData] = useState(null);
     const [selectedProductIds, setSelectedProductIds] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
-    
+
     const [sellModal, setSellModal] = useState(null);
     const [error, setError] = useState(null);
     const [errorModal, setErrorModal] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [successModal, setSuccessModal] = useState(false);
 
     useEffect(() => {
         getStockedProducts().then(res => {
@@ -31,7 +37,7 @@ const SellProductsPage = ({ user }) => {
         e.target.checked ?
             setSelectedProductIds((prevSelectedProductIds) => [...prevSelectedProductIds, productId])
             : setSelectedProductIds((prevSelectedProductIds) =>
-            prevSelectedProductIds.filter((id) => id !== productId));
+                prevSelectedProductIds.filter((id) => id !== productId));
     };
 
     const handleSubmit = () => {
@@ -39,13 +45,23 @@ const SellProductsPage = ({ user }) => {
         setSelectedProducts(data.filter(product => {
             return selectedProductIds.includes(product.productId)
         }));
-        console.log(selectedProducts);
+    }
 
+    const handleCancel = () => {
+        history.replace('/products');
     }
 
     return (
         <Container>
-        <ModalSell  setShow={setSellModal} show={sellModal} setError={setError} setErrorModal={setErrorModal} selectedProducts={selectedProducts}/>
+        <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={handleCancel} message={successMessage} />
+            {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
+            {sellModal && <ModalSell setShow={setSellModal}
+            show={sellModal}
+            setError={setError}
+            setErrorModal={setErrorModal}
+            selectedProducts={selectedProducts}
+            setSuccessMessage={setSuccessMessage}
+            setSuccessModal={setSuccessModal} />}
             <h1>Select products to sell</h1>
             {data && data.length > 0 ?
                 <Container>

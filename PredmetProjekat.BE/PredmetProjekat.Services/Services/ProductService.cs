@@ -79,11 +79,11 @@ namespace PredmetProjekat.Services.Services
             foreach(var obj in saleDto.SoldProducts)
             {
                 var product = _unitOfWork.ProductRepository.GetProductById(obj.ProductId);
-                if(product.Quantity - obj.Quantity >= 0)
+                if(product.Quantity - obj.Quantity >= 0 && product.IsInStock && !product.IsDeleted)
                 {
                     product.Quantity -= obj.Quantity;
 
-                    if (product.Quantity - obj.Quantity == 0)
+                    if (product.Quantity == 0)
                     {
                         product.IsInStock = false;
                     }
