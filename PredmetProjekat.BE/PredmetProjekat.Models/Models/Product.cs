@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace PredmetProjekat.Models.Models
 {
@@ -24,6 +25,9 @@ namespace PredmetProjekat.Models.Models
         public bool IsInStock { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
+        [Required]
+        [Precision(18,2)]
+        public decimal Price { get; set; }
 
     }
 }

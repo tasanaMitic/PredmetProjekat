@@ -15,5 +15,6 @@ namespace PredmetProjekat.Common.Dtos.ProductDtos
         public CategoryDtoId Category { get; set; }
         public BrandDtoId Brand { get; set; }
         public bool IsInStock { get; set; }
+        public decimal Price { get; set; }
     }
 }

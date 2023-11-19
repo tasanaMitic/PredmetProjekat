@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PredmetProjekat.Repositories.Context;
 
@@ -11,9 +12,11 @@ using PredmetProjekat.Repositories.Context;
 namespace PredmetProjekat.Repositories.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20231118222016_updateproduct")]
+    partial class updateproduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +54,15 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6cd63702-91fa-4f2b-a754-05737ef19b94",
-                            ConcurrencyStamp = "fb24bcbd-f921-4a53-8385-813eb17e9fcd",
+                            Id = "07983c33-e132-4ce1-a6ad-dcd5ca906443",
+                            ConcurrencyStamp = "9e2a9400-8086-40a7-adce-c6ff560adc3d",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "7fe49bb5-951e-4eba-b8dc-ef783e9c059b",
-                            ConcurrencyStamp = "ca919405-0b23-4f65-ab7c-e580ecc7f5c7",
+                            Id = "53248a57-ea1b-464e-b198-c9ca3973a125",
+                            ConcurrencyStamp = "79ae78f0-e72f-422d-942b-caacce4ea7cb",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         });
@@ -372,10 +375,6 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.Property<string>("SoldById")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ReceiptId");
 

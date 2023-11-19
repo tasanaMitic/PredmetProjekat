@@ -23,6 +23,7 @@ const RegistersPage = () => {
     return (
         <Container>
             <h1>Registers</h1>
+            <h2>Ovde nista ne radi</h2>
             <ModalRegister show={registerModal} setShow={setRegisterModal}></ModalRegister>
             <Button variant="outline-dark" onClick={handleClick} >Add register</Button>
         </Container>

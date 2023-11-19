@@ -87,18 +87,35 @@ const createProduct = (body) => {
 }
 
 const stockProduct = (productId, body) => {
-    return patch('/api/product/' + productId, body);
+    return patch('/api/product/stock/' + productId, body);
+}
+
+const setProductPrice = (productId, body) => {
+    return patch('/api/product/price/' + productId, body);
 }
 
 const sellProduct = (body) => {
     return patch('/api/product/', body);
 }
 
+//sales
+const getSalesForUser = () => {
+    return get('/api/product/sales');
+}
+
 //proptypes
+
 addRegister.propTypes = {
     body: PropTypes.shape({
         registerCode: PropTypes.string,
         location: PropTypes.string
+    })
+}
+
+setProductPrice.propTypes = {
+    productId: PropTypes.string,
+    body: PropTypes.shape({
+        value: PropTypes.number,
     })
 }
 
@@ -180,12 +197,10 @@ updateUser.propTypes = {
     })
 }
 
-
-
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser,
     deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
-    assignManager, updateUser, stockProduct, sellProduct,
+    assignManager, updateUser, stockProduct, sellProduct, setProductPrice,
     addCategory, addBrand, createProduct, addRegister
 };

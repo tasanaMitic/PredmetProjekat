@@ -6,10 +6,9 @@ namespace PredmetProjekat.Models.Models
     public class SoldProduct
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int SoldProductId { get; set; }
+        public Guid SoldProductId { get; set; }
         [Required]
-        public Guid ProductId { get; set; }
+        public string ProductId { get; set; }
         [Required]
         [Range(1, 5)]
         public int Quantity { get; set; }

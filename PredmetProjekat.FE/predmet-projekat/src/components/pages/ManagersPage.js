@@ -71,7 +71,7 @@ const ManagersPage = ({ user }) => {
                         ))}
                     </tbody>
                 </Table>
-                : <p>You are currently not a manager to anyone.</p>}
+                : <p>You are currently not managing anyone.</p>}
         </Container>
     );
 }

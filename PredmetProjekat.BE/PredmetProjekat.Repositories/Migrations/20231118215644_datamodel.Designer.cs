@@ -12,8 +12,8 @@ using PredmetProjekat.Repositories.Context;
 namespace PredmetProjekat.Repositories.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20231104231820_initial")]
-    partial class initial
+    [Migration("20231118215644_datamodel")]
+    partial class datamodel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,15 +54,15 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c2a28101-6ac9-4b06-9443-80e18411e343",
-                            ConcurrencyStamp = "674501dc-a343-4280-9ede-05a38a1bcdcc",
+                            Id = "207e27d9-0b3b-49e1-9dc0-87cc2a9c9696",
+                            ConcurrencyStamp = "01b674a7-6eb9-460a-b405-1890949272f8",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "d3b3e389-e070-4f93-b646-5c14c9b37705",
-                            ConcurrencyStamp = "dcd55bc1-54fa-4322-8379-a009530eab84",
+                            Id = "80814429-0472-4c2f-acd1-a1994e9de392",
+                            ConcurrencyStamp = "09d397c7-c93d-43f7-a16c-d97878daf674",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         });
@@ -403,14 +403,13 @@ namespace PredmetProjekat.Repositories.Migrations
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.SoldProduct", b =>
                 {
-                    b.Property<int>("SoldProductId")
+                    b.Property<Guid>("SoldProductId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SoldProductId"));
-
-                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");

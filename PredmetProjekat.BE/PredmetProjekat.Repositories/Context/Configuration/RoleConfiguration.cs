@@ -10,8 +10,8 @@ namespace PredmetProjekat.Repositories.Context.Configuration
         public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
             builder.HasData(
-                    new IdentityRole 
-                    { 
+                    new IdentityRole
+                    {
                         Name = Constants.AdminRole,
                         NormalizedName = Constants.AdminRole.Normalize()
                     },

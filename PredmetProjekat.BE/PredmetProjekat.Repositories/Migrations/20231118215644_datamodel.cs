@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PredmetProjekat.Repositories.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class datamodel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -268,9 +268,8 @@ namespace PredmetProjekat.Repositories.Migrations
                 name: "SoldProduct",
                 columns: table => new
                 {
-                    SoldProductId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SoldProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ReceiptId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -289,8 +288,8 @@ namespace PredmetProjekat.Repositories.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "c2a28101-6ac9-4b06-9443-80e18411e343", "674501dc-a343-4280-9ede-05a38a1bcdcc", "Admin", "Admin" },
-                    { "d3b3e389-e070-4f93-b646-5c14c9b37705", "dcd55bc1-54fa-4322-8379-a009530eab84", "Employee", "Employee" }
+                    { "207e27d9-0b3b-49e1-9dc0-87cc2a9c9696", "01b674a7-6eb9-460a-b405-1890949272f8", "Admin", "Admin" },
+                    { "80814429-0472-4c2f-acd1-a1994e9de392", "09d397c7-c93d-43f7-a16c-d97878daf674", "Employee", "Employee" }
                 });
 
             migrationBuilder.CreateIndex(

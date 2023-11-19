@@ -49,6 +49,19 @@ namespace PredmetProjekat.Services.Services
             return GetProducts();
         }
 
+        public IEnumerable<ReceiptDto> GetAllSalesForUser(string username)
+        {
+            var user = _userManager.FindByNameAsync(username).Result;
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
+            }
+
+            var sales = _unitOfWork.ReceiptRepository.GetAllReceiptsForUser(user);
+            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
+        }
+
         public StockedProductDto GetProduct(string productId)
         {
             var product = _unitOfWork.ProductRepository.GetProductById(productId);
@@ -76,12 +89,14 @@ namespace PredmetProjekat.Services.Services
                 throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
             }
 
+            decimal totalPrice = 0;
             foreach(var obj in saleDto.SoldProducts)
             {
                 var product = _unitOfWork.ProductRepository.GetProductById(obj.ProductId);
                 if(product.Quantity - obj.Quantity >= 0 && product.IsInStock && !product.IsDeleted)
                 {
                     product.Quantity -= obj.Quantity;
+                    totalPrice += product.Price * obj.Quantity;
 
                     if (product.Quantity == 0)
                     {
@@ -90,20 +105,18 @@ namespace PredmetProjekat.Services.Services
                 }
                 _unitOfWork.ProductRepository.UpdateProduct(product);
             }
-            //todo ovde puca
 
-            //create receipt
             var receipt = new Receipt
             {
                 Date = DateTime.Now,
                 ReceiptId = Guid.NewGuid(),
                 SoldBy = user,
                 SoldProducts = _mapper.Map<IEnumerable<SoldProduct>>(saleDto.SoldProducts),
-                Register = _unitOfWork.RegisterRepository.GetRegisterById(saleDto.RegisterId)
+                Register = _unitOfWork.RegisterRepository.GetRegisterById(saleDto.RegisterId),
+                TotalPrice = totalPrice
             };
 
             _unitOfWork.ReceiptRepository.CreateReceipt(receipt);
-
             _unitOfWork.SaveChanges();
         }
 
@@ -112,6 +125,17 @@ namespace PredmetProjekat.Services.Services
             var product = _unitOfWork.ProductRepository.GetProductById(productId);
             product.Quantity += quantity;
             product.IsInStock = true;
+
+            _unitOfWork.ProductRepository.UpdateProduct(product);
+            _unitOfWork.SaveChanges();
+
+            return GetProducts();
+        }
+
+        public IEnumerable<StockedProductDto> UpdateProductPrice(string productId, decimal price)
+        {
+            var product = _unitOfWork.ProductRepository.GetProductById(productId);
+            product.Price = price;
 
             _unitOfWork.ProductRepository.UpdateProduct(product);
             _unitOfWork.SaveChanges();

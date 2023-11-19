@@ -20,7 +20,7 @@ namespace PredmetProjekat.WebApi.Controllers
             _registrationService = registrationService;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("admin")]
         public async Task<ActionResult> RegisterAdmin([FromBody] RegistrationDto registrationDto)

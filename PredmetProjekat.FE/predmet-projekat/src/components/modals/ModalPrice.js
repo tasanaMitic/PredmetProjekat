@@ -1,22 +1,27 @@
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Container, Form, Modal } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useState } from "react";
-import { stockProduct } from "../../api/methods";
+import { setProductPrice } from "../../api/methods";
 
-const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId }) => {
-    const [quantity, setQuantity] = useState(0);
+const ModalPrice = ({ show, setShow, setError, setErrorModal, setData, productId }) => {
+    const [price, setPrice] = useState(0);
 
     const handleClose = () => {
-        setQuantity(0);
+        setPrice(0);
         setShow(false);
+    }
+
+    const handleChange = (value) => {
+        if (!value || value.match(/^\d{1,}(\.\d{0,4})?$/)) {
+            setPrice(value);
+        }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const payload = { value: quantity };
-        console.log(productId);
-
-        stockProduct(productId, payload).then(res => {
+        const payload = { value: price };
+        
+        setProductPrice(productId, payload).then(res => {
             if (res.status !== 200) {
                 throw Error('There was an error with the request!');
             }
@@ -24,13 +29,13 @@ const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId
         })
             .then((data) => {
                 setShow(false);
-                setQuantity(0);
+                setPrice(0);
                 setData(data);
             }).catch(err => {
                 setError(err.response);
                 setErrorModal(true);
                 setShow(false);
-                setQuantity(0);
+                setPrice(0);
             });
     }
 
@@ -38,19 +43,20 @@ const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Please provide quantity</Modal.Title>
+                <Modal.Title>Please provide price</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicName">
-                        <Form.Label>Quantity of product</Form.Label>
+                        <Form.Label>Price of product</Form.Label>
                         <Form.Control type="number"
-                         placeholder="Enter quantity" 
-                         value={quantity} 
-                         onChange={(e) => setQuantity(e.target.value)} 
-                         required
-                         min={0}
-                         max={50} />
+                            placeholder="Enter price"
+                            value={price}
+                            min="0.00"
+                            step="0.1"
+                            presicion={2}
+                            onChange={(e) => handleChange(e.target.value)}
+                            required />
                     </Form.Group>
                     <Button variant="dark" type="submit">
                         Submit
@@ -62,7 +68,7 @@ const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId
 
 }
 
-ModalStock.propTypes = {
+ModalPrice.propTypes = {
     show: PropTypes.bool,
     setShow: PropTypes.func,
     setError: PropTypes.func,
@@ -71,4 +77,4 @@ ModalStock.propTypes = {
     productId: PropTypes.string
 }
 
-export default ModalStock;
+export default ModalPrice;

@@ -68,8 +68,9 @@ namespace PredmetProjekat.WebApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("{productId}")]
-        public ActionResult<IEnumerable<StockedProductDto>> StockProduct([FromRoute] string productId, [FromBody] Quantity quantity)
+        [HttpPatch]
+        [Route("stock/{productId}")]
+        public ActionResult<IEnumerable<StockedProductDto>> StockProduct([FromRoute] string productId, [FromBody] QuantityDto quantity)
         {
             if (!ModelState.IsValid)
             {
@@ -77,6 +78,19 @@ namespace PredmetProjekat.WebApi.Controllers
             }
 
             return Ok(_productService.StockProduct(productId, quantity.Value));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPatch]
+        [Route("price/{productId}")]
+        public ActionResult<IEnumerable<StockedProductDto>> UpdateProduct([FromRoute] string productId, [FromBody] PriceDto price)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(_productService.UpdateProductPrice(productId, price.Value));
         }
 
         [Authorize(Roles = "Employee")]
@@ -88,6 +102,26 @@ namespace PredmetProjekat.WebApi.Controllers
 
             _productService.SellProduct(saleDto, username);
             return NoContent();
+        }
+
+        [Authorize(Roles = "Admin, Employee")]
+        [HttpGet]
+        [Route("sales")]
+        public ActionResult<IEnumerable<ReceiptDto>> GetAllSalesForUser()
+        {
+            var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
+            var username = _authManager.DecodeToken(tokenString);
+
+            return Ok(_productService.GetAllSalesForUser(username));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("allsales")]
+        public ActionResult<IEnumerable<ReceiptDto>> GetAllSales()
+        {
+            //return Ok(_productService.GetAllSales());
+            return Ok();
         }
     }
 }

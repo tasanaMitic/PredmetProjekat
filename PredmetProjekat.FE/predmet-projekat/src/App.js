@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie';
 import jwt from "jwt-decode";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import AppHeader from './components/Header';
 import ProductsPage from './components/pages/ProductsPage';
@@ -14,10 +15,10 @@ import AdminsPage from './components/pages/AdminsPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import SellProductsPage from './components/pages/SellProductsPage';
-import ProductForm from './components/ProductForm';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ManagersPage from './components/pages/ManagersPage';
 import RegistersPage from './components/pages/RegistersPage';
+import SalesPage from './components/pages/SalesPage';
+import ProductForm from './components/ProductForm';
 
 function App() {
   const cookies = new Cookies();
@@ -80,7 +81,10 @@ function App() {
           </Route>
           <Route exact path="/sell">
             <SellProductsPage user={user}></SellProductsPage>
-          </Route>          
+          </Route>   
+          <Route exact path="/sales">
+            <SalesPage user={user}></SalesPage>
+          </Route>        
           <Route exact path="/registers">
             <RegistersPage></RegistersPage>
           </Route>

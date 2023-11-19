@@ -5,6 +5,7 @@ import ModalCheck from './modals/ModalCheck'
 import { deleteProduct } from "../api/methods";
 import ModalError from "./modals/ModalError";
 import ModalStock from "./modals/ModalStockProducts";
+import ModalPrice from "./modals/ModalPrice";
 
 const ProductTable = ({ products, user }) => {
     const [data, setData] = useState(null);
@@ -12,6 +13,7 @@ const ProductTable = ({ products, user }) => {
     const [errorModal, setErrorModal] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
     const [stockModal, setStockModal] = useState(false);
+    const [priceModal, setPriceModal] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
     const [productIdToStock, setProductIdToStock] = useState(null);
 
@@ -24,6 +26,11 @@ const ProductTable = ({ products, user }) => {
         setProductIdToStock(productId);
         setStockModal(true);
     }
+
+    const handlePrice = (productId) => {
+        setProductIdToStock(productId);
+        setPriceModal(true);
+    }    
 
     const handleDelete = (productId) => {
         setProductToDelete(productId);
@@ -46,7 +53,8 @@ const ProductTable = ({ products, user }) => {
 
     return (
         <Container>
-        <ModalStock  setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock}/>
+        <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock}/>
+        <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock}/>
             {data && data.length > 0 ?
                 <Container>
                     <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
@@ -62,6 +70,8 @@ const ProductTable = ({ products, user }) => {
                                 <th>Quantity</th>
                                 <th>Category</th>
                                 <th>Brand</th>
+                                <th>Price</th>
+                                {user.role === 'Admin' && <th></th> }
                                 {user.role === 'Admin' && <th></th> }
                                 {user.role === 'Admin' && <th></th> }
                             </tr>
@@ -76,6 +86,7 @@ const ProductTable = ({ products, user }) => {
                                     <td>{product.quantity}</td>
                                     <td>{product.category.name}</td>
                                     <td>{product.brand.name}</td>
+                                    <td>{product.price}$</td>
                                     {user.role === 'Admin' &&
                                         <td>
                                             <Button variant="dark" onClick={() => handleDelete(product.productId)}>Delete</Button>
@@ -84,6 +95,11 @@ const ProductTable = ({ products, user }) => {
                                     {user.role === 'Admin' &&
                                         <td>
                                             <Button variant="dark" onClick={() => handleStock(product.productId)}>Stock</Button>
+                                        </td>
+                                    }                                    
+                                    {user.role === 'Admin' && 
+                                        <td>
+                                            <Button variant="dark" onClick={() => handlePrice(product.productId)} disabled={product.price !== 0}>Set price</Button>
                                         </td>
                                     }
                                 </tr>
@@ -106,6 +122,7 @@ ProductTable.propTypes = {
         season: PropTypes.string,
         sex: PropTypes.string,
         quantity: PropTypes.number,
+        price: PropTypes.number,
         category: PropTypes.object, //todo
         brand: PropTypes.object //todo
     })),
