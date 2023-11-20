@@ -16,8 +16,6 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
         setQuantities(selectedProducts.map((product) => {
             return { productId: product.productId, quantity: 0 };
         }));
-        console.log('useeffect');
-        console.log(quantities);        
 
         getRegisters().then(res => {
             if (res.status !== 200) {
@@ -27,7 +25,6 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
         })
             .then(data => {
                 setRegisters(data);
-                console.log(quantities);
             })
             .catch(err => {
                 setRegisters(null);
@@ -54,18 +51,14 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
             if (res.status !== 204) {
                 throw Error('There was an error with the request!');
             }
-            console.log('da2');
             setSuccessModal(true);
             setSuccessMessage('You have successfully made a sale!');
             setShow(false);
 
         }).catch(err => {
-            console.log('ne');
             setError(err.response);
             setErrorModal(true);
             setShow(false);
-
-            console.log(err);
         });
     };
 

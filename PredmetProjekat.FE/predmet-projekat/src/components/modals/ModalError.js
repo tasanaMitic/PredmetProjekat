@@ -9,13 +9,16 @@ const ModalError = ({ show, setShow, error, setError }) => {
     }
 
     const renderSwitch = (param) => {
+        console.log(error);
         switch (param) {
             case 400:
                 return error.data.Message ? error.data.Message : "Bad requst was sent to the server. Please check your inputs.";
             case 401:
                 return "You are not authorized to perform this request."
             case 404:
-                return error.data.Message;
+                return error.data.message;
+            case 500:
+                return error.data.message;
             default:
                 return "Something went wrong."
         }

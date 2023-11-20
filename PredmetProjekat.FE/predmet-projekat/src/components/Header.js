@@ -26,7 +26,7 @@ const AppHeader = ({ user, logout }) => {
                 <Nav.Link as={Link} to="/registers">Registers</Nav.Link>
                 <NavDropdown title={user.username} id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/sales">Finances</NavDropdown.Item>
                   <NavDropdown.Divider />                  
                   <NavDropdown.Item onClick={logout} >Logout</NavDropdown.Item>
                 </NavDropdown>
@@ -39,7 +39,6 @@ const AppHeader = ({ user, logout }) => {
                 <NavDropdown title={user.username} id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/sales">History of sales</NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="#finances">Finances</NavDropdown.Item>
                   <NavDropdown.Divider />                  
                   <NavDropdown.Item onClick={logout} >Logout</NavDropdown.Item>
                 </NavDropdown>

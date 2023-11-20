@@ -1,22 +1,12 @@
 import { Container, Form, Button, Modal } from 'react-bootstrap';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import ModalError from '../modals/ModalError';
 import { addRegister } from '../../api/methods';
 
 
-const ModalRegister = ({ show, setShow, confirm}) => {
-    const [formData, setFormData] = useState({ location: '', registerCode: '' });
-
-    const [error, setError] = useState(null);
-    const [successModal, setSuccessModal] = useState(false);
-    const [errorModal, setErrorModal] = useState(false);
-    const [successMessage, setSuccessMessage] = useState(null);
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-    };
-
+const ModalRegister = ({ show, setShow, setData, setError, setErrorModal}) => {
+    const [dataForm, setDataForm] = useState({ location: '', registerCode: '' });
 
     const handleClose = () => {
         setShow(false);
@@ -25,9 +15,23 @@ const ModalRegister = ({ show, setShow, confirm}) => {
     const handleSubmit = (e) => {
         e.preventDefault(); 
 
-        console.log("ne radi jos uvek");
-        //todo
-        //addRegister().then
+        const payload = { location: dataForm.location, registerCode: dataForm.registerCode };
+        addRegister(payload).then(res => {
+            if (res.status !== 201) {
+                throw Error('There was an error with the request!');
+            }
+            return res.data;
+        })
+            .then(data => {
+                setData(registers => [...registers, data]);
+                setShow(false);
+                setDataForm({ location: '', registerCode: '' });
+            })
+            .catch(err => {
+                setShow(false);
+                setError(err.response);
+                setErrorModal(true);
+            })
     }
 
 
@@ -38,15 +42,14 @@ const ModalRegister = ({ show, setShow, confirm}) => {
             </Modal.Header>
             <Container>
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
-                        {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
+                    <Form onSubmit={handleSubmit}>                        
                         <Form.Group className="mb-3" controlId="formBasicLocation">
                             <Form.Label>Location</Form.Label>
                             <Form.Control type="text" 
                             placeholder="Location" 
                             name="location" 
-                            value={formData.location}
-                             onChange={handleInputChange} 
+                            value={dataForm.location}
+                             onChange={(e) => setDataForm({ ...dataForm, location: e.target.value })} 
                              required/>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicRegisterCode">
@@ -54,11 +57,11 @@ const ModalRegister = ({ show, setShow, confirm}) => {
                             <Form.Control type="text" 
                             placeholder="Register Code" 
                             name="registerCode"
-                            value={formData.registerCode}
-                             onChange={handleInputChange} 
+                            value={dataForm.registerCode}
+                             onChange={(e) => setDataForm({ ...dataForm, registerCode: e.target.value })} 
                              required />
                         </Form.Group>
-                        <Button variant="dark" type="submit"  disabled={!formData.location || !formData.registerCode}>
+                        <Button variant="dark" type="submit"  disabled={!dataForm.location || !dataForm.registerCode}>
                             Submit
                         </Button>
                     </Form>
@@ -66,6 +69,14 @@ const ModalRegister = ({ show, setShow, confirm}) => {
             </Container>
         </Modal>
     );
+}
+
+ModalRegister.propTypes = {
+    show: PropTypes.bool,
+    setShow: PropTypes.func,
+    setError: PropTypes.func,
+    setErrorModal: PropTypes.func,
+    setData: PropTypes.func
 }
 
 export default ModalRegister;

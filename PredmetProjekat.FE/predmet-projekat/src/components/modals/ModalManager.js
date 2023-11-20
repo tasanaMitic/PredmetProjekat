@@ -3,7 +3,7 @@ import { useState } from 'react';
 import ManagersTable from '../ManagersTable';
 import PropTypes from 'prop-types';
 
-const ModalManager = ({ show, setShow, managers, confirm, loggedInUser }) => { //todo  if managers == null show message
+const ModalManager = ({ show, setShow, managers, confirm, loggedInUser }) => {
   const [selectedManager, setSelectedManager] = useState(null);
   const handleClose = () => {
     setShow(false);

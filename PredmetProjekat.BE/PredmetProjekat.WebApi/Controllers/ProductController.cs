@@ -104,7 +104,7 @@ namespace PredmetProjekat.WebApi.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        [Authorize(Roles = "Employee")]
         [HttpGet]
         [Route("sales")]
         public ActionResult<IEnumerable<ReceiptDto>> GetAllSalesForUser()
@@ -120,8 +120,7 @@ namespace PredmetProjekat.WebApi.Controllers
         [Route("allsales")]
         public ActionResult<IEnumerable<ReceiptDto>> GetAllSales()
         {
-            //return Ok(_productService.GetAllSales());
-            return Ok();
+            return Ok(_productService.GetAllSales());
         }
     }
 }

@@ -14,7 +14,6 @@ const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId
     const handleSubmit = (e) => {
         e.preventDefault();
         const payload = { value: quantity };
-        console.log(productId);
 
         stockProduct(productId, payload).then(res => {
             if (res.status !== 200) {

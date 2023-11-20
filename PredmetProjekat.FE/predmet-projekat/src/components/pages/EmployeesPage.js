@@ -16,7 +16,6 @@ const EmployeesPage = ({user}) => {
             return res.data;
         })
             .then(data => {
-                console.log(data.le);
                 setData(data);
                 setError(null);
             })

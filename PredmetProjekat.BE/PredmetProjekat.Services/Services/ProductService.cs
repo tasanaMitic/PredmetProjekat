@@ -49,19 +49,6 @@ namespace PredmetProjekat.Services.Services
             return GetProducts();
         }
 
-        public IEnumerable<ReceiptDto> GetAllSalesForUser(string username)
-        {
-            var user = _userManager.FindByNameAsync(username).Result;
-
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
-            }
-
-            var sales = _unitOfWork.ReceiptRepository.GetAllReceiptsForUser(user);
-            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
-        }
-
         public StockedProductDto GetProduct(string productId)
         {
             var product = _unitOfWork.ProductRepository.GetProductById(productId);
@@ -141,6 +128,26 @@ namespace PredmetProjekat.Services.Services
             _unitOfWork.SaveChanges();
 
             return GetProducts();
+        }
+
+        //sales section
+        public IEnumerable<ReceiptDto> GetAllSales()
+        {
+            var sales = _unitOfWork.ReceiptRepository.GetAllReceipts();
+            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
+        }
+
+        public IEnumerable<ReceiptDto> GetAllSalesForUser(string username)
+        {
+            var user = _userManager.FindByNameAsync(username).Result;
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
+            }
+
+            var sales = _unitOfWork.ReceiptRepository.GetAllReceiptsForUser(user);
+            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
         }
     }
 }

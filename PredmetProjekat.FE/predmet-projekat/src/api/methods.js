@@ -62,6 +62,7 @@ const addBrand = (body) => {
 
 //registers
 const addRegister = (body) => {
+    console.log("body", body);
     return post('/api/register', body);
 }
 
@@ -101,6 +102,10 @@ const sellProduct = (body) => {
 //sales
 const getSalesForUser = () => {
     return get('/api/product/sales');
+}
+
+const getAllSales = () => {
+    return get('/api/product/allsales');
 }
 
 //proptypes
@@ -199,7 +204,7 @@ updateUser.propTypes = {
 
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser, getAllSales,
     deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
     assignManager, updateUser, stockProduct, sellProduct, setProductPrice,
     addCategory, addBrand, createProduct, addRegister

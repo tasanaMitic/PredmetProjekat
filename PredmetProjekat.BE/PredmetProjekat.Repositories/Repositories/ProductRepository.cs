@@ -24,12 +24,12 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return _context.Products.Include(x => x.Category).Where(x => x.IsDeleted == false).Include(x => x.Brand).ToList();  
+            return _context.Products.Where(x => x.IsDeleted == false).Include(x => x.Category).Include(x => x.Brand).ToList();  
         }
 
         public IEnumerable<Product> GetAllStockedProducts()
         {
-            return _context.Products.Include(x => x.Category).Include(x => x.Brand).Where(x => x.IsInStock == true && x.Quantity > 0 && x.IsDeleted == false).ToList();
+            return _context.Products.Where(x => x.IsInStock == true && x.Quantity > 0 && x.IsDeleted == false).Include(x => x.Category).Include(x => x.Brand).ToList();
         }
 
         public Product GetProductById(string productId)

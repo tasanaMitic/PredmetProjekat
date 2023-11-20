@@ -44,7 +44,7 @@ namespace PredmetProjekat.Repositories.UnitOfWork
             }
             catch (DbUpdateException ex)
             {
-                throw new DuplicateNameException(); 
+                throw; 
             }
 
         }

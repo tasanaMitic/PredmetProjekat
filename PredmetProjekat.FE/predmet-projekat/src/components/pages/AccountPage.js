@@ -1,4 +1,5 @@
 import { Container, Form, Button } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { getUser, updateUser } from '../../api/methods';
@@ -7,6 +8,7 @@ import ModalSuccess from '../modals/ModalSuccess';
 import ModalError from '../modals/ModalError';
 
 const AccountPage = ({ user }) => {
+    const history = useHistory();
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [checkModal, setCheckShow] = useState(false);
@@ -58,7 +60,7 @@ const AccountPage = ({ user }) => {
     }
 
     const clearData = () => {
-            //todo something
+        history.replace('/');
     }
 
     return (
