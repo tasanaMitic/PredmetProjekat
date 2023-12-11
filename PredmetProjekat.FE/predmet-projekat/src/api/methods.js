@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 //user
 const login = (body) => {
-    return postWOToken('/api/account/login', body); //todo constants, propTypes
+    return postWOToken('/api/account/login', body);
 }
 
 const register = (userRole, body) => {
@@ -181,10 +181,19 @@ getUser.propTypes = {
 }
 register.propTypes = {
     userRole: PropTypes.string,
-    body: PropTypes.object  //todo
+    body: PropTypes.shape({
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        email: PropTypes.string,
+        username: PropTypes.string,
+        password: PropTypes.string,
+    })
 }
 assignManager.propTypes = {
-    body: PropTypes.object  //todo
+    body: PropTypes.shape({
+        managerUsername: PropTypes.string,
+        employeeUsername: PropTypes.string,
+    })
 }
 login.propTypes = {
     body: PropTypes.shape({

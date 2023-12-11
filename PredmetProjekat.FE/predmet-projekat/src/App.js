@@ -20,7 +20,8 @@ import RegistersPage from './components/pages/RegistersPage';
 import SalesPage from './components/pages/SalesPage';
 import ProductForm from './components/ProductForm';
 
-function App() {
+
+const App = () => {
   const cookies = new Cookies();
   const [user, setUser] = useState(null);
 
@@ -38,11 +39,6 @@ function App() {
     })
   };
 
-  useEffect(() => {
-    console.log(user);
-
-  },[user]);
-
   return (
     <Router>
       <div className="App">
@@ -53,7 +49,7 @@ function App() {
         { user ? (
           <Switch>
           <Route exact path="/">
-            <HomePage></HomePage>
+            <HomePage user={user}></HomePage>
           </Route>
           <Route exact path="/register">
             <RegisterPage></RegisterPage>

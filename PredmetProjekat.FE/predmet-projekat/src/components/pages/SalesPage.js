@@ -17,7 +17,8 @@ const SalesPage = ({ user }) => {
                     }
                     return res.data;
                 }).then(data => {
-                    setData(data);
+                    const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+                    setData(sortedData);
                 })
                     .catch(err => {
                         setError(err);
@@ -30,7 +31,8 @@ const SalesPage = ({ user }) => {
                     }
                     return res.data;
                 }).then(data => {
-                    setData(data);
+                    const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+                    setData(sortedData);
                 })
                     .catch(err => {
                         setError(err);
@@ -45,7 +47,6 @@ const SalesPage = ({ user }) => {
         //todo
         console.log(value);
     }
-
 
     return (
         <Container>

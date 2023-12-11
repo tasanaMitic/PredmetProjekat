@@ -31,8 +31,7 @@ namespace PredmetProjekat.Services.Services.AccountServices
             var roleResult = await _userManager.AddToRoleAsync(account, Constants.AdminRole);
             if (!roleResult.Succeeded)
             {
-                //TODO
-                // revert creation
+                await _userManager.DeleteAsync(account);
                 return roleResult;
             }
 
@@ -50,10 +49,10 @@ namespace PredmetProjekat.Services.Services.AccountServices
             }
 
             var roleResult = await _userManager.AddToRoleAsync(account, Constants.EmployeeRole);
+            
             if (!roleResult.Succeeded)
             {
-                //TODO
-                // revert creation
+                await _userManager.DeleteAsync(account);
                 return roleResult;
             }
 

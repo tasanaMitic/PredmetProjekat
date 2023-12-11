@@ -18,7 +18,7 @@ const RegisterForm = ({ userRole }) => {
         setData({email: '', username: '', firstName: '', lastName: '', password: '' });
     }
 
-    const handleSubmit = (e) => {   //todo username limited to 4-12 char
+    const handleSubmit = (e) => {
         e.preventDefault();
         setIsPending(true);
         setError(null);

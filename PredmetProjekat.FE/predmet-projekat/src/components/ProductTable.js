@@ -123,8 +123,14 @@ ProductTable.propTypes = {
         sex: PropTypes.string,
         quantity: PropTypes.number,
         price: PropTypes.number,
-        category: PropTypes.object, //todo
-        brand: PropTypes.object //todo
+        category: PropTypes.shape({
+            name: PropTypes.string,
+            categoryId: PropTypes.string,
+        }),
+        brand: PropTypes.shape({
+            name: PropTypes.string,
+            brandId: PropTypes.string,
+        }),
     })),
     user: PropTypes.shape({
         role: PropTypes.string,

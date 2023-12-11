@@ -160,7 +160,12 @@ UsersTable.propTypes = {
         lastName: PropTypes.string,
         username: PropTypes.string,
         managerId: PropTypes.string,
-        manager: PropTypes.object   //todo
+        manager: PropTypes.shape({
+            email: PropTypes.string,
+            firstName: PropTypes.string,
+            lastName: PropTypes.string,
+            username: PropTypes.string,
+        })
     })),
     loggedInUser: PropTypes.shape({
         role: PropTypes.string,

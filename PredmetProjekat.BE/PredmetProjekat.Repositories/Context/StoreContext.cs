@@ -35,33 +35,6 @@ namespace PredmetProjekat.Repositories.Context
 
             builder.Entity<Register>().HasIndex(x => x.RegisterCode).IsUnique();
             builder.Entity<Account>().Property(x => x.IsDeleted).HasDefaultValue(false);
-
-
-            //TODO Seed the db with values?
-            //One Admin
-            //    builder.Entity<Account>().HasData(new Account
-            //    {
-            //        Email = "tasana@gmail.com",
-            //        NormalizedEmail = "tasana@gmail.com".Normalize(),
-            //        FirstName = "Tasana",
-            //        Lastname = "Mitic",
-            //        UserName = "tasanaAdmin",
-            //        NormalizedUserName = "tasanaAdmin".Normalize(),
-            //        PasswordHash = HashPassword("Sifra123!"),
-
-            //    });
-
-            //}
-
-            //private string HashPassword(string password)
-            //{
-            //    byte[] salt = RandomNumberGenerator.GetBytes(128 / 8);
-            //    return Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            //        password: password!,
-            //        salt: salt,
-            //        prf: KeyDerivationPrf.HMACSHA256,
-            //        iterationCount: 100000,
-            //        numBytesRequested: 256 / 8));
         }
     }
 }
