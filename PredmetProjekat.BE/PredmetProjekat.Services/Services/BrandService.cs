@@ -35,7 +35,6 @@ namespace PredmetProjekat.Services.Services
             var brandToBeDeleted = _unitOfWork.BrandRepository.GetBrandById(id);
             _unitOfWork.BrandRepository.DeleteBrand(brandToBeDeleted);
             _unitOfWork.SaveChanges();
-            //todo handle products
 
             return GetBrands();
         }

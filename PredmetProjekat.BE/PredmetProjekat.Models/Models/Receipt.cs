@@ -16,7 +16,6 @@ namespace PredmetProjekat.Models.Models
         public Account SoldBy { get; set; }
         [Required]
         public IEnumerable<SoldProduct> SoldProducts { get; set; }
-
         [Required]
         [Precision(18, 2)]
         public decimal TotalPrice { get; set; }

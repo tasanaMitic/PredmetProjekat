@@ -18,7 +18,7 @@ const ModalError = ({ show, setShow, error, setError }) => {
             case 404:
                 return error.data.message;
             case 500:
-                return error.data.message;
+                return "Something went wrong on the server side. Try again shortly!";
             default:
                 return "Something went wrong."
         }

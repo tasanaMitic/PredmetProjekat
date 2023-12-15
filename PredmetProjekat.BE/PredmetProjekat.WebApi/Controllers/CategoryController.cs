@@ -40,7 +40,6 @@ namespace PredmetProjekat.WebApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult<IEnumerable<CategoryDtoId>> DeleteCategory([FromRoute] Guid id)  
         {
-            //todo logicko brisanje
             return Ok(_categoryService.DeleteCategory(id));
         }
     }

@@ -93,12 +93,15 @@ namespace PredmetProjekat.Services.Services
                 _unitOfWork.ProductRepository.UpdateProduct(product);
             }
 
+            var soldProductIds = CreateSoldProducts(saleDto.SoldProducts);
+
+
             var receipt = new Receipt
             {
                 Date = DateTime.Now,
                 ReceiptId = Guid.NewGuid(),
                 SoldBy = user,
-                SoldProducts = _mapper.Map<IEnumerable<SoldProduct>>(saleDto.SoldProducts),
+                SoldProducts = _unitOfWork.SoldProductRepository.GetSoldProductsByIds(soldProductIds),
                 Register = _unitOfWork.RegisterRepository.GetRegisterById(saleDto.RegisterId),
                 TotalPrice = totalPrice
             };
@@ -148,6 +151,25 @@ namespace PredmetProjekat.Services.Services
 
             var sales = _unitOfWork.ReceiptRepository.GetAllReceiptsForUser(user);
             return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
+        }
+
+        private IEnumerable<Guid> CreateSoldProducts(IEnumerable<SoldProductDto> soldProducts)
+        {
+            List<Guid> soldProductIds = new List<Guid>();
+            foreach (SoldProductDto dto in soldProducts)
+            {
+                var id = Guid.NewGuid();
+                var soldProduct = new SoldProduct
+                {
+                    SoldProductId = id,
+                    Product = _unitOfWork.ProductRepository.GetProductById(dto.ProductId),
+                    Quantity = dto.Quantity
+                };
+                _unitOfWork.SoldProductRepository.CreateSoldProduct(soldProduct);
+                soldProductIds.Add(id);
+            }
+            return soldProductIds;
+
         }
     }
 }

@@ -9,6 +9,7 @@ namespace PredmetProjekat.Common.Interfaces
         IProductRepository ProductRepository { get; }
         IRegisterRepository RegisterRepository { get; }
         IReceiptRepository ReceiptRepository { get; } 
+        ISoldProductRepository SoldProductRepository { get; }
         void SaveChanges();
     }
 }

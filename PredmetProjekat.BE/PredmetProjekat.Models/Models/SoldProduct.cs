@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PredmetProjekat.Models.Models
 {
@@ -8,7 +7,7 @@ namespace PredmetProjekat.Models.Models
         [Key]
         public Guid SoldProductId { get; set; }
         [Required]
-        public string ProductId { get; set; }
+        public Product Product { get; set; }
         [Required]
         [Range(1, 5)]
         public int Quantity { get; set; }
