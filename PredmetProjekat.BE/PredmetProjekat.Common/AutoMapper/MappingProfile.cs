@@ -18,7 +18,11 @@ namespace PredmetProjekat.Common.AutoMapper
                 .ForMember(dest => dest.SoldProductId, opt => opt.MapFrom(src => src.SoldProductId == Guid.Empty ? Guid.NewGuid() : src.SoldProductId))
                 .ForMember(dest => dest.Product, opt => opt.MapFrom(src => new Product { ProductId = src.ProductId }))
                 .ReverseMap();
+            CreateMap<AttributeDto, ProductAttribute>()
+                .ForMember(dest => dest.AttributeId, opt => opt.MapFrom(src => src.AttributeId == Guid.Empty ? Guid.NewGuid() : src.AttributeId))
+                .ReverseMap();
             CreateMap<Register, RegisterDtoId>().ReverseMap();
+            CreateMap<ProductType, ProductTypeDtoId>().ReverseMap();
             CreateMap<Account, RegistrationDto>().ReverseMap();
             CreateMap<Account, UserDto>().ReverseMap();
             CreateMap<Account, EmployeeDto>().ReverseMap();

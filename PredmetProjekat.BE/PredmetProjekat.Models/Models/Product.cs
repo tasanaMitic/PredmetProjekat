@@ -10,13 +10,7 @@ namespace PredmetProjekat.Models.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Size { get; set; }
-        [Required]
         public int Quantity { get; set; }
-        [Required]
-        public string Season { get; set; }
-        [Required]
-        public string Sex { get; set; }
         [Required]
         public  Brand Brand { get; set; }
         [Required]
@@ -28,6 +22,8 @@ namespace PredmetProjekat.Models.Models
         [Required]
         [Precision(18,2)]
         public decimal Price { get; set; }
+        [Required]
+        public ProductType ProductType { get; set; }
 
     }
 }

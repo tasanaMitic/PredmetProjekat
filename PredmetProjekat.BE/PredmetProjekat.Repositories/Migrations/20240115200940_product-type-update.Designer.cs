@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PredmetProjekat.Repositories.Context;
 
@@ -11,9 +12,11 @@ using PredmetProjekat.Repositories.Context;
 namespace PredmetProjekat.Repositories.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240115200940_product-type-update")]
+    partial class producttypeupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -274,7 +277,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Category", b =>
@@ -297,7 +300,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>
@@ -345,7 +348,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.ProductAttribute", b =>
@@ -369,7 +372,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("Attributes", (string)null);
+                    b.ToTable("Attributes");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.ProductType", b =>
@@ -387,7 +390,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasKey("ProductTypeId");
 
-                    b.ToTable("ProductTypes", (string)null);
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Receipt", b =>
@@ -416,7 +419,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasIndex("SoldById");
 
-                    b.ToTable("Receipts", (string)null);
+                    b.ToTable("Receipts");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Register", b =>
@@ -438,7 +441,7 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasIndex("RegisterCode")
                         .IsUnique();
 
-                    b.ToTable("Registers", (string)null);
+                    b.ToTable("Registers");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.SoldProduct", b =>
@@ -463,7 +466,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.ToTable("SoldProducts", (string)null);
+                    b.ToTable("SoldProducts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

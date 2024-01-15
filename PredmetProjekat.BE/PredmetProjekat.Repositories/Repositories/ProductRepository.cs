@@ -5,11 +5,9 @@ using PredmetProjekat.Repositories.Context;
 
 namespace PredmetProjekat.Repositories.Repositories
 {
-    internal class ProductRepository : GenericRepository<Product>, IProductRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
-        public ProductRepository(StoreContext context) : base(context)
-        {
-        }
+        public ProductRepository(StoreContext context) : base(context) { }
 
         public void CreateProduct(Product product)
         {

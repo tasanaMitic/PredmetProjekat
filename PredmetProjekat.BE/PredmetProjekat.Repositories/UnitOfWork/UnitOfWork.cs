@@ -15,8 +15,8 @@ namespace PredmetProjekat.Repositories.UnitOfWork
         public IProductRepository ProductRepository { get; private set; }
         public IRegisterRepository RegisterRepository { get; private set; }
         public IReceiptRepository ReceiptRepository { get; private set; }
-
         public ISoldProductRepository SoldProductRepository { get; private set; }
+        public IProductTypeRepository ProductTypeRepository { get; private set; }
 
         public UnitOfWork(StoreContext context)
         {
@@ -28,6 +28,7 @@ namespace PredmetProjekat.Repositories.UnitOfWork
             RegisterRepository = new RegisterRepository(_context);
             ReceiptRepository = new ReceiptRepository(_context);
             SoldProductRepository = new SoldProductRepository(_context);
+            ProductTypeRepository = new ProductTypeRepository(_context);
         }
 
         public void Dispose()

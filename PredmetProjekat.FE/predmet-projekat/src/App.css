@@ -147,6 +147,10 @@ ul,
   -webkit-transition: background 0.3s linear, color 0.3s linear;
 }
 
+.login-container {
+  width: 600px;
+}
+
 
 .btn.btn-primary:focus,
 .btn.btn-primary:hover {

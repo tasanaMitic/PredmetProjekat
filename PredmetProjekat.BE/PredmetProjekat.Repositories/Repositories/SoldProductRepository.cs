@@ -7,9 +7,7 @@ namespace PredmetProjekat.Repositories.Repositories
 {
     public class SoldProductRepository : GenericRepository<SoldProduct>, ISoldProductRepository
     {
-        public SoldProductRepository(StoreContext context) : base(context)
-        {
-        }
+        public SoldProductRepository(StoreContext context) : base(context) { }
         public void CreateSoldProduct(SoldProduct soldProduct)
         {
             Create(soldProduct);
@@ -17,7 +15,7 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public IEnumerable<SoldProduct> GetSoldProductsByIds(IEnumerable<Guid> soldproductsIds)
         {
-            return _context.SoldProduct.Where(x => soldproductsIds.Contains(x.SoldProductId)).ToList();
+            return _context.SoldProducts.Where(x => soldproductsIds.Contains(x.SoldProductId)).ToList();
         }
     }
 }

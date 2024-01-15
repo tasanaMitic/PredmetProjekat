@@ -27,10 +27,6 @@ namespace PredmetProjekat.Services.Services
             {
                 ProductId = id,
                 Name = productDto.Name,
-                Size = productDto.Size,
-                Season = productDto.Season,
-                Sex = productDto.Sex,
-                Quantity = 0,
                 Brand = _unitOfWork.BrandRepository.GetBrandById(productDto.BrandId),
                 Category = _unitOfWork.CategoryRepository.GetCategoryById(productDto.CategoryId),
                 IsInStock = false

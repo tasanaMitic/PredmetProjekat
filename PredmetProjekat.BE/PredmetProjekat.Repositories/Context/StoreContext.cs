@@ -15,21 +15,24 @@ namespace PredmetProjekat.Repositories.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Register> Registers { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
-        public DbSet<SoldProduct> SoldProduct { get; set; }
+        public DbSet<SoldProduct> SoldProducts { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductAttribute> Attributes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new RoleConfiguration());
 
-
-            builder.Entity<Product>().Property(x => x.Quantity).HasDefaultValue(0);
             builder.Entity<Product>().Property(x => x.Price).HasDefaultValue(0);
             builder.Entity<Product>().Property(x => x.IsInStock).HasDefaultValue(false);
             builder.Entity<Product>().Property(x => x.IsDeleted).HasDefaultValue(false);
 
             builder.Entity<Category>().Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
+
+            builder.Entity<ProductType>().Property(x => x.IsDeleted).HasDefaultValue(false);
+            builder.Entity<ProductType>().HasIndex(x => x.Name).IsUnique();
 
             builder.Entity<Brand>().Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
