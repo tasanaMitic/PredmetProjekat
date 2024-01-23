@@ -17,12 +17,23 @@ namespace PredmetProjekat.Services.Services
         }
         public ProductTypeDtoId AddProductType(ProductTypeDto productTypeDto)
         {
-            var id = Guid.NewGuid();
+            List<ProductAttribute> attributes = new List<ProductAttribute>();
+            foreach (string attribute in productTypeDto.Attributes)
+            {
+                ProductAttribute productAttribute = new ProductAttribute 
+                { 
+                    AttributeName = attribute,
+                    AttributeId = Guid.NewGuid()
+                };
+                attributes.Add(productAttribute);
+               
+            }
+
             var productType = new ProductType
             {
                 Name = productTypeDto.Name,
-                Attributes = _mapper.Map<IEnumerable<ProductAttribute>>(productTypeDto.Attributes),
-                ProductTypeId = id
+                Attributes = attributes,
+                ProductTypeId = Guid.NewGuid()
             };
             _unitOfWork.ProductTypeRepository.CreateProductType(productType);
             _unitOfWork.SaveChanges();

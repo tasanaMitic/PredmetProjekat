@@ -9,7 +9,7 @@ const AppHeader = ({ user, logout }) => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand as={Link} to="/">Predmet projekat</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">The Ultimate Store</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {user ? (

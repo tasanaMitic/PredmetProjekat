@@ -17,10 +17,9 @@ namespace PredmetProjekat.Services.Services
         }
         public CategoryDtoId AddCategory(CategoryDto categoryDto)
         {
-            var id = Guid.NewGuid();
             var category = new Category
             {
-                CategoryId = id,
+                CategoryId = Guid.NewGuid(),
                 Name = categoryDto.Name
             };
             _unitOfWork.CategoryRepository.CreateCategory(category);

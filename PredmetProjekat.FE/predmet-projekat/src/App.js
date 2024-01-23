@@ -19,6 +19,7 @@ import ManagersPage from './components/pages/ManagersPage';
 import RegistersPage from './components/pages/RegistersPage';
 import SalesPage from './components/pages/SalesPage';
 import ProductForm from './components/ProductForm';
+import ProductTypeForm from './components/ProductTypeForm';
 
 
 const App = () => {
@@ -75,6 +76,9 @@ const App = () => {
           <Route exact path="/addproduct">
             <ProductForm></ProductForm>
           </Route>
+          <Route exact path="/addproducttype">
+          <ProductTypeForm></ProductTypeForm>
+        </Route>
           <Route exact path="/sell">
             <SellProductsPage user={user}></SellProductsPage>
           </Route>   

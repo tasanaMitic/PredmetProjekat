@@ -33,6 +33,7 @@ namespace PredmetProjekat.Repositories.Context
 
             builder.Entity<ProductType>().Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.Entity<ProductType>().HasIndex(x => x.Name).IsUnique();
+            builder.Entity<ProductType>().HasMany(x => x.Attributes);
 
             builder.Entity<Brand>().Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();

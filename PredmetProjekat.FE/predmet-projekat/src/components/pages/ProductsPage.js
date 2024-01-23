@@ -42,16 +42,22 @@ const ProductsPage = ({ user }) => {
         
     }, [user.role]);
 
-    const handleClick = () => {
+    const handleClickProducts = () => {
         history.replace('/addproduct');
     }
 
+    const handleClickProductTypes = () => {
+        history.replace('/addproducttype');
+    }
 
     return (
         <Container>
             {user.role === "Admin" && <Container className="d-grid gap-2">
                 <h1>Products</h1>
-                <Button variant="outline-dark" onClick={handleClick} >Add products</Button>
+                <div>
+                <Button onClick={handleClickProducts} >Add products</Button>
+                <Button onClick={handleClickProductTypes} >Add product types</Button>
+                </div>
                 <h3>All products</h3>
                 <ProductTable products={products} user={user}></ProductTable>
             </Container>

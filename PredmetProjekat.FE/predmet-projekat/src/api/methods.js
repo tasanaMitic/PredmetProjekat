@@ -108,7 +108,24 @@ const getAllSales = () => {
     return get('/api/product/allsales');
 }
 
+//productTypes
+const getProductTypes = () => {
+    return get('/api/producttype');
+}
+
+const createProductType = (body) => {
+    return post('/api/producttype', body);
+}
+
+
 //proptypes
+
+addRegister.createProductType = {
+    body: PropTypes.shape({
+        name: PropTypes.string,
+        attributes: PropTypes.arrayOf(PropTypes.string)
+    })
+}
 
 addRegister.propTypes = {
     body: PropTypes.shape({
@@ -213,8 +230,8 @@ updateUser.propTypes = {
 
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser, getAllSales,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser, getAllSales, getProductTypes,
     deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
     assignManager, updateUser, stockProduct, sellProduct, setProductPrice,
-    addCategory, addBrand, createProduct, addRegister
+    addCategory, addBrand, createProduct, addRegister, createProductType
 };

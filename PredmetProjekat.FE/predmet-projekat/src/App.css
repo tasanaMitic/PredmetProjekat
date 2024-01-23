@@ -135,9 +135,14 @@ ul,
   color: pink;
 }
 
+.control {
+  width: 20%;
+}
+
 .btn.btn-primary {
-  background: pink;
+  background: black;
   border-color: pink;
+  width: 250px;
   padding: 9px 35px;
   font-size: 14px;
   line-height: 18px;
@@ -147,9 +152,7 @@ ul,
   -webkit-transition: background 0.3s linear, color 0.3s linear;
 }
 
-.login-container {
-  width: 600px;
-}
+
 
 
 .btn.btn-primary:focus,

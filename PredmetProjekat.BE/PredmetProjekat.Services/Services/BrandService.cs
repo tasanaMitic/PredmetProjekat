@@ -18,10 +18,9 @@ namespace PredmetProjekat.Services.Services
         }
         public BrandDtoId AddBrand(BrandDto brandDto)
         {
-            var id = Guid.NewGuid();
             var brand = new Brand
             {
-                BrandId = id,
+                BrandId = Guid.NewGuid(),
                 Name = brandDto.Name
             };
             _unitOfWork.BrandRepository.CreateBrand(brand);

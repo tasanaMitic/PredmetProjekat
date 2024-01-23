@@ -8,7 +8,7 @@ namespace PredmetProjekat.Models.Models
         public Guid AttributeId { get; set; }
         [Required]
         public string AttributeName { get; set; }
-        [Required]
-        public string AttributeValue { get; set; }
+        //[Required]
+        //public string AttributeValue { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PredmetProjekat.Common.Interfaces.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using PredmetProjekat.Common.Interfaces.IRepository;
 using PredmetProjekat.Models.Models;
 using PredmetProjekat.Repositories.Context;
 
@@ -21,7 +22,7 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public IEnumerable<ProductType> GetAllProductTypes()
         {
-            return GetAll();
+            return _context.ProductTypes.Where(x => x.IsDeleted == false).Include(x => x.Attributes).ToList();
         }
 
         public ProductType GetProductTypeById(Guid id)
