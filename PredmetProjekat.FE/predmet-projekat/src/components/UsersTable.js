@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
-import { assignManager, deleteEmployee, getEmployees } from "../api/methods";
+import { assignManager, deleteEmployee } from "../api/methods";
 import ModalError from "./modals/ModalError";
 import ModalCheck from './modals/ModalCheck'
 import ModalManager from "./modals/ModalManager";
@@ -12,13 +12,13 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
     const [error, setError] = useState(null);
     const [checkModal, setCheckModal] = useState(false);
     const [managerModal, setManagerModal] = useState(false);
-    const [successModal, setSuccessModal] = useState(false);    
+    const [successModal, setSuccessModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
     const [successMessage, setSuccessMessage] = useState(null);
     const [managers, setManagers] = useState(null);
     const [userToDelete, setUserToDelete] = useState(null);
     const [userToAssignManager, setUserToAssignManager] = useState(null);
-    
+
 
     useEffect(() => {
         if (admins) {
@@ -34,23 +34,14 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
         setUserToDelete(username);
     }
 
-    const handleAssign = (username) => {
-        setUserToAssignManager(username);
+    const handleAssign = (user) => {
+        setUserToAssignManager(user);
 
-        getEmployees().then(res => {
-            if (res.status !== 200) {
-                throw Error('There was an error with the request!');
-            }
-            return res.data;
-        })
-            .then(data => {
-                setManagers(data.filter(user => user.username !== username));
-                setError(null);
-                setManagerModal(true);       
-            })
-            .catch(err => {
-                setError(err);
-            })
+        user.manager ? 
+        setManagers(users.filter(x => x.username !== user.username && x.username != user.manager.username)) :
+        setManagers(users.filter(x => x.username !== user.username));
+
+        setManagerModal(true);
     }
 
     const confirmDelete = () => {
@@ -60,31 +51,32 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
 
             }
             return res.data;
+        }).then(data =>
+            setData(data)
+        ).catch(err => {
+            setError(err.response);
+            setErrorModal(true);
         })
-            .then(data => setData(data))
-            .catch(err => {
-                setError(err.response);
-                setErrorModal(true);
-            })
     }
 
     const confirmAssign = (selectedManager) => {
-        const payload = { managerUsername: selectedManager, employeeUsername: userToAssignManager };
+        const payload = { managerUsername: selectedManager, employeeUsername: userToAssignManager.username };
+
+        console.log(payload);
+
         assignManager(payload).then(res => {
             if (res.status !== 200) {
                 throw Error('There was an error with the request!');
             }
             return res.data;
+        }).then(data => {
+            setData(data);
+            setSuccessModal(true);
+            setSuccessMessage('You have successfully assigned ' + selectedManager + ' as a manager to ' + userToAssignManager.username);
+        }).catch(err => {
+            setError(err.response);
+            setErrorModal(true);
         })
-            .then(data => {
-                setData(data);
-                setSuccessModal(true);
-                setSuccessMessage('You have successfully assigned ' + selectedManager + ' as a manager to ' + userToAssignManager);
-            })
-            .catch(err => {
-                setError(err.response);
-                setErrorModal(true);
-            })
     }
 
     const highlightColor = (username) => {
@@ -100,10 +92,10 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
 
     return (
         <Container>
-            {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError}/>}
+            {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
             {data && <Table striped hover>
                 <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
-                <ModalManager setShow={setManagerModal} show={managerModal} managers={managers} confirm={confirmAssign} loggedInUser={loggedInUser}/>
+                <ModalManager setShow={setManagerModal} show={managerModal} managers={managers} confirm={confirmAssign} loggedInUser={loggedInUser} />
                 <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={clearData} message={successMessage} />
                 <thead>
                     <tr>
@@ -128,10 +120,12 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
                             }
                             {users && (!user.manager ?
                                 <td style={{ backgroundColor: highlightColor(user.username) }}>
-                                    <Button variant="dark" onClick={() => handleAssign(user.username)}>Assign manager</Button>
+                                    <Button variant="dark" onClick={() => handleAssign(user)}>Assign manager</Button>
                                 </td>
                                 :
-                                <td></td>)
+                                <td style={{ backgroundColor: highlightColor(user.username) }}>
+                                    <Button variant="dark" onClick={() => handleAssign(user)}>Ressign manager</Button>
+                                </td>)
                             }
                             {users &&
                                 <td style={{ backgroundColor: highlightColor(user.username) }}>

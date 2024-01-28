@@ -111,7 +111,7 @@ const ProductTable = ({ products, user }) => {
                                     <td>
                                         <Button variant="dark" onClick={() => handlePrice(product)}>Change price</Button>
                                     </td>
-                                }
+                                    }
                                 </tr>
                             ))}
                         </tbody>
