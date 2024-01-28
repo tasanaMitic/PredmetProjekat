@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { getBrands, getCategories, createProduct, getProductTypes } from "../api/methods";
 import { useHistory } from "react-router-dom";
 import ModalError from "./modals/ModalError";
@@ -70,10 +70,10 @@ const ProductForm = () => {
     }
 
     const handleChange = (attributeId, attributeValue) => {
-          setAttributes(prevArray => [
+        setAttributes(prevArray => [
             ...prevArray.filter(item => item.attributeId !== attributeId),
             { attributeId, attributeValue },
-          ]);
+        ]);
     };
 
     const handleProductTypeChange = (productTypeId) => {
@@ -91,11 +91,11 @@ const ProductForm = () => {
         const payload = {
             name: name,
             categoryId: category,
-            brandId: brand, 
-            attributeValues: attributes, 
+            brandId: brand,
+            attributeValues: attributes,
             productTypeId: productType.productTypeId
         };
-        
+
         console.log(payload);
 
         createProduct(payload).then(res => {
@@ -116,56 +116,61 @@ const ProductForm = () => {
     }
 
     return (
-        <Form>
-            <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={handleCancel} message={successMessage} />
-            {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
-            <Form.Group className="mb-3" controlId="formBasicName" key="formBasicName" >
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="name" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} required />
-            </Form.Group>
-            {categories &&
-                <Form.Group className="mb-3" controlId="formBasicCategory" key="formBasicCategory" >
-                    <Form.Label>Category</Form.Label>
-                    {categories.length > 0 ?
-                        <Form.Select aria-label="Default select example" onChange={(e) => handleCategoryChange(e.target.value)}>
-                            <option value="default" key="default">Select category</option>
-                            {categories.map((category) => <option value={category.categoryId} key={category.categoryId}>{category.name}</option>)}
-                        </Form.Select> : <p value="default">There are no available categories.</p>}
+        <Container className="d-flex justify-content-center">
+            <Form>
+                <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={handleCancel} message={successMessage} />
+                {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
+                <Form.Group className="custom-width mb-3" controlId="formBasicName" key="formBasicName" >
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="name" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} required />
                 </Form.Group>
-            }
-            {brands &&
-                <Form.Group className="mb-3" controlId="formBasicBrand" key="formBasicBrand" >
-                    <Form.Label>Brand</Form.Label>
-                    {brands.length > 0 ?
-                        <Form.Select aria-label="Default select example" onChange={(e) => handleBrandChange(e.target.value)}>
-                            <option value="default" key="default">Select brand</option>
-                            {brands.map((brand) => <option value={brand.brandId} key={brand.brandId}>{brand.name}</option>)}
-                        </Form.Select> : <p value="default">There are no available brands.</p>}
-                </Form.Group>
-            }
-            {productTypes &&
-                <Form.Group className="mb-3" controlId="formBasicProductType" key="formBasicProductType" >
-                    <Form.Label>Product Type</Form.Label>
-                    {productTypes.length > 0 ?
-                        <Form.Select aria-label="Default select example" onChange={(e) => handleProductTypeChange(e.target.value)}>
-                            <option value="default" key="default">Select product type</option>
-                            {productTypes.map((prodType) => <option value={prodType.productTypeId} key={prodType.productTypeId}>{prodType.name}</option>)}
-                        </Form.Select> : <p value="default">There are no available product types.</p>}
-                </Form.Group>
-            }
-            {productType && productType.attributes.length > 0 &&
-                <div>
-                    {productType.attributes.map((field, index) => (
-                        <Form.Group className="mb-3" controlId={field.attributeId} key={field.attributeId}>
-                            <Form.Label>{field.attributeName}</Form.Label>
-                            <Form.Control type="text" placeholder={`Enter value for ${field.attributeName}`} value={attributes[field.attributeId]} onChange={(e) => handleChange(field.attributeId, e.target.value)} required />
-                        </Form.Group>
-                    ))}
-                </div>
-            }
-            <Button variant="dark" onClick={handleCancel}>Cancel</Button>
-            <Button variant="outline-dark" onClick={handleSave} disabled={!name || !brand || !category || (!productType || attributes.length < productType.attributes.length)}>Save</Button>
-        </Form>
+                {categories &&
+                    <Form.Group className="custom-width mb-3" controlId="formBasicCategory" key="formBasicCategory" >
+                        <Form.Label>Category</Form.Label>
+                        {categories.length > 0 ?
+                            <Form.Select aria-label="Default select example" onChange={(e) => handleCategoryChange(e.target.value)}>
+                                <option value="default" key="default">Select category</option>
+                                {categories.map((category) => <option value={category.categoryId} key={category.categoryId}>{category.name}</option>)}
+                            </Form.Select> : <p value="default">There are no available categories.</p>}
+                    </Form.Group>
+                }
+                {brands &&
+                    <Form.Group className="custom-width mb-3" controlId="formBasicBrand" key="formBasicBrand" >
+                        <Form.Label>Brand</Form.Label>
+                        {brands.length > 0 ?
+                            <Form.Select aria-label="Default select example" onChange={(e) => handleBrandChange(e.target.value)}>
+                                <option value="default" key="default">Select brand</option>
+                                {brands.map((brand) => <option value={brand.brandId} key={brand.brandId}>{brand.name}</option>)}
+                            </Form.Select> : <p value="default">There are no available brands.</p>}
+                    </Form.Group>
+                }
+                {productTypes &&
+                    <Form.Group className="custom-width mb-3" controlId="formBasicProductType" key="formBasicProductType" >
+                        <Form.Label>Product Type</Form.Label>
+                        {productTypes.length > 0 ?
+                            <Form.Select aria-label="Default select example" onChange={(e) => handleProductTypeChange(e.target.value)}>
+                                <option value="default" key="default">Select product type</option>
+                                {productTypes.map((prodType) => <option value={prodType.productTypeId} key={prodType.productTypeId}>{prodType.name}</option>)}
+                            </Form.Select> : <p value="default">There are no available product types.</p>}
+                    </Form.Group>
+                }
+                {productType && productType.attributes.length > 0 &&
+                    <div>
+                        {productType.attributes.map((field, index) => (
+                            <Form.Group className="custom-width mb-3" controlId={field.attributeId} key={field.attributeId}>
+                                <Form.Label>{field.attributeName}</Form.Label>
+                                <Form.Control type="text" placeholder={`Enter value for ${field.attributeName}`} value={attributes[field.attributeId]} onChange={(e) => handleChange(field.attributeId, e.target.value)} required />
+                            </Form.Group>
+                        ))}
+                    </div>
+                }
+                <Container className="d-flex justify-content-center">
+                    <Button variant="dark" style={{ marginRight: '10px' }} onClick={handleCancel}>Cancel</Button>
+                    <Button variant="outline-dark" style={{ marginRight: '10px' }}onClick={handleSave} disabled={!name || !brand || !category || (!productType || attributes.length < productType.attributes.length)}>Save</Button>
+                </Container>
+            </Form>
+        </Container>
+
     );
 }
 

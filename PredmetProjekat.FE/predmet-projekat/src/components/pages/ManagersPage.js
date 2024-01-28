@@ -30,7 +30,7 @@ const ManagersPage = ({ user }) => {
     }, [user.username, user.role]);
 
     return (
-        <Container>
+        <Container className="d-flex flex-column align-items-center p-3">
         {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError}/>}
             <h1>Managers</h1>
             <h3>Your manager</h3>

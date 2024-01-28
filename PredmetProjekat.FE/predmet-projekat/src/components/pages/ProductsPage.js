@@ -52,12 +52,10 @@ const ProductsPage = ({ user }) => {
 
     return (
         <Container>
-            {user.role === "Admin" && <Container className="d-grid gap-2">
+            {user.role === "Admin" && <Container className="d-flex flex-column align-items-center p-3">
                 <h1>Products</h1>
-                <div>
                 <Button onClick={handleClickProducts} >Add products</Button>
                 <Button onClick={handleClickProductTypes} >Add product types</Button>
-                </div>
                 <h3>All products</h3>
                 <ProductTable products={products} user={user}></ProductTable>
             </Container>

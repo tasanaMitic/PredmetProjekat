@@ -139,6 +139,10 @@ ul,
   width: 20%;
 }
 
+.custom-width {
+  width: 600px; /* Set the width as needed */
+}
+
 .btn.btn-primary {
   background: black;
   border-color: pink;

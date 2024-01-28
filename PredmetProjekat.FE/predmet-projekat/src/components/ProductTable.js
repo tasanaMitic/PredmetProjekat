@@ -33,7 +33,7 @@ const ProductTable = ({ products, user }) => {
     const handlePrice = (product) => {
         setProduct(product);
         setPriceModal(true);
-    }    
+    }
 
     const handleDelete = (productId) => {
         setProductToDelete(productId);
@@ -60,9 +60,9 @@ const ProductTable = ({ products, user }) => {
     }
 
     return (
-        <Container>
-        <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock}/>
-        {product && <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} product={product}/>}
+        <Container className="d-flex flex-column align-items-center p-3">
+            <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock} />
+            {product && <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} product={product} />}
             {data && data.length > 0 ?
                 <Container>
                     {product && <ModalProductDetails setShow={setDetailsModal} show={detailsModal} product={product} />}
@@ -78,9 +78,9 @@ const ProductTable = ({ products, user }) => {
                                 <th>Category</th>
                                 <th>Brand</th>
                                 <th>Price</th>
-                                {user.role === 'Admin' && <th></th> }
-                                {user.role === 'Admin' && <th></th> }
-                                {user.role === 'Admin' && <th></th> }
+                                {user.role === 'Admin' && <th></th>}
+                                {user.role === 'Admin' && <th></th>}
+                                {user.role === 'Admin' && <th></th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -101,16 +101,16 @@ const ProductTable = ({ products, user }) => {
                                         <td>
                                             <Button variant="dark" onClick={() => handleStock(product.productId)}>Stock</Button>
                                         </td>
-                                    }                                    
+                                    }
                                     {user.role === 'Admin' && product.price == 0 &&
                                         <td>
                                             <Button variant="dark" onClick={() => handlePrice(product)}>Set price</Button>
                                         </td>
                                     }
                                     {user.role === 'Admin' && product.price != 0 &&
-                                    <td>
-                                        <Button variant="dark" onClick={() => handlePrice(product)}>Change price</Button>
-                                    </td>
+                                        <td>
+                                            <Button variant="dark" onClick={() => handlePrice(product)}>Change price</Button>
+                                        </td>
                                     }
                                 </tr>
                             ))}
@@ -145,7 +145,7 @@ ProductTable.propTypes = {
             attributeValue: PropTypes.string,
         })),
         productType: PropTypes.shape({
-            productTypeId: PropTypes.string, 
+            productTypeId: PropTypes.string,
             name: PropTypes.string,
             attributes: PropTypes.arrayOf(PropTypes.shape({
                 attributeId: PropTypes.string,

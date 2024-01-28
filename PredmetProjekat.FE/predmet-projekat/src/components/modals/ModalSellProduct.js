@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Table } from "react-bootstrap";
+import { Button, Container, Form, Modal, Table } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import { getRegisters, sellProduct } from "../../api/methods";
@@ -63,6 +63,7 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
     };
 
     return (
+
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Please provide quantity</Modal.Title>
@@ -107,9 +108,12 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
                             </Form.Select>
                             : <p value="default">There are no available registers.</p>}
                     </Form.Group>
-                    <Button variant="dark" type="submit" disabled={!register}>
-                        Submit
-                    </Button>
+                    <Container className="d-flex flex-column align-items-center p-3">
+                        <Button variant="dark" type="submit" disabled={!register}>
+                            Submit
+                        </Button>
+                    </Container>
+
                 </Form>
             </Modal.Body>
         </Modal>

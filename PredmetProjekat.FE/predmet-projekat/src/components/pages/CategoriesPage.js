@@ -30,7 +30,7 @@ const CategoriesPage = () => {
     }
 
     return (
-        <Container className="d-fex p-3">
+        <Container className="d-flex flex-column align-items-center p-3">
             <ModalCategory setShow={setCategoryModal} show={categoryModal} setError={setError} setErrorModal={setErrorModal} setData={setData}/>
             {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
             <Button variant="outline-dark" onClick={handleClick}>Add category</Button>

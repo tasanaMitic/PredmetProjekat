@@ -1,4 +1,4 @@
-import { Button, Container, Table, InputGroup } from "react-bootstrap";
+import { Button, Container, Table, InputGroup, Form, FormControl } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -10,8 +10,10 @@ import ModalSuccess from "../modals/ModalSuccess";
 const SellProductsPage = ({ user }) => {
     const history = useHistory();
     const [data, setData] = useState(null);
+    const [filterdData, setFilteredData] = useState(null);
     const [selectedProductIds, setSelectedProductIds] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const [sellModal, setSellModal] = useState(null);
     const [error, setError] = useState(null);
@@ -27,6 +29,7 @@ const SellProductsPage = ({ user }) => {
             return res.data;
         }).then((data) => {
             setData(data);
+            setFilteredData(data);
         }).catch(err => {
             setData(null);
         });
@@ -51,19 +54,37 @@ const SellProductsPage = ({ user }) => {
         history.replace('/products');
     }
 
+    const handleSearch = (value) => {
+        setSearchTerm(value);
+        value === '' ? 
+            setFilteredData(data) : 
+            setFilteredData(data.filter(x => x.name.includes(value)));
+    };
+
     return (
-        <Container>
-        <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={handleCancel} message={successMessage} />
+        <Container className="d-flex flex-column align-items-center p-3">
+            <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={handleCancel} message={successMessage} />
             {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
             {sellModal && <ModalSell setShow={setSellModal}
-            show={sellModal}
-            setError={setError}
-            setErrorModal={setErrorModal}
-            selectedProducts={selectedProducts}
-            setSuccessMessage={setSuccessMessage}
-            setSuccessModal={setSuccessModal} />}
+                show={sellModal}
+                setError={setError}
+                setErrorModal={setErrorModal}
+                selectedProducts={selectedProducts}
+                setSuccessMessage={setSuccessMessage}
+                setSuccessModal={setSuccessModal} />}
             <h1>Select products to sell</h1>
-            {data && data.length > 0 ?
+            <Container>
+                <Form>
+                    <FormControl
+                        type="text"
+                        placeholder="Search"
+                        className="mb-2 mt-2"
+                        value={searchTerm}
+                        onChange={(e) => handleSearch(e.target.value)}
+                    />
+                </Form>
+            </Container>
+            {filterdData && filterdData.length > 0 ?
                 <Container>
                     <Table striped hover>
                         <thead>
@@ -77,7 +98,7 @@ const SellProductsPage = ({ user }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((product) => (
+                            {filterdData.map((product) => (
                                 <tr key={product.productId}>
                                     <td>
                                         <InputGroup onChange={(e) => handleChange(e, product.productId)}>

@@ -31,12 +31,12 @@ const RegistersPage = () => {
     }
 
     return (
-        <Container>
+        <Container className="d-flex flex-column align-items-center p-3">
             <h1>Registers</h1>
             <ModalRegister show={registerModal} setShow={setRegisterModal} setData={setData} setError={setError} setErrorModal={setErrorModal} ></ModalRegister>
             <Button variant="outline-dark" onClick={handleClick} >Add register</Button>
             {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
-            {data ? <Table striped hover >
+            {data && data.length > 0 ? <Table striped hover >
                 <thead>
                     <tr>
                         <th>Location</th>

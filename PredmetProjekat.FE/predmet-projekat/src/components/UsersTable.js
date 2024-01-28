@@ -61,9 +61,6 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
 
     const confirmAssign = (selectedManager) => {
         const payload = { managerUsername: selectedManager, employeeUsername: userToAssignManager.username };
-
-        console.log(payload);
-
         assignManager(payload).then(res => {
             if (res.status !== 200) {
                 throw Error('There was an error with the request!');

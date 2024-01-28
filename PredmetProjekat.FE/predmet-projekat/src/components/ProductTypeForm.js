@@ -35,7 +35,7 @@ const ProductTypeForm = () => {
         e.preventDefault();
 
         const payload = {
-            name: name, 
+            name: name,
             attributes: formFields
         };
 
@@ -59,12 +59,12 @@ const ProductTypeForm = () => {
     }
 
     return (
-        <Container>
-            <h1>Create new Product Type</h1>
+        <Container className="d-flex justify-content-center">
             <Form>
+                <h1>Create new Product Type</h1>
                 <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={handleCancel} message={successMessage} />
                 {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
-                <Form.Group controlId="formBasicName" key="formBasicName" >
+                <Form.Group className="custom-width mb-3" controlId="formBasicName" key="formBasicName" >
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                         type="text"
@@ -75,7 +75,7 @@ const ProductTypeForm = () => {
                 </Form.Group>
                 <h5>Please enter at least 3 attributes</h5>
                 {formFields.map((field, index) => (
-                    <Form.Group key={"formBasic" + index} >
+                    <Form.Group className="custom-width mb-3" key={"formBasic" + index} >
                         <Form.Label>{`Attribute ${index + 1}:`}</Form.Label>
                         <Form.Control
                             type="text"
@@ -85,14 +85,16 @@ const ProductTypeForm = () => {
                         />
                     </Form.Group>
                 ))}
-                <div>
-                    <Button onClick={handleAddClick}>Add attribute</Button>
+                <Container className="d-flex justify-content-center">
+                    <Button  onClick={handleAddClick}>Add attribute</Button>
                     {formFields.length >= 4 && (
                         <Button onClick={handleRemoveClick}>Remove last added attribute</Button>
                     )}
-                </div>
-                <Button variant="dark" onClick={handleCancel}>Cancel</Button>
-                <Button variant="outline-dark" onClick={handleSave} disabled={!name || formFields.some(field => field.trim() === '')}>Save</Button>
+                </Container>
+                <Container className="d-flex justify-content-center">
+                    <Button variant="dark" style={{ marginRight: '10px' }} onClick={handleCancel}>Cancel</Button>
+                    <Button variant="outline-dark" style={{ marginRight: '10px' }} onClick={handleSave} disabled={!name || formFields.some(field => field.trim() === '')}>Save</Button>
+                </Container>
             </Form>
         </Container>
     );

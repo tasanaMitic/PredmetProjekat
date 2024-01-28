@@ -30,9 +30,12 @@ const ModalManager = ({ show, setShow, managers, confirm, loggedInUser }) => {
             <ManagersTable managers={managers} loggedInUser={loggedInUser} setSelectedManager={setSelectedManager} selectedManager={selectedManager} />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="outline-dark" onClick={handleConfirm} disabled={!selectedManager}>
-              Confirm
-            </Button>
+            <Container className="d-flex flex-column align-items-center p-3">
+              <Button variant="outline-dark" onClick={handleConfirm} disabled={!selectedManager}>
+                Confirm
+              </Button>
+            </Container>
+
           </Modal.Footer>
         </Container>
         :
@@ -67,7 +70,7 @@ ModalManager.propTypes = {
       firstName: PropTypes.string,
       lastName: PropTypes.string,
       username: PropTypes.string,
-  })
+    })
   })),
   loggedInUser: PropTypes.shape({
     role: PropTypes.string,

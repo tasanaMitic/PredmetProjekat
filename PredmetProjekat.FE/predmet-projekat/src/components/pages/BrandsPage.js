@@ -30,7 +30,7 @@ const BrandsPage = () => {
     }
 
     return (
-        <Container className="d-fex p-3">
+        <Container className="d-flex flex-column align-items-center p-3">
             <ModalBrand setShow={setBrandModal} show={brandModal} setError={setError} setErrorModal={setErrorModal} setData={setData}></ModalBrand>
             {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
             <Button variant="outline-dark" onClick={handleClick}>Add brand</Button>
