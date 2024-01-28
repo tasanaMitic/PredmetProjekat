@@ -1,13 +1,17 @@
-import { Button, Container, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import PropTypes from 'prop-types';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setProductPrice } from "../../api/methods";
 
-const ModalPrice = ({ show, setShow, setError, setErrorModal, setData, productId }) => {
-    const [price, setPrice] = useState(0);
+const ModalPrice = ({ show, setShow, setError, setErrorModal, setData, product }) => {
+    const [price, setPrice] = useState(null);
+
+    useEffect(() => {
+        setPrice(product.price);
+    }, [product]);
 
     const handleClose = () => {
-        setPrice(0);
+        
         setShow(false);
     }
 
@@ -20,8 +24,8 @@ const ModalPrice = ({ show, setShow, setError, setErrorModal, setData, productId
     const handleSubmit = (e) => {
         e.preventDefault();
         const payload = { value: price };
-        
-        setProductPrice(productId, payload).then(res => {
+
+        setProductPrice(product.productId, payload).then(res => {
             if (res.status !== 200) {
                 throw Error('There was an error with the request!');
             }
@@ -74,7 +78,10 @@ ModalPrice.propTypes = {
     setError: PropTypes.func,
     setErrorModal: PropTypes.func,
     setData: PropTypes.func,
-    productId: PropTypes.string
+    product: PropTypes.shape({
+        productId: PropTypes.string,
+        price: PropTypes.number,
+    })
 }
 
 export default ModalPrice;

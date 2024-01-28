@@ -16,7 +16,7 @@ const ModalError = ({ show, setShow, error, setError }) => {
             case 401:
                 return "You are not authorized to perform this request."
             case 404:
-                return error.data.message;
+                return error.data.Message;
             case 500:
                 return "Something went wrong on the server side. Try again shortly!";
             default:

@@ -22,13 +22,37 @@ namespace PredmetProjekat.Services.Services
 
         public string AddProduct(ProductDto productDto)
         {
-            var id = $"{productDto.Name.Replace(' ', '-')}-{productDto.Sex}-{productDto.Size}-{productDto.Season}";
+            var brand = _unitOfWork.BrandRepository.GetBrandById(productDto.BrandId);
+            var category = _unitOfWork.CategoryRepository.GetCategoryById(productDto.CategoryId);
+            var productType = _unitOfWork.ProductTypeRepository.GetProductTypeById(productDto.ProductTypeId);
+
+            if (!productType.Attributes.All(attr => productDto.AttributeValues.Any(dto => dto.AttributeId == attr.AttributeId)) && (productType.Attributes.Count() != productDto.AttributeValues.Count()))
+            {
+                throw new Exception($"Attributes don't match to the selected product type!");
+            }
+
+            var id = $"{productDto.Name.Replace(' ', '-')}-{brand.Name}-{category.Name}-{productDto.Name}";
+            var attributes = new List<AttributeValue>();
+
+            foreach(var attributeValueDto in productDto.AttributeValues)
+            {
+                var attributeValue = new AttributeValue
+                {
+                    AttributeValueId = Guid.NewGuid(),
+                    Value = attributeValueDto.AttributeValue,
+                    ProductAttribute = productType.Attributes.Where(x => x.AttributeId == attributeValueDto.AttributeId).First()
+                };
+                attributes.Add(attributeValue);
+            }
+
             _unitOfWork.ProductRepository.CreateProduct(new Product
             {
                 ProductId = id,
                 Name = productDto.Name,
-                Brand = _unitOfWork.BrandRepository.GetBrandById(productDto.BrandId),
-                Category = _unitOfWork.CategoryRepository.GetCategoryById(productDto.CategoryId),
+                Brand = brand,
+                Category = category,
+                ProductType = productType,
+                AttributeValues = attributes,
                 IsInStock = false
             });
             _unitOfWork.SaveChanges();

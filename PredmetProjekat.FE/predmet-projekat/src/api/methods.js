@@ -1,3 +1,4 @@
+import { propTypes } from 'react-bootstrap/esm/Image';
 import { post, get, remove, postWOToken, patch, put } from './httpMethods';
 import PropTypes from 'prop-types';
 
@@ -161,11 +162,12 @@ stockProduct.propTypes = {
 createProduct.propTypes = {
     body: PropTypes.shape({
         name: PropTypes.string,
-        size: PropTypes.string,
-        sex: PropTypes.string,
-        season: PropTypes.string,
         categoryId: PropTypes.number,
-        brandId: PropTypes.number
+        brandId: PropTypes.number,
+        attributeValues: PropTypes.arrayOf(PropTypes.shape({
+            attributeId: PropTypes.number,
+            attributeValue: PropTypes.string
+        }))
     })
 }
 

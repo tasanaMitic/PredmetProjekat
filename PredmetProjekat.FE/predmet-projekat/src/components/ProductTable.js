@@ -6,6 +6,7 @@ import { deleteProduct } from "../api/methods";
 import ModalError from "./modals/ModalError";
 import ModalStock from "./modals/ModalStockProducts";
 import ModalPrice from "./modals/ModalPrice";
+import ModalProductDetails from "./modals/ModalProductDetails";
 
 const ProductTable = ({ products, user }) => {
     const [data, setData] = useState(null);
@@ -14,8 +15,10 @@ const ProductTable = ({ products, user }) => {
     const [checkModal, setCheckModal] = useState(false);
     const [stockModal, setStockModal] = useState(false);
     const [priceModal, setPriceModal] = useState(false);
+    const [detailsModal, setDetailsModal] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
     const [productIdToStock, setProductIdToStock] = useState(null);
+    const [product, setProduct] = useState(null);
 
     useEffect(() => {
         setData(products);
@@ -27,14 +30,19 @@ const ProductTable = ({ products, user }) => {
         setStockModal(true);
     }
 
-    const handlePrice = (productId) => {
-        setProductIdToStock(productId);
+    const handlePrice = (product) => {
+        setProduct(product);
         setPriceModal(true);
     }    
 
     const handleDelete = (productId) => {
         setProductToDelete(productId);
         setCheckModal(true);
+    }
+
+    const handleClick = (product) => {
+        setProduct(product);
+        setDetailsModal(true);
     }
 
     const confirmDelete = () => {
@@ -54,9 +62,10 @@ const ProductTable = ({ products, user }) => {
     return (
         <Container>
         <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock}/>
-        <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock}/>
+        {product && <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} product={product}/>}
             {data && data.length > 0 ?
                 <Container>
+                    {product && <ModalProductDetails setShow={setDetailsModal} show={detailsModal} product={product} />}
                     <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
                     {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
 
@@ -64,9 +73,7 @@ const ProductTable = ({ products, user }) => {
                         <thead>
                             <tr>
                                 <th>Product name</th>
-                                <th>Season</th>
-                                <th>Sex</th>
-                                <th>Size</th>
+                                <th>Product type</th>
                                 <th>Quantity</th>
                                 <th>Category</th>
                                 <th>Brand</th>
@@ -79,14 +86,12 @@ const ProductTable = ({ products, user }) => {
                         <tbody>
                             {data.map((product) => (
                                 <tr key={product.productId}>
-                                    <td>{product.name}</td>
-                                    <td>{product.season}</td>
-                                    <td>{product.sex}</td>
-                                    <td>{product.size}</td>
-                                    <td>{product.quantity}</td>
-                                    <td>{product.category.name}</td>
-                                    <td>{product.brand.name}</td>
-                                    <td>{product.price}$</td>
+                                    <td onClick={() => handleClick(product)}>{product.name}</td>
+                                    <td onClick={() => handleClick(product)}>{product.productType.name}</td>
+                                    <td onClick={() => handleClick(product)}>{product.quantity}</td>
+                                    <td onClick={() => handleClick(product)}>{product.category.name}</td>
+                                    <td onClick={() => handleClick(product)}>{product.brand.name}</td>
+                                    <td onClick={() => handleClick(product)}>{product.price}$</td>
                                     {user.role === 'Admin' &&
                                         <td>
                                             <Button variant="dark" onClick={() => handleDelete(product.productId)}>Delete</Button>
@@ -97,11 +102,16 @@ const ProductTable = ({ products, user }) => {
                                             <Button variant="dark" onClick={() => handleStock(product.productId)}>Stock</Button>
                                         </td>
                                     }                                    
-                                    {user.role === 'Admin' && 
+                                    {user.role === 'Admin' && product.price == 0 &&
                                         <td>
-                                            <Button variant="dark" onClick={() => handlePrice(product.productId)} disabled={product.price !== 0}>Set price</Button>
+                                            <Button variant="dark" onClick={() => handlePrice(product)}>Set price</Button>
                                         </td>
                                     }
+                                    {user.role === 'Admin' && product.price != 0 &&
+                                    <td>
+                                        <Button variant="dark" onClick={() => handlePrice(product)}>Change price</Button>
+                                    </td>
+                                }
                                 </tr>
                             ))}
                         </tbody>
@@ -119,8 +129,6 @@ ProductTable.propTypes = {
     products: PropTypes.arrayOf(PropTypes.shape({
         productId: PropTypes.string,
         name: PropTypes.string,
-        season: PropTypes.string,
-        sex: PropTypes.string,
         quantity: PropTypes.number,
         price: PropTypes.number,
         category: PropTypes.shape({
@@ -131,6 +139,19 @@ ProductTable.propTypes = {
             name: PropTypes.string,
             brandId: PropTypes.string,
         }),
+        attributeValues: PropTypes.arrayOf(PropTypes.shape({
+            attributeId: PropTypes.string,
+            attributeName: PropTypes.string,
+            attributeValue: PropTypes.string,
+        })),
+        productType: PropTypes.shape({
+            productTypeId: PropTypes.string, 
+            name: PropTypes.string,
+            attributes: PropTypes.arrayOf(PropTypes.shape({
+                attributeId: PropTypes.string,
+                attributeName: PropTypes.string,
+            }))
+        })
     })),
     user: PropTypes.shape({
         role: PropTypes.string,

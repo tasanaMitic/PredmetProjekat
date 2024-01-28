@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PredmetProjekat.Repositories.Context;
 
@@ -11,9 +12,11 @@ using PredmetProjekat.Repositories.Context;
 namespace PredmetProjekat.Repositories.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240128180232_attributes-added")]
+    partial class attributesadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +54,15 @@ namespace PredmetProjekat.Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4d519b45-d8af-4c56-9707-91e7a5d2eda0",
-                            ConcurrencyStamp = "83c583b7-9b65-4b52-ba3b-7892edce3532",
+                            Id = "05ccd26b-5cf4-4e0d-86bc-e77a7e3576fb",
+                            ConcurrencyStamp = "dac12f24-30b7-446e-a88c-485075a2c32b",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "3ef8058d-b346-4f2e-8f13-bc8d3c2fd65f",
-                            ConcurrencyStamp = "1c3f4fea-4dd1-4fa6-873f-68371f775354",
+                            Id = "5a6e186f-205a-4bb6-acc9-06983e9ed0df",
+                            ConcurrencyStamp = "3a32f26e-3863-470b-b1b0-17577e968e1e",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         });
@@ -260,7 +263,7 @@ namespace PredmetProjekat.Repositories.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProductAttributeId")
+                    b.Property<Guid>("AttributeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ProductId")
@@ -272,7 +275,7 @@ namespace PredmetProjekat.Repositories.Migrations
 
                     b.HasKey("AttributeValueId");
 
-                    b.HasIndex("ProductAttributeId");
+                    b.HasIndex("AttributeId");
 
                     b.HasIndex("ProductId");
 
@@ -554,9 +557,9 @@ namespace PredmetProjekat.Repositories.Migrations
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.AttributeValue", b =>
                 {
-                    b.HasOne("PredmetProjekat.Models.Models.ProductAttribute", "ProductAttribute")
+                    b.HasOne("PredmetProjekat.Models.Models.ProductAttribute", "Attribute")
                         .WithMany()
-                        .HasForeignKey("ProductAttributeId")
+                        .HasForeignKey("AttributeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -564,7 +567,7 @@ namespace PredmetProjekat.Repositories.Migrations
                         .WithMany("AttributeValues")
                         .HasForeignKey("ProductId");
 
-                    b.Navigation("ProductAttribute");
+                    b.Navigation("Attribute");
                 });
 
             modelBuilder.Entity("PredmetProjekat.Models.Models.Product", b =>

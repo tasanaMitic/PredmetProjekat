@@ -69,10 +69,10 @@ const ProductForm = () => {
         setCategory(categoryId === 'default' ? null : categoryId);
     }
 
-    const handleChange = (attributeId, value) => {
+    const handleChange = (attributeId, attributeValue) => {
           setAttributes(prevArray => [
             ...prevArray.filter(item => item.attributeId !== attributeId),
-            { attributeId, value },
+            { attributeId, attributeValue },
           ]);
     };
 
@@ -88,23 +88,27 @@ const ProductForm = () => {
     }
 
     const handleSave = () => {
-        // const payload = {
-        //     name: name,
-        //     categoryId: category,
-        //     brandId: brand
-        // };
+        const payload = {
+            name: name,
+            categoryId: category,
+            brandId: brand, 
+            attributeValues: attributes, 
+            productTypeId: productType.productTypeId
+        };
+        
+        console.log(payload);
 
-        // createProduct(payload).then(res => {
-        //     if (res.status !== 201) {
-        //         throw Error('There was an error with the request!');
-        //     }
-        //     setSuccessModal(true);
-        //     setSuccessMessage("You have successfully created a product with name " + name);
-        //     setError(null);
-        // }).catch(err => {
-        //     setError(err.response);
-        //     setErrorModal(true);
-        // })
+        createProduct(payload).then(res => {
+            if (res.status !== 201) {
+                throw Error('There was an error with the request!');
+            }
+            setSuccessModal(true);
+            setSuccessMessage("You have successfully created a product with name " + name);
+            setError(null);
+        }).catch(err => {
+            setError(err.response);
+            setErrorModal(true);
+        })
     }
 
     const handleCancel = () => {
@@ -160,7 +164,7 @@ const ProductForm = () => {
                 </div>
             }
             <Button variant="dark" onClick={handleCancel}>Cancel</Button>
-            <Button variant="outline-dark" onClick={handleSave}>Save</Button>
+            <Button variant="outline-dark" onClick={handleSave} disabled={!name || !brand || !category || (!productType || attributes.length < productType.attributes.length)}>Save</Button>
         </Form>
     );
 }

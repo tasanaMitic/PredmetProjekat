@@ -70,10 +70,8 @@ const SellProductsPage = ({ user }) => {
                             <tr>
                                 <th>Select</th>
                                 <th>Product name</th>
+                                <th>Product type</th>
                                 <th>Price</th>
-                                <th>Season</th>
-                                <th>Sex</th>
-                                <th>Size</th>
                                 <th>Category</th>
                                 <th>Brand</th>
                             </tr>
@@ -87,10 +85,8 @@ const SellProductsPage = ({ user }) => {
                                         </InputGroup>
                                     </td>
                                     <td>{product.name}</td>
+                                    <td>{product.productType.name}</td>
                                     <td>{product.price}$</td>
-                                    <td>{product.season}</td>
-                                    <td>{product.sex}</td>
-                                    <td>{product.size}</td>
                                     <td>{product.category.name}</td>
                                     <td>{product.brand.name}</td>
                                 </tr>

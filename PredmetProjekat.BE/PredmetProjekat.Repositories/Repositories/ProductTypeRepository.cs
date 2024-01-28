@@ -25,9 +25,9 @@ namespace PredmetProjekat.Repositories.Repositories
             return _context.ProductTypes.Where(x => x.IsDeleted == false).Include(x => x.Attributes).ToList();
         }
 
-        public ProductType GetProductTypeById(Guid id)
+        public ProductType GetProductTypeById(Guid productTypeId)
         {
-            return GetById(id);
+            return _context.ProductTypes.Where(x => x.IsDeleted == false && x.ProductTypeId == productTypeId).Include(x => x.Attributes).First();
         }
     }
 }

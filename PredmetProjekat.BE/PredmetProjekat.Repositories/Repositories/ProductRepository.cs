@@ -22,17 +22,17 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return _context.Products.Where(x => x.IsDeleted == false).Include(x => x.Category).Include(x => x.Brand).ToList();  
+            return _context.Products.Where(x => x.IsDeleted == false).Include(x => x.Category).Include(x => x.Brand).Include(x => x.AttributeValues).ThenInclude(x => x.ProductAttribute).Include(x => x.ProductType).ToList();  
         }
 
-        public IEnumerable<Product> GetAllStockedProducts()
+        public IEnumerable<Product> GetAllStockedProducts() 
         {
-            return _context.Products.Where(x => x.IsInStock == true && x.Quantity > 0 && x.IsDeleted == false).Include(x => x.Category).Include(x => x.Brand).ToList();
+            return _context.Products.Where(x => x.IsInStock == true && x.Quantity > 0 && x.IsDeleted == false && x.Price > 0).Include(x => x.Category).Include(x => x.Brand).Include(x => x.AttributeValues).ThenInclude(x => x.ProductAttribute).Include(x => x.ProductType).ToList();
         }
 
-        public Product GetProductById(string productId)
+        public Product GetProductById(string productId) 
         {
-            return GetById(productId);
+            return _context.Products.Where(x => x.IsDeleted == false && x.ProductId == productId).Include(x => x.Category).Include(x => x.Brand).Include(x => x.AttributeValues).ThenInclude(x => x.ProductAttribute).Include(x => x.ProductType).First();
         }
 
         public void UpdateProduct(Product product)

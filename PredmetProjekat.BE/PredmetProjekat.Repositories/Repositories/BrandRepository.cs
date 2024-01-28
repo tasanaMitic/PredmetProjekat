@@ -27,7 +27,7 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public Brand GetBrandById(Guid brandId)
         {
-            return GetById(brandId);
+            return FindByCondition(x => x.IsDeleted == false && x.BrandId == brandId).First();
         }
     }
 }

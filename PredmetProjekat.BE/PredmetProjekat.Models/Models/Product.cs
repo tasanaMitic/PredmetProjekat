@@ -24,6 +24,8 @@ namespace PredmetProjekat.Models.Models
         public decimal Price { get; set; }
         [Required]
         public ProductType ProductType { get; set; }
+        [Required]
+        public IEnumerable<AttributeValue> AttributeValues { get; set; }
 
     }
 }

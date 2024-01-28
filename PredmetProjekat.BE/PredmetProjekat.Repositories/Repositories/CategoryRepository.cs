@@ -28,7 +28,7 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public Category GetCategoryById(Guid categoryId)
         {
-            return GetById(categoryId);
+            return FindByCondition(x => x.IsDeleted == false && x.CategoryId == categoryId).First();
         }
     }
 }

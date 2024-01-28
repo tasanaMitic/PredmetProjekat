@@ -74,9 +74,6 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
                             <tr>
                                 <th>Select quantity</th>
                                 <th>Product name</th>
-                                <th>Season</th>
-                                <th>Sex</th>
-                                <th>Size</th>
                                 <th>Category</th>
                                 <th>Brand</th>
                             </tr>
@@ -95,9 +92,6 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
                                         </Form.Group>
                                     </td>
                                     <td>{product.name}</td>
-                                    <td>{product.season}</td>
-                                    <td>{product.sex}</td>
-                                    <td>{product.size}</td>
                                     <td>{product.category.name}</td>
                                     <td>{product.brand.name}</td>
                                 </tr>

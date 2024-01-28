@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { createProductType } from "../api/methods";
 import { useHistory } from "react-router-dom";

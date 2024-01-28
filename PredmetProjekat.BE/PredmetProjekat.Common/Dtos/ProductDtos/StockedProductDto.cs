@@ -8,13 +8,11 @@ namespace PredmetProjekat.Common.Dtos.ProductDtos
         public int Quantity { get; set; }
         [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
-        [Required(AllowEmptyStrings = false)]
-        public string Size { get; set; }
-        public string Sex { get; set; }
-        public string Season { get; set; }
         public CategoryDtoId Category { get; set; }
         public BrandDtoId Brand { get; set; }
         public bool IsInStock { get; set; }
         public decimal Price { get; set; }
+        public ProductTypeDtoId ProductType { get; set; }
+        public IEnumerable<AttributeValueDto> AttributeValues { get; set; }
     }
 }
