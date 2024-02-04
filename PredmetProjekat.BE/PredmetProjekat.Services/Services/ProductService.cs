@@ -113,7 +113,10 @@ namespace PredmetProjekat.Services.Services
                 _unitOfWork.ProductRepository.UpdateProduct(product);
             }
 
-            var soldProductIds = CreateSoldProducts(saleDto.SoldProducts);
+            var soldProductIds = CreateSoldProducts(saleDto.SoldProducts).ToList();
+            _unitOfWork.SaveChanges();
+
+            var soldProducts = _unitOfWork.SoldProductRepository.GetSoldProductsByIds(soldProductIds);
 
 
             var receipt = new Receipt
@@ -121,9 +124,9 @@ namespace PredmetProjekat.Services.Services
                 Date = DateTime.Now,
                 ReceiptId = Guid.NewGuid(),
                 SoldBy = user,
-                SoldProducts = _unitOfWork.SoldProductRepository.GetSoldProductsByIds(soldProductIds),
+                SoldProducts = soldProducts,
                 Register = _unitOfWork.RegisterRepository.GetRegisterById(saleDto.RegisterId),
-                TotalPrice = totalPrice
+                TotalPrice = Math.Round(totalPrice, 2)
             };
 
             _unitOfWork.ReceiptRepository.CreateReceipt(receipt);

@@ -1,4 +1,4 @@
-import { Button, Container, Form, Modal, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import { getRegisters, sellProduct } from "../../api/methods";
@@ -7,6 +7,7 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
     const [quantities, setQuantities] = useState(null);
     const [registers, setRegisters] = useState(null);
     const [register, setRegister] = useState(null);
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const handleClose = () => {
         setShow(false);
@@ -32,9 +33,18 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
     }, [selectedProducts]);
 
     const handleQuantityChange = (productId, value) => {
-        setQuantities(quantities.map((item) =>
+        const updatedQuantities = quantities.map((item) =>
             item.productId === productId ? { ...item, quantity: parseInt(value) } : item
-        ));
+        );
+
+        const updatedTotalPrice = updatedQuantities.reduce(
+            (total, { productId, quantity }) =>
+                total + quantity * (selectedProducts.find((product) => product.productId === productId)?.price || 0),
+            0
+        );
+
+        setQuantities(updatedQuantities);
+        setTotalPrice(Math.round(updatedTotalPrice * 100) / 100);
     };
     const handleRegisterChange = (registerId) => {
         setRegister(registerId === 'default' ? null : registerId);
@@ -77,6 +87,7 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
                                 <th>Product name</th>
                                 <th>Category</th>
                                 <th>Brand</th>
+                                <th>Price</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,6 +106,7 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
                                     <td>{product.name}</td>
                                     <td>{product.category.name}</td>
                                     <td>{product.brand.name}</td>
+                                    <td>{product.price}$</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -108,12 +120,17 @@ const ModalSell = ({ show, setShow, setError, setErrorModal, selectedProducts, s
                             </Form.Select>
                             : <p value="default">There are no available registers.</p>}
                     </Form.Group>
+                    <Container>
+                        <Row>
+                            <Col style={{ fontWeight: 'bold', fontSize: '20px' }}>Total price:</Col>
+                            <Col style={{ fontWeight: 'bold', fontSize: '20px' }}>{totalPrice}$</Col>
+                        </Row>
+                    </Container>
                     <Container className="d-flex flex-column align-items-center p-3">
                         <Button variant="dark" type="submit" disabled={!register}>
                             Submit
                         </Button>
                     </Container>
-
                 </Form>
             </Modal.Body>
         </Modal>

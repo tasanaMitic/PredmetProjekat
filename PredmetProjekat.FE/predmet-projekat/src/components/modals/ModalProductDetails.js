@@ -1,4 +1,4 @@
-import { Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row} from "react-bootstrap";
 import PropTypes from 'prop-types';
 
 const ModalProductDetails = ({ show, setShow, product }) => {

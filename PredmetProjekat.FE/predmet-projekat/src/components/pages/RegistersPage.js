@@ -9,7 +9,7 @@ const RegistersPage = () => {
     const [error, setError] = useState(null);
     const [errorModal, setErrorModal] = useState(false);
     const [registerModal, setRegisterModal] = useState(false);
-    
+
 
     useEffect(() => {
         getRegisters().then(res => {
@@ -36,23 +36,24 @@ const RegistersPage = () => {
             <ModalRegister show={registerModal} setShow={setRegisterModal} setData={setData} setError={setError} setErrorModal={setErrorModal} ></ModalRegister>
             <Button variant="outline-dark" onClick={handleClick} >Add register</Button>
             {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
-            {data && data.length > 0 ? <Table striped hover >
-                <thead>
-                    <tr>
-                        <th>Location</th>
-                        <th>Register code</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((register) => (
-                        <tr key={register.registerId}>
-                            <td>{register.location}</td>
-                            <td>{register.registerCode}</td>
+            {data && data.length > 0 ?
+                    <Table striped hover style={{ width: '30%' }}>
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th style={{ textAlign: 'right' }}>Register code</th>
                         </tr>
-                    ))}
-                </tbody>
-            </Table>
-            : <h3>There are no registers!</h3>}
+                    </thead>
+                    <tbody>
+                        {data.map((register) => (
+                            <tr key={register.registerId}>
+                                <td>{register.location}</td>
+                                <td style={{ textAlign: 'right' }}>{register.registerCode}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+                : <h3>There are no registers!</h3>}
         </Container>
     );
 }

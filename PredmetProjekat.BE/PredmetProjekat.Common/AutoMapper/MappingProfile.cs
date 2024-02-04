@@ -16,7 +16,6 @@ namespace PredmetProjekat.Common.AutoMapper
             CreateMap<Product, StockedProductDto>().ReverseMap();
             CreateMap<SoldProductDto, SoldProduct>()
                 .ForMember(dest => dest.SoldProductId, opt => opt.MapFrom(src => src.SoldProductId == Guid.Empty ? Guid.NewGuid() : src.SoldProductId))
-                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => new Product { ProductId = src.ProductId }))
                 .ReverseMap();
             CreateMap<AttributeValue, AttributeValueDto>()
                 .ForMember(dest => dest.AttributeId, opt => opt.MapFrom(src => src.ProductAttribute.AttributeId))

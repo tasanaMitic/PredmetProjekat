@@ -70,12 +70,12 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
     return (
         <Container>
             {data && data.length > 0 ?
-                <Container >
+                <Container  className="d-flex flex-column align-items-center p-3">
                     {categories && <h1>Categories</h1>}
                     {brands && <h1>Brands</h1>}
                     {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
                     <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
-                    <Table striped hover>                        
+                    <Table striped hover style={{ width: '50%' }}>                        
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -86,7 +86,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                             {categories && data.map((categorie) => (
                                 <tr key={categorie.categoryId}>
                                     <td key={categorie.name}>{categorie.name}</td>
-                                    <td>
+                                    <td style={{ textAlign: 'right' }}>
                                         <Button variant="dark" onClick={() => handleDelete(categorie.categoryId)}>Delete</Button>
                                     </td>
 
@@ -95,7 +95,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
                             {brands && data.map((brand) => (
                                 <tr key={brand.brandId}>
                                     <td key={brand.name}>{brand.name}</td>
-                                    <td>
+                                    <td style={{ textAlign: 'right' }}>
                                         <Button variant="dark" onClick={() => handleDelete(brand.brandId)}>Delete</Button>
                                     </td>
                                 </tr>

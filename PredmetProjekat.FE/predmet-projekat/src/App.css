@@ -391,7 +391,7 @@ textarea {
 
 /* moje */
 #main { 
-  background-color: pink;
+ /* background-color: pink;*/
   padding: 2%;
 }
 
@@ -402,7 +402,7 @@ textarea {
   right: 0;
   top: 0;
   z-index: 9999;
-  background: #fff;
+  background: gray;
   box-shadow: 0 0 8px 0px rgba(0, 0, 0, 0.1);
   transition: all 0.5s linear;
 }
@@ -410,7 +410,7 @@ textarea {
 #header .navbar {
   padding: 0;
   justify-content: space-between;
-  background: none !important;
+  background: gray !important;
 }
 
 #header .navbar-brand {
@@ -432,12 +432,17 @@ textarea {
   line-height: 20px;
 }
 
+#header .navbar-collapse .navbar-nav  .dropdown-menu{
+  background: lightgray;
+}
+
+
 #header .navbar-collapse a:last-child {
   padding-right: 0;
 }
 
 #header .navbar-collapse a {
-  color: #4d4d4d;
+  color: white;
   position: relative;
 }
 
@@ -528,7 +533,7 @@ textarea {
 }
 
 .about-block .progress-bar {
-  background-color: pink;
+  background-color: red;
   -webkit-transition: width 0.3s linear;
   transition: width 0.3s linear;
 }

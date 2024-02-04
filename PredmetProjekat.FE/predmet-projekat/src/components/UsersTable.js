@@ -121,7 +121,7 @@ const UsersTable = ({ admins, users, loggedInUser }) => {
                                 </td>
                                 :
                                 <td style={{ backgroundColor: highlightColor(user.username) }}>
-                                    <Button variant="dark" onClick={() => handleAssign(user)}>Ressign manager</Button>
+                                    <Button variant="dark" onClick={() => handleAssign(user)}>Reassign manager</Button>
                                 </td>)
                             }
                             {users &&

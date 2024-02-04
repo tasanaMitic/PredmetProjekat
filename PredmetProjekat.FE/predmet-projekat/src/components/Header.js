@@ -40,7 +40,7 @@ const AppHeader = ({ user, logout }) => {
                   <NavDropdown.Item as={Link} to="/account">My account</NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/sales">History of sales</NavDropdown.Item>
                   <NavDropdown.Divider />                  
-                  <NavDropdown.Item onClick={logout} >Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logout} as={Link} to="/">Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
 

@@ -57,6 +57,12 @@ namespace PredmetProjekat.Repositories.Repositories
             _context.Set<T>().Add(entity);
         }
 
+        //public T Create2(T entity)
+        //{
+        //    var res =  _context.Set<T>().Add(entity);
+        //    return res;
+        //}
+
         public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);

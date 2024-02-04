@@ -28,7 +28,7 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public IEnumerable<Receipt> GetAllReceiptsForUser(Account user)
         {
-            return _context.Receipts.Where(x => x.SoldBy == user).Include(x => x.SoldProducts).Include(x => x.Register).ToList();
+            return _context.Receipts.Where(x => x.SoldBy == user).Include(x => x.SoldProducts).ThenInclude(x => x.Product).ThenInclude(x => x.ProductType).Include(x => x.Register).ToList();
         }
 
         public Receipt GetReceiptById(Guid receiptId)
