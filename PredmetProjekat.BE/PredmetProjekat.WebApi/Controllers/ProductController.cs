@@ -122,5 +122,13 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             return Ok(_productService.GetAllSales());
         }
+
+        [Authorize(Roles = "Admin, Employee")]
+        [HttpGet]
+        [Route("filter")]
+        public ActionResult<IEnumerable<ReceiptDto>> GetFilteredSales([FromQuery] FilterParams filterParams)
+        {
+            return Ok(_productService.GetFilteredSales(filterParams));
+        }
     }
 }

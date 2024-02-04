@@ -47,7 +47,6 @@ const ProductTypeForm = () => {
             setSuccessMessage("You have successfully created a product type with name " + name);
             setError(null);
         }).catch(err => {
-            console.log(err);
             setError(err.response);
             setErrorModal(true);
         })

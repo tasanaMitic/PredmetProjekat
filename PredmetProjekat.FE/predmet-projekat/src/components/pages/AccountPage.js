@@ -53,8 +53,7 @@ const AccountPage = ({ user }) => {
         })
             .catch(err => {
                 setError(err.response);
-                console.log(err);
-                //setErrorModal(true);
+                setErrorModal(true);
             })
 
     }

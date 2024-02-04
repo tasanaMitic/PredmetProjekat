@@ -62,13 +62,12 @@ const ProductTable = ({ products, user }) => {
     return (
         <Container className="d-flex flex-column align-items-center p-3">
             <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock} />
-            {product && <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} product={product} />}
+
             {data && data.length > 0 ?
                 <Container>
                     {product && <ModalProductDetails setShow={setDetailsModal} show={detailsModal} product={product} />}
                     <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
                     {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}
-
                     <Table striped hover>
                         <thead>
                             <tr>

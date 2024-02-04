@@ -194,5 +194,15 @@ namespace PredmetProjekat.Services.Services
             return soldProductIds;
 
         }
+
+        public IEnumerable<ReceiptDto> GetFilteredSales(FilterParams filterParams)
+        {
+            IEnumerable<string> employeeUsernames = filterParams.EmployeeUsernames != null ? filterParams.EmployeeUsernames.Split('|'): null;
+            IEnumerable<string> registerCodes = filterParams.RegisterCodes != null ? filterParams.RegisterCodes.Split('|') : null;
+            IEnumerable<string> saleDates = filterParams.SaleDates != null ? filterParams.SaleDates.Split('|') : null;
+
+            var sales = _unitOfWork.ReceiptRepository.GetFilteredSales(employeeUsernames, saleDates, registerCodes);
+            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
+        }
     }
 }

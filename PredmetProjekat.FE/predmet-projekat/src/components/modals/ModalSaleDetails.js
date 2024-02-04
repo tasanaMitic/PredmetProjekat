@@ -51,6 +51,10 @@ const ModalSaleDetails = ({ show, setShow, sale }) => {
                                                 <Col>{soldProduct.product.name}</Col>
                                             </Row>
                                             <Row>
+                                                <Col style={{ fontWeight: 'bold', textAlign: 'right' }}>Product type:</Col>
+                                                <Col>{soldProduct.product.productType.name}</Col>
+                                            </Row>
+                                            <Row>
                                                 <Col style={{ fontWeight: 'bold', textAlign: 'right' }}>Price:</Col>
                                                 <Col>{soldProduct.product.price}$</Col>
                                             </Row>
@@ -90,6 +94,9 @@ ModalSaleDetails.propTypes = {
             productId: PropTypes.string,
             quantity: PropTypes.number,
             price: PropTypes.number,
+            productType : PropTypes.shape({
+                name: PropTypes.string,
+            })
         })),
     })
 }

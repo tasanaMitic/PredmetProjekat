@@ -1,4 +1,3 @@
-import { propTypes } from 'react-bootstrap/esm/Image';
 import { post, get, remove, postWOToken, patch, put } from './httpMethods';
 import PropTypes from 'prop-types';
 
@@ -63,7 +62,6 @@ const addBrand = (body) => {
 
 //registers
 const addRegister = (body) => {
-    console.log("body", body);
     return post('/api/register', body);
 }
 
@@ -109,6 +107,10 @@ const getAllSales = () => {
     return get('/api/product/allsales');
 }
 
+const getFilteredSales = (queryParams) => {    
+    return get('/api/product/filter' + queryParams);
+}
+
 //productTypes
 const getProductTypes = () => {
     return get('/api/producttype');
@@ -120,8 +122,16 @@ const createProductType = (body) => {
 
 
 //proptypes
+getFilteredSales.propTypes = {
+    queryParams: PropTypes.shape({
+        registerLocations: PropTypes.arrayOf(PropTypes.string),
+        registerCodes: PropTypes.arrayOf(PropTypes.string),
+        emplyeeUsernames: PropTypes.arrayOf(PropTypes.string),
+        saleDates: PropTypes.arrayOf(PropTypes.string),
+    })
+}
 
-addRegister.createProductType = {
+createProductType.propTypes = {
     body: PropTypes.shape({
         name: PropTypes.string,
         attributes: PropTypes.arrayOf(PropTypes.string)
@@ -232,7 +242,7 @@ updateUser.propTypes = {
 
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser, getAllSales, getProductTypes,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser, getAllSales, getProductTypes, getFilteredSales,
     deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
     assignManager, updateUser, stockProduct, sellProduct, setProductPrice,
     addCategory, addBrand, createProduct, addRegister, createProductType

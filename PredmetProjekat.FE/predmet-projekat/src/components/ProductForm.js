@@ -96,8 +96,6 @@ const ProductForm = () => {
             productTypeId: productType.productTypeId
         };
 
-        console.log(payload);
-
         createProduct(payload).then(res => {
             if (res.status !== 201) {
                 throw Error('There was an error with the request!');

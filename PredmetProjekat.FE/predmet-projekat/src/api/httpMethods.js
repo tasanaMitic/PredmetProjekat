@@ -15,9 +15,10 @@ const postWOToken = (url, body) => {
     });
 }
 
-const get = (url) => {
+const get = (url, queryParams) => {
     return api.get(url, {
-        headers: setHeaders()
+        headers: setHeaders(), 
+        params: queryParams ? queryParams : null
     });
 }
 
