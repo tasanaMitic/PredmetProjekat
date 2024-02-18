@@ -7,6 +7,7 @@ const ModalPrice = ({ show, setShow, setError, setErrorModal, setData, product }
     const [price, setPrice] = useState(null);
 
     useEffect(() => {
+        console.log(product);
         setPrice(product.price);
     }, [product]);
 

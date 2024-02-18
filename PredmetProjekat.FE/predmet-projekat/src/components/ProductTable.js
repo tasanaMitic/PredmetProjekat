@@ -5,6 +5,7 @@ import ModalCheck from './modals/ModalCheck'
 import { deleteProduct } from "../api/methods";
 import ModalError from "./modals/ModalError";
 import ModalStock from "./modals/ModalStockProducts";
+import ModalPrice from "./modals/ModalPrice";
 import ModalProductDetails from "./modals/ModalProductDetails";
 
 const ProductTable = ({ products, user }) => {
@@ -61,7 +62,7 @@ const ProductTable = ({ products, user }) => {
     return (
         <Container className="d-flex flex-column align-items-center p-3">
             <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock} />
-
+            {product && <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} product={product}/>}
             {data && data.length > 0 ?
                 <Container>
                     {product && <ModalProductDetails setShow={setDetailsModal} show={detailsModal} product={product} />}

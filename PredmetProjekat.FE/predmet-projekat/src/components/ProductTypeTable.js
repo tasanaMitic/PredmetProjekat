@@ -16,7 +16,6 @@ const ProductTypeTable = ({ productTypes }) => {
     const [productType, setProduct] = useState(null);
 
     useEffect(() => {
-        console.log(productTypes);
         setData(productTypes);
     }, [productTypes]);
 
