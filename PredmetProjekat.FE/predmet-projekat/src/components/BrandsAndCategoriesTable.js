@@ -70,7 +70,7 @@ const BrandsAndCategoriesTable = ({ categories, brands }) => {
     return (
         <Container>
             {data && data.length > 0 ?
-                <Container  className="d-flex flex-column align-items-center p-3">
+                <Container className="d-flex flex-column align-items-center p-3">
                     {categories && <h1>Categories</h1>}
                     {brands && <h1>Brands</h1>}
                     {error && <ModalError setShow={setErrorModal} show={errorModal} error={error} setError={setError} />}

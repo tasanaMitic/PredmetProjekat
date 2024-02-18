@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import ProductTable from "../ProductTable";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getProducts, getStockedProducts } from "../../api/methods";
+import { getProducts, getStockedProducts, getProductTypes } from "../../api/methods";
+import ProductTypeTable from "../ProductTypeTable";
 
 const ProductsPage = ({ user }) => {
     const history = useHistory();
 
     const [products, setProducts] = useState(null);
+    const [productTypes, setProductTypes] = useState(null);
 
     useEffect(() => {
         switch(user.role){
@@ -22,6 +24,17 @@ const ProductsPage = ({ user }) => {
                     setProducts(data);
                 }).catch(err => {
                     setProducts(null);
+                });
+
+                getProductTypes().then(res => {
+                    if (res.status !== 200) {
+                        throw Error('There was an error with the request!');
+                    }
+                    return res.data;
+                }).then((data) => {
+                    setProductTypes(data);
+                }).catch(err => {
+                    setProductTypes(null);
                 });
             break;
             case "Employee":
@@ -58,6 +71,8 @@ const ProductsPage = ({ user }) => {
                 <Button onClick={handleClickProductTypes} >Add product types</Button>
                 <h3>All products</h3>
                 <ProductTable products={products} user={user}></ProductTable>
+                <h3>All product types</h3>
+                <ProductTypeTable productTypes={productTypes} user={user}></ProductTypeTable>
             </Container>
             }
             {user.role === "Employee" && <Container>

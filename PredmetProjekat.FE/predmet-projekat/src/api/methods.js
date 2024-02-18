@@ -120,8 +120,16 @@ const createProductType = (body) => {
     return post('/api/producttype', body);
 }
 
+const deleteProductType = (productTypeId) => {
+    return remove('/api/producttype/' + productTypeId);
+}
+
 
 //proptypes
+deleteProductType.propTypes = {
+    productTypeId: PropTypes.number
+}
+
 getFilteredSales.propTypes = {
     queryParams: PropTypes.shape({
         registerLocations: PropTypes.arrayOf(PropTypes.string),
@@ -243,7 +251,7 @@ updateUser.propTypes = {
 export {
     login, register,
     getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser, getAllSales, getProductTypes, getFilteredSales,
-    deleteEmployee, deleteCategory, deleteBrand, deleteProduct,
+    deleteEmployee, deleteCategory, deleteBrand, deleteProduct, deleteProductType,
     assignManager, updateUser, stockProduct, sellProduct, setProductPrice,
     addCategory, addBrand, createProduct, addRegister, createProductType
 };

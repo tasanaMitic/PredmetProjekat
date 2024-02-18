@@ -5,7 +5,6 @@ import ModalCheck from './modals/ModalCheck'
 import { deleteProduct } from "../api/methods";
 import ModalError from "./modals/ModalError";
 import ModalStock from "./modals/ModalStockProducts";
-import ModalPrice from "./modals/ModalPrice";
 import ModalProductDetails from "./modals/ModalProductDetails";
 
 const ProductTable = ({ products, user }) => {
