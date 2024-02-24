@@ -128,7 +128,9 @@ namespace PredmetProjekat.WebApi.Controllers
         [Route("filter")]
         public ActionResult<IEnumerable<ReceiptDto>> GetFilteredSales([FromQuery] FilterParams filterParams)
         {
-            return Ok(_productService.GetFilteredSales(filterParams));
+            var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
+            var username = _authManager.DecodeToken(tokenString); 
+            return Ok(_productService.GetFilteredSales(filterParams, username));
         }
     }
 }

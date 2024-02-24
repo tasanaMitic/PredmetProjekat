@@ -33,7 +33,6 @@ const ModalStock = ({ show, setShow, setError, setErrorModal, setData, productId
             });
     }
 
-
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>

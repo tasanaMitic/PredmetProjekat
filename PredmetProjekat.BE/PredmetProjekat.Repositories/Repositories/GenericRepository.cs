@@ -17,6 +17,7 @@ namespace PredmetProjekat.Repositories.Repositories
         {
             return _context.Set<T>().ToList();
         }
+        
         public T GetById(string id)
         {
             var entity = _context.Set<T>().Find(id);

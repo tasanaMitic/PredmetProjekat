@@ -1,4 +1,4 @@
-import { Button, Container, Table } from "react-bootstrap";
+import { Button, Container, Form, FormControl, Pagination, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import ModalCheck from './modals/ModalCheck'
@@ -19,9 +19,23 @@ const ProductTable = ({ products, user }) => {
     const [productToDelete, setProductToDelete] = useState(null);
     const [productIdToStock, setProductIdToStock] = useState(null);
     const [product, setProduct] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const [currentPageData, setCurrentPageData] = useState(null);
+    const [pagination, setPagination] = useState({
+        totalPages: 0,
+        currentPage: 0,
+        pageSize: 3
+    });
 
     useEffect(() => {
         setData(products);
+        setPagination(prevPagination => ({
+            ...prevPagination,
+            totalPages: products && products.length > 0 ? Math.ceil(products.length / pagination.pageSize) : 0,
+            currentPage: products && products.length > 0 ? 1 : 0,
+        }));
+        setCurrentPageData(products ? products.slice(pagination.currentPage, pagination.pageSize + pagination.currentPage) : null);
     }, [products]);
 
 
@@ -45,6 +59,18 @@ const ProductTable = ({ products, user }) => {
         setDetailsModal(true);
     }
 
+    const handleCurrentDataChange = (data) => {
+        setCurrentPageData(data ? data.slice((pagination.currentPage - 1) * pagination.pageSize, (pagination.currentPage - 1) * pagination.pageSize + pagination.pageSize) : null);
+    }
+
+    const handlePageChange = (index) => {
+        setPagination(prevPagination => ({
+            ...prevPagination,
+            currentPage: index,
+        }));
+        setCurrentPageData(data.slice((index - 1) * pagination.pageSize, (index - 1) * pagination.pageSize + pagination.pageSize));
+    }
+
     const confirmDelete = () => {
         deleteProduct(productToDelete).then(res => {
             if (res.status !== 200) {
@@ -53,17 +79,54 @@ const ProductTable = ({ products, user }) => {
             return res.data;
         }).then(data => {
             setData(data);
+            setCurrentPageData(data ? data.slice((pagination.currentPage - 1) * pagination.pageSize, (pagination.currentPage - 1) * pagination.pageSize + pagination.pageSize) : null);
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                totalPages: data && data.length > 0 ? Math.ceil(data.length / pagination.pageSize) : 0
+            }));
         }).catch(err => {
             setError(err.response);
             setErrorModal(true);
         })
     }
 
+    const handleSearch = (value) => {
+        setSearchTerm(value);
+
+        if (value === '') {
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                totalPages: data && data.length > 0 ? Math.ceil(data.length / pagination.pageSize) : 0,
+                currentPage: data && data.length > 0 ? 1 : 0,
+            }));
+            setCurrentPageData(data ? data.slice(0, pagination.pageSize + 0) : null)
+        }
+        else {
+            var filteredData = data.filter(x => x.name.startsWith(value));
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                totalPages: filteredData && filteredData.length > 0 ? Math.ceil(filteredData.length / pagination.pageSize) : 0,
+                currentPage: filteredData && filteredData.length > 0 ? 1 : 0,
+            }));
+            setCurrentPageData(filteredData ? filteredData.slice(0, pagination.pageSize + 0) : null);
+        }
+    };
+
     return (
         <Container className="d-flex flex-column align-items-center p-3">
-            <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={setData} productId={productIdToStock} />
-            {product && <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={setData} product={product}/>}
-            {data && data.length > 0 ?
+            <ModalStock setShow={setStockModal} show={stockModal} setError={setError} setErrorModal={setErrorModal} setData={handleCurrentDataChange} productId={productIdToStock} />
+            {product && <ModalPrice setShow={setPriceModal} show={priceModal} setError={setError} setErrorModal={setErrorModal} setData={handleCurrentDataChange} product={product} />}
+            <Container>
+                <Form>
+                    <FormControl
+                        type="text"
+                        placeholder="Search"
+                        className="mb-2 mt-2"
+                        value={searchTerm}
+                        onChange={(e) => handleSearch(e.target.value)}/>
+                </Form>
+            </Container>
+            {currentPageData && currentPageData.length > 0 ?
                 <Container>
                     {product && <ModalProductDetails setShow={setDetailsModal} show={detailsModal} product={product} />}
                     <ModalCheck setShow={setCheckModal} show={checkModal} confirm={confirmDelete} />
@@ -83,7 +146,7 @@ const ProductTable = ({ products, user }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((product) => (
+                            {currentPageData.map((product) => (
                                 <tr key={product.productId}>
                                     <td onClick={() => handleClick(product)}>{product.name}</td>
                                     <td onClick={() => handleClick(product)}>{product.productType.name}</td>
@@ -115,6 +178,17 @@ const ProductTable = ({ products, user }) => {
                             ))}
                         </tbody>
                     </Table>
+                    <Container className="d-flex flex-column align-items-center">
+                        <Pagination>
+                            {Array.from({ length: pagination.totalPages }, (_, index) => (
+                                <Pagination.Item key={index + 1}
+                                    active={index + 1 === pagination.currentPage}
+                                    onClick={() => handlePageChange(index + 1)}>
+                                    {index + 1}
+                                </Pagination.Item>
+                            ))}
+                        </Pagination>
+                    </Container>
                 </Container>
                 :
                 <h3>There are no available products!</h3>

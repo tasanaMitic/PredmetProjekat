@@ -15,6 +15,6 @@ namespace PredmetProjekat.Common.Interfaces.IService
         void SellProduct(SaleDto saleDto, string username);
         IEnumerable<ReceiptDto> GetAllSalesForUser(string username);
         IEnumerable<ReceiptDto> GetAllSales();
-        IEnumerable<ReceiptDto> GetFilteredSales(FilterParams filterParams);
+        IEnumerable<ReceiptDto> GetFilteredSales(FilterParams filterParams, string username);
     }
 }

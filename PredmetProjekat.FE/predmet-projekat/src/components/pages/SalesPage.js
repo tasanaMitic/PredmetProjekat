@@ -1,4 +1,4 @@
-import { Button, Col, Container, Dropdown, Form, Row, Table } from "react-bootstrap";
+import { Button, Container, Dropdown, Form, Table, Pagination } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -81,7 +81,7 @@ const SalesPage = ({ user }) => {
 
     const handleFilter = () => {
         const saleDates = createString('SaleDates', selectedItems.dates);
-        const usernames = createString('EmployeeUsernames', selectedItems.employees);
+        const usernames =  createString('EmployeeUsernames', selectedItems.employees);
         const registerCodes = createString('RegisterCodes', selectedItems.registers);
 
         const queryParams = `${saleDates}${usernames}${registerCodes}`;
@@ -128,14 +128,16 @@ const SalesPage = ({ user }) => {
         setDetailsModal(true);
     }
 
+
+
     return (
         <Container className="d-flex flex-column align-items-center p-3">
             <h1>All Sales</h1>
-            {data ?
+            {data && data.length > 0 ?
                 <Container className="d-flex ">
                     {selectedSale && <ModalSaleDetails setShow={setDetailsModal} show={detailsModal} sale={selectedSale} />}
                     <Container className="d-flex flex-column align-items-center" style={{ width: '20%' }} >
-                        { user.role === 'Admin' &&<Dropdown>
+                        {user.role === 'Admin' && <Dropdown>
                             <Dropdown.Toggle variant="white" id="dropdown-basic" className="w-2">
                                 Select Employee
                             </Dropdown.Toggle>
@@ -218,11 +220,6 @@ const SalesPage = ({ user }) => {
                             </tr>
                         </tbody>
                     </Table>
-
-
-
-
-
                 </Container>
                 : <h3>There have been no sales yet!</h3>}
         </Container>

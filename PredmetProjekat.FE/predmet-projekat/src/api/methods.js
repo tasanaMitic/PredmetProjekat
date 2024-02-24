@@ -120,7 +120,7 @@ const createProductType = (body) => {
     return post('/api/producttype', body);
 }
 
-const deleteProductType = (productTypeId) => {
+const deleteProductType = (productTypeId) => { 
     return remove('/api/producttype/' + productTypeId);
 }
 

@@ -22,12 +22,16 @@ namespace PredmetProjekat.Repositories.Repositories
 
         public IEnumerable<ProductType> GetAllProductTypes()
         {
-            return _context.ProductTypes.Where(x => x.IsDeleted == false).Include(x => x.Attributes).ToList();
+            return _context.ProductTypes.Where(x => x.IsDeleted == false)
+                                        .Include(x => x.Attributes)
+                                        .ToList();
         }
 
         public ProductType GetProductTypeById(Guid productTypeId)
         {
-            return _context.ProductTypes.Where(x => x.IsDeleted == false && x.ProductTypeId == productTypeId).Include(x => x.Attributes).First();
+            return _context.ProductTypes.Where(x => x.IsDeleted == false && x.ProductTypeId == productTypeId)
+                                        .Include(x => x.Attributes)
+                                        .FirstOrDefault();
         }
     }
 }

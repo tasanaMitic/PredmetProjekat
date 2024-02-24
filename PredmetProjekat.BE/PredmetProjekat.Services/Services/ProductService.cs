@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using PredmetProjekat.Common.Constants;
 using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Dtos.ProductDtos;
 using PredmetProjekat.Common.Interfaces;
@@ -159,8 +160,8 @@ namespace PredmetProjekat.Services.Services
         //sales section
         public IEnumerable<ReceiptDto> GetAllSales()
         {
-            var sales = _unitOfWork.ReceiptRepository.GetAllReceipts();
-            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
+            var receipts = _unitOfWork.ReceiptRepository.GetAllReceipts();
+            return _mapper.Map<IEnumerable<ReceiptDto>>(receipts);
         }
 
         public IEnumerable<ReceiptDto> GetAllSalesForUser(string username)
@@ -195,13 +196,23 @@ namespace PredmetProjekat.Services.Services
 
         }
 
-        public IEnumerable<ReceiptDto> GetFilteredSales(FilterParams filterParams)
+        public IEnumerable<ReceiptDto> GetFilteredSales(FilterParams filterParams, string username)
         {
-            IEnumerable<string> employeeUsernames = filterParams.EmployeeUsernames != null ? filterParams.EmployeeUsernames.Split('|'): null;
-            IEnumerable<string> registerCodes = filterParams.RegisterCodes != null ? filterParams.RegisterCodes.Split('|') : null;
-            IEnumerable<string> saleDates = filterParams.SaleDates != null ? filterParams.SaleDates.Split('|') : null;
+            var user = _userManager.FindByNameAsync(username).Result;
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
+            }
 
-            var sales = _unitOfWork.ReceiptRepository.GetFilteredSales(employeeUsernames, saleDates, registerCodes);
+            var isEmployee = _userManager.IsInRoleAsync(user, Constants.EmployeeRole).Result;
+
+            
+            var registerCodes = filterParams.RegisterCodes != null ? filterParams.RegisterCodes.Split('|') : null;
+            var saleDates = filterParams.SaleDates != null ? filterParams.SaleDates.Split('|') : null;
+            var employees = (isEmployee ? new[] { username }
+                                              : (filterParams.EmployeeUsernames != null ? filterParams.EmployeeUsernames.Split('|') : null));
+
+            var sales = _unitOfWork.ReceiptRepository.GetFilteredSales(employees, saleDates, registerCodes);
             return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
         }
     }

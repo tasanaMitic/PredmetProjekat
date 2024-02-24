@@ -1,4 +1,4 @@
-import { Button, Container, Table, InputGroup, Form, FormControl } from "react-bootstrap";
+import { Button, Container, Table, InputGroup, Form, FormControl, Pagination } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -10,7 +10,6 @@ import ModalSuccess from "../modals/ModalSuccess";
 const SellProductsPage = ({ user }) => {
     const history = useHistory();
     const [data, setData] = useState(null);
-    const [filterdData, setFilteredData] = useState(null);
     const [selectedProductIds, setSelectedProductIds] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,6 +20,13 @@ const SellProductsPage = ({ user }) => {
     const [successMessage, setSuccessMessage] = useState(null);
     const [successModal, setSuccessModal] = useState(false);
 
+    const [currentPageData, setCurrentPageData] = useState(null);
+    const [pagination, setPagination] = useState({
+        totalPages: 0,
+        currentPage: 0,
+        pageSize: 2
+    });
+
     useEffect(() => {
         getStockedProducts().then(res => {
             if (res.status !== 200) {
@@ -29,7 +35,12 @@ const SellProductsPage = ({ user }) => {
             return res.data;
         }).then((data) => {
             setData(data);
-            setFilteredData(data);
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                totalPages: data && data.length > 0 ? Math.ceil(data.length / pagination.pageSize) : 0,
+                currentPage: data && data.length > 0 ? 1 : 0,
+            }));
+            setCurrentPageData(data ? data.slice(pagination.currentPage, pagination.pageSize + pagination.currentPage) : null);
         }).catch(err => {
             setData(null);
         });
@@ -56,10 +67,33 @@ const SellProductsPage = ({ user }) => {
 
     const handleSearch = (value) => {
         setSearchTerm(value);
-        value === '' ? 
-            setFilteredData(data) : 
-            setFilteredData(data.filter(x => x.name.includes(value)));
+
+        if (value === '') {
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                totalPages: data && data.length > 0 ? Math.ceil(data.length / pagination.pageSize) : 0,
+                currentPage: data && data.length > 0 ? 1 : 0,
+            }));
+            setCurrentPageData(data ? data.slice(0, pagination.pageSize + 0) : null)
+        }
+        else {
+            var filteredData = data.filter(x => x.name.startsWith(value));
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                totalPages: filteredData && filteredData.length > 0 ? Math.ceil(filteredData.length / pagination.pageSize) : 0,
+                currentPage: filteredData && filteredData.length > 0 ? 1 : 0,
+            }));
+            setCurrentPageData(filteredData ? filteredData.slice(0, pagination.pageSize + 0) : null);
+        }
     };
+
+    const handlePageChange = (index) => {
+        setPagination(prevPagination => ({
+            ...prevPagination,
+            currentPage: index,
+        }));
+        setCurrentPageData(data.slice((index - 1) * pagination.pageSize, (index - 1) * pagination.pageSize + pagination.pageSize));
+    }
 
     return (
         <Container className="d-flex flex-column align-items-center p-3">
@@ -84,7 +118,7 @@ const SellProductsPage = ({ user }) => {
                     />
                 </Form>
             </Container>
-            {filterdData && filterdData.length > 0 ?
+            {currentPageData && currentPageData.length > 0 ?
                 <Container>
                     <Table striped hover>
                         <thead>
@@ -98,7 +132,7 @@ const SellProductsPage = ({ user }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filterdData.map((product) => (
+                            {currentPageData.map((product) => (
                                 <tr key={product.productId}>
                                     <td>
                                         <InputGroup onChange={(e) => handleChange(e, product.productId)}>
@@ -114,6 +148,17 @@ const SellProductsPage = ({ user }) => {
                             ))}
                         </tbody>
                     </Table>
+                    <Container className="d-flex flex-column align-items-center">
+                        <Pagination>
+                            {Array.from({ length: pagination.totalPages }, (_, index) => (
+                                <Pagination.Item key={index + 1}
+                                    active={index + 1 === pagination.currentPage}
+                                    onClick={() => handlePageChange(index + 1)}>
+                                    {index + 1}
+                                </Pagination.Item>
+                            ))}
+                        </Pagination>
+                    </Container>
                 </Container>
                 :
                 <h3>There are no available products!</h3>
