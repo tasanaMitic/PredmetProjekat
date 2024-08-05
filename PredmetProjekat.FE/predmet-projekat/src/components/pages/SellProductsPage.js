@@ -40,12 +40,12 @@ const SellProductsPage = ({ user }) => {
                 totalPages: data && data.length > 0 ? Math.ceil(data.length / pagination.pageSize) : 0,
                 currentPage: data && data.length > 0 ? 1 : 0,
             }));
-            setCurrentPageData(data ? data.slice(pagination.currentPage, pagination.pageSize + pagination.currentPage) : null);
+            setCurrentPageData(data ? data.slice(0, pagination.pageSize) : null);
         }).catch(err => {
             setData(null);
         });
 
-    }, []);
+    }, []); //todo
 
     const handleChange = (e, productId) => {
         e.target.checked ?

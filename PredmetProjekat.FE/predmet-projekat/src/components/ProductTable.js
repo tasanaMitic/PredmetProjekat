@@ -35,7 +35,7 @@ const ProductTable = ({ products, user }) => {
             totalPages: products && products.length > 0 ? Math.ceil(products.length / pagination.pageSize) : 0,
             currentPage: products && products.length > 0 ? 1 : 0,
         }));
-        setCurrentPageData(products ? products.slice(pagination.currentPage, pagination.pageSize + pagination.currentPage) : null);
+        setCurrentPageData(products ? products.slice(0, pagination.pageSize) : null);
     }, [products]);
 
 

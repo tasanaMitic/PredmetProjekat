@@ -12,9 +12,5 @@ namespace PredmetProjekat.Common.Interfaces.IService
         IEnumerable<StockedProductDto> DeleteProduct(string productId);
         IEnumerable<StockedProductDto> StockProduct(string productId, int quantity);
         IEnumerable<StockedProductDto> UpdateProductPrice(string productId, decimal price);
-        void SellProduct(SaleDto saleDto, string username);
-        IEnumerable<ReceiptDto> GetAllSalesForUser(string username);
-        IEnumerable<ReceiptDto> GetAllSales();
-        IEnumerable<ReceiptDto> GetFilteredSales(FilterParams filterParams, string username);
     }
 }

@@ -19,10 +19,12 @@ namespace PredmetProjekat.WebApi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly ISaleService _saleService;
         private readonly IAuthManager _authManager;
-        public ProductController(IProductService productService, IAuthManager authManager)
+        public ProductController(IProductService productService, ISaleService saleService, IAuthManager authManager)
         {
             _productService = productService;
+            _saleService = saleService;
             _authManager = authManager;
         }
 
@@ -100,7 +102,7 @@ namespace PredmetProjekat.WebApi.Controllers
             var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
             var username = _authManager.DecodeToken(tokenString);
 
-            _productService.SellProduct(saleDto, username);
+            _saleService.SellProduct(saleDto, username);
             return NoContent();
         }
 
@@ -112,7 +114,7 @@ namespace PredmetProjekat.WebApi.Controllers
             var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
             var username = _authManager.DecodeToken(tokenString);
 
-            return Ok(_productService.GetAllSalesForUser(username));
+            return Ok(_saleService.GetAllSalesForUser(username));
         }
 
         [Authorize(Roles = "Admin")]
@@ -120,17 +122,28 @@ namespace PredmetProjekat.WebApi.Controllers
         [Route("allsales")]
         public ActionResult<IEnumerable<ReceiptDto>> GetAllSales()
         {
-            return Ok(_productService.GetAllSales());
+            return Ok(_saleService.GetAllSales());
         }
 
         [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
         [Route("filter")]
-        public ActionResult<IEnumerable<ReceiptDto>> GetFilteredSales([FromQuery] FilterParams filterParams)
+        public ActionResult<FilterSearchDto> GetFilteredSales([FromQuery] FilterParams filterParams)
         {
             var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
             var username = _authManager.DecodeToken(tokenString); 
-            return Ok(_productService.GetFilteredSales(filterParams, username));
+            return Ok(_saleService.GetFilteredSales(filterParams, username));
+        }
+
+        //[Authorize(Roles = "Admin, Employee")]
+        [HttpGet]
+        [Route("pdf")]
+        public ActionResult CreatePdf([FromQuery] FilterParams filterParams)
+        {
+            //var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
+            //var username = _authManager.DecodeToken(tokenString);
+            _saleService.CreatePDF(filterParams, "tasana");
+            return Ok();
         }
     }
 }

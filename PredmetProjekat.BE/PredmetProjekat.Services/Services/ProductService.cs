@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using PredmetProjekat.Common.Constants;
-using PredmetProjekat.Common.Dtos;
 using PredmetProjekat.Common.Dtos.ProductDtos;
 using PredmetProjekat.Common.Interfaces;
 using PredmetProjekat.Common.Interfaces.IService;
@@ -13,12 +10,10 @@ namespace PredmetProjekat.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly UserManager<Account> _userManager;
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<Account> userManager)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _userManager = userManager;
         }
 
         public string AddProduct(ProductDto productDto)
@@ -32,33 +27,21 @@ namespace PredmetProjekat.Services.Services
                 throw new Exception($"Attributes don't match to the selected product type!");
             }
 
-            var id = $"{productDto.Name.Replace(' ', '-')}-{brand.Name}-{category.Name}-{productDto.Name}";
-            var attributes = new List<AttributeValue>();
-
-            foreach(var attributeValueDto in productDto.AttributeValues)
-            {
-                var attributeValue = new AttributeValue
-                {
-                    AttributeValueId = Guid.NewGuid(),
-                    Value = attributeValueDto.AttributeValue,
-                    ProductAttribute = productType.Attributes.Where(x => x.AttributeId == attributeValueDto.AttributeId).First()
-                };
-                attributes.Add(attributeValue);
-            }
+            var productId = $"{productDto.Name.Replace(' ', '-')}-{brand.Name}-{category.Name}";
 
             _unitOfWork.ProductRepository.CreateProduct(new Product
             {
-                ProductId = id,
+                ProductId = productId,
                 Name = productDto.Name,
                 Brand = brand,
                 Category = category,
                 ProductType = productType,
-                AttributeValues = attributes,
+                AttributeValues = GetProductAttributes(productDto.AttributeValues, productType),
                 IsInStock = false
             });
             _unitOfWork.SaveChanges();
 
-            return id;
+            return productId;
         }
 
         public IEnumerable<StockedProductDto> DeleteProduct(string productId)
@@ -88,51 +71,6 @@ namespace PredmetProjekat.Services.Services
             return _mapper.Map<IEnumerable<StockedProductDto>>(stockedProducts);
         }
 
-        public void SellProduct(SaleDto saleDto, string username)
-        {
-            var user = _userManager.FindByNameAsync(username).Result;
-
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
-            }
-
-            decimal totalPrice = 0;
-            foreach(var obj in saleDto.SoldProducts)
-            {
-                var product = _unitOfWork.ProductRepository.GetProductById(obj.ProductId);
-                if(product.Quantity - obj.Quantity >= 0 && product.IsInStock && !product.IsDeleted)
-                {
-                    product.Quantity -= obj.Quantity;
-                    totalPrice += product.Price * obj.Quantity;
-
-                    if (product.Quantity == 0)
-                    {
-                        product.IsInStock = false;
-                    }
-                }
-                _unitOfWork.ProductRepository.UpdateProduct(product);
-            }
-
-            var soldProductIds = CreateSoldProducts(saleDto.SoldProducts).ToList();
-            _unitOfWork.SaveChanges();
-
-            var soldProducts = _unitOfWork.SoldProductRepository.GetSoldProductsByIds(soldProductIds);
-
-
-            var receipt = new Receipt
-            {
-                Date = DateTime.Now,
-                ReceiptId = Guid.NewGuid(),
-                SoldBy = user,
-                SoldProducts = soldProducts,
-                Register = _unitOfWork.RegisterRepository.GetRegisterById(saleDto.RegisterId),
-                TotalPrice = Math.Round(totalPrice, 2)
-            };
-
-            _unitOfWork.ReceiptRepository.CreateReceipt(receipt);
-            _unitOfWork.SaveChanges();
-        }
 
         public IEnumerable<StockedProductDto> StockProduct(string productId, int quantity)
         {
@@ -157,63 +95,23 @@ namespace PredmetProjekat.Services.Services
             return GetProducts();
         }
 
-        //sales section
-        public IEnumerable<ReceiptDto> GetAllSales()
+        private List<AttributeValue> GetProductAttributes(IEnumerable<AttributeValueDto> attributeValuesDto, ProductType productType)
         {
-            var receipts = _unitOfWork.ReceiptRepository.GetAllReceipts();
-            return _mapper.Map<IEnumerable<ReceiptDto>>(receipts);
-        }
+            var attributes = new List<AttributeValue>();
 
-        public IEnumerable<ReceiptDto> GetAllSalesForUser(string username)
-        {
-            var user = _userManager.FindByNameAsync(username).Result;
-
-            if (user == null)
+            foreach (var attributeValueDto in attributeValuesDto)
             {
-                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
-            }
-
-            var sales = _unitOfWork.ReceiptRepository.GetAllReceiptsForUser(user);
-            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
-        }
-
-        private IEnumerable<Guid> CreateSoldProducts(IEnumerable<SoldProductDto> soldProducts)
-        {
-            List<Guid> soldProductIds = new List<Guid>();
-            foreach (SoldProductDto dto in soldProducts)
-            {
-                var id = Guid.NewGuid();
-                var soldProduct = new SoldProduct
+                var attributeValue = new AttributeValue
                 {
-                    SoldProductId = id,
-                    Product = _unitOfWork.ProductRepository.GetProductById(dto.ProductId),
-                    Quantity = dto.Quantity
+                    AttributeValueId = Guid.NewGuid(),
+                    Value = attributeValueDto.AttributeValue,
+                    ProductAttribute = productType.Attributes.Where(x => x.AttributeId == attributeValueDto.AttributeId).First()
                 };
-                _unitOfWork.SoldProductRepository.CreateSoldProduct(soldProduct);
-                soldProductIds.Add(id);
-            }
-            return soldProductIds;
-
-        }
-
-        public IEnumerable<ReceiptDto> GetFilteredSales(FilterParams filterParams, string username)
-        {
-            var user = _userManager.FindByNameAsync(username).Result;
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
+                attributes.Add(attributeValue);
             }
 
-            var isEmployee = _userManager.IsInRoleAsync(user, Constants.EmployeeRole).Result;
-
-            
-            var registerCodes = filterParams.RegisterCodes != null ? filterParams.RegisterCodes.Split('|') : null;
-            var saleDates = filterParams.SaleDates != null ? filterParams.SaleDates.Split('|') : null;
-            var employees = (isEmployee ? new[] { username }
-                                              : (filterParams.EmployeeUsernames != null ? filterParams.EmployeeUsernames.Split('|') : null));
-
-            var sales = _unitOfWork.ReceiptRepository.GetFilteredSales(employees, saleDates, registerCodes);
-            return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
+            return attributes;
         }
+
     }
 }

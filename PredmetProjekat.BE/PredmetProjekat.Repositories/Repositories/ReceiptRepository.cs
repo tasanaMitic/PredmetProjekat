@@ -2,7 +2,6 @@
 using PredmetProjekat.Common.Interfaces.IRepository;
 using PredmetProjekat.Models.Models;
 using PredmetProjekat.Repositories.Context;
-using System.Globalization;
 
 namespace PredmetProjekat.Repositories.Repositories
 {
@@ -42,34 +41,20 @@ namespace PredmetProjekat.Repositories.Repositories
                                     .ToList();
         }
 
-        public IEnumerable<Receipt> GetFilteredSales(IEnumerable<string> employeeUsernames, IEnumerable<string> saleDates, IEnumerable<string> registerCodes)
+        public IEnumerable<Receipt> GetFilteredSales(IEnumerable<string> employeeUsernames, IEnumerable<string> registerCodes, IEnumerable<string> locations, string startDate, string endDate, decimal? price)
         {
-            var allReceipts = _context.Receipts.Include(x => x.SoldProducts)
-                                                    .ThenInclude(x => x.Product)
-                                                    .ThenInclude(x => x.ProductType)
-                                                .Include(x => x.SoldBy)
-                                                .Include(x => x.Register)
-                                                .ToList();
 
-            var filterByUsernames = employeeUsernames != null
-                ? allReceipts.Where(x => employeeUsernames.Contains(x.SoldBy.UserName)).ToList()
-                : new List<Receipt>();
-
-            var filterByDates = saleDates != null
-                ? allReceipts.Where(x => saleDates.Contains(x.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture))).ToList()
-                : new List<Receipt>();
-
-            var filterByCodes = registerCodes != null
-                ? allReceipts.Where(x => registerCodes.Contains(x.Register.RegisterCode)).ToList()
-                : new List<Receipt>();
-
-            var filtered = (employeeUsernames != null ? filterByUsernames : allReceipts)
-                            .Intersect(saleDates != null ? filterByDates : allReceipts)
-                            .Intersect(registerCodes != null ? filterByCodes : allReceipts)
-                            .ToList();
-
-            
-            return filtered;
+            return _context.Receipts.Include(x => x.SoldProducts)
+                                        .ThenInclude(x => x.Product)
+                                        .ThenInclude(x => x.ProductType)
+                                    .Include(x => x.SoldBy)
+                                    .Include(x => x.Register)
+                                        .Where(x => employeeUsernames.Contains(x.SoldBy.UserName) || employeeUsernames == null)
+                                        .Where(x => registerCodes.Contains(x.Register.RegisterCode) || registerCodes == null)
+                                        .Where(x => x.TotalPrice <= price || price == null)
+                                        .Where(x => locations.Contains(x.Register.Location) || locations == null)
+                                        .Where(x => (startDate == null || x.Date.Date >= DateTime.Parse(startDate).Date) && (endDate == null || x.Date.Date <= DateTime.Parse(endDate).Date))
+                                        .ToList();
         }
 
         public Receipt GetReceiptById(Guid receiptId)

@@ -11,7 +11,7 @@ const ModalPrice = ({ show, setShow, setError, setErrorModal, setData, product }
     }, [product]);
 
     const handleClose = () => {
-        
+        setPrice(0);
         setShow(false);
     }
 

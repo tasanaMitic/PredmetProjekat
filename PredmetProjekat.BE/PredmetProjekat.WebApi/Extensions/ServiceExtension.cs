@@ -14,6 +14,7 @@ using PredmetProjekat.Repositories.UnitOfWork;
 using PredmetProjekat.Services.Services;
 using PredmetProjekat.Services.Services.AccountServices;
 using PredmetProjekat.WebApi.Helpers;
+using QuestPDF.Infrastructure;
 using System.Text;
 
 namespace PredmetProjekat.WebApi.Extensions
@@ -56,13 +57,15 @@ namespace PredmetProjekat.WebApi.Extensions
         {
             services.AddScoped<IBrandService>(serviceProvider => new BrandService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<ICategoryService>(serviceProvider => new CategoryService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
-            services.AddScoped<IProductService>(serviceProvider => new ProductService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>(), serviceProvider.GetService<UserManager<Account>>()));
+            services.AddScoped<IProductService>(serviceProvider => new ProductService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
+            services.AddScoped<ISaleService>(serviceProvider => new SaleService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>(), serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IDocumentService>()));
             services.AddScoped<IRegisterService>(serviceProvider => new RegisterService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<IProductTypeService>(serviceProvider => new ProductTypeService(serviceProvider.GetService<IUnitOfWork>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<IAdminService>(serviceProvider => new AdminService(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<IEmployeeService>(serviceProvider => new EmployeeService(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IMapper>()));
             services.AddScoped<IAuthManager>(serviceProvider => new AuthManager(serviceProvider.GetService<UserManager<Account>>(), serviceProvider.GetService<IConfiguration>()));
             services.AddScoped<IAccountService>(serviceProvider => new AccountService(serviceProvider.GetService<IMapper>(), serviceProvider.GetService<UserManager<Account>>()));
+            services.AddScoped<IDocumentService>(serviceProvider => new DocumentService(LicenseType.Community));
         }
 
         public static void ConfigureRepository(this IServiceCollection services, IConfiguration configuration)

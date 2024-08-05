@@ -30,7 +30,7 @@ const ProductTypeTable = ({ productTypes }) => {
             totalPages: productTypes && productTypes.length > 0 ? Math.ceil(productTypes.length / pagination.pageSize) : 0,
             currentPage: productTypes && productTypes.length > 0 ? 1 : 0,
         }));
-        setCurrentPageData(productTypes ? productTypes.slice(pagination.currentPage, pagination.pageSize + pagination.currentPage) : null);
+        setCurrentPageData(productTypes ? productTypes.slice(0, pagination.pageSize) : null);
     }, [productTypes]);
 
     const confirmDelete = () => {
