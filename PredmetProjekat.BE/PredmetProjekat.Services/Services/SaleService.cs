@@ -26,18 +26,8 @@ namespace PredmetProjekat.Services.Services
 
         public void CreatePDF(FilterParams filterParams, string username)
         {
-            //var sales = GetFilteredSales(filterParams, username);
-            //_documentService.CreatePDF(sales);
-
-
-            var lineItems = new List<LineItem>
-        {
-            new LineItem { Index = 1, Name = "Product 1", Price = 10.50m },
-            new LineItem { Index = 2, Name = "Product 2", Price = 20.75m },
-            new LineItem { Index = 3, Name = "Product 3", Price = 15.00m }
-            // Add more line items as needed
-        };
-            _documentService.CreatePDF(lineItems);
+            var sales = GetSalesByFilter(filterParams, username);
+            _documentService.CreatePDF(sales, filterParams);
         }
 
         public IEnumerable<ReceiptDto> GetAllSales()
@@ -48,18 +38,25 @@ namespace PredmetProjekat.Services.Services
 
         public IEnumerable<ReceiptDto> GetAllSalesForUser(string username)
         {
-            var user = _userManager.FindByNameAsync(username).Result;
-
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
-            }
+            var user = GetUser(username);
 
             var sales = _unitOfWork.ReceiptRepository.GetAllReceiptsForUser(user);
             return _mapper.Map<IEnumerable<ReceiptDto>>(sales);
         }
 
         public FilterSearchDto GetFilteredSales(FilterParams filterParams, string username)
+        {
+            var sales = GetSalesByFilter(filterParams, username);
+            var user = GetUser(username);
+
+            return new FilterSearchDto()
+            {
+                ReceiptDtos = _mapper.Map<IEnumerable<ReceiptDto>>(sales), 
+                OptionParameters = GetFilterOptions(user, IsUserAnEmployee(user))
+            };
+        }
+
+        private IEnumerable<Receipt> GetSalesByFilter(FilterParams filterParams, string username)
         {
             var registerCodes = filterParams.RegisterCodes?.Split(',') ?? null;
             var locations = filterParams.Locations?.Split(',') ?? null;
@@ -72,23 +69,11 @@ namespace PredmetProjekat.Services.Services
                 throw new Exception($"End date cannot be before start date!");
             }
 
-            var user = _userManager.FindByNameAsync(username).Result;
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
-            }
+            var user = GetUser(username);
+            var employees = IsUserAnEmployee(user) ? new[] { username } : filterParams.EmployeeUsernames?.Split(',');
 
-            var isEmployee = _userManager.IsInRoleAsync(user, Constants.EmployeeRole).Result;
-            var employees = isEmployee ? new[] { username } : filterParams.EmployeeUsernames?.Split(',');
-
-            var sales = _unitOfWork.ReceiptRepository.GetFilteredSales(employees, registerCodes, locations, startDate, endDate, price);
-
-            return new FilterSearchDto()
-            {
-                ReceiptDtos = _mapper.Map<IEnumerable<ReceiptDto>>(sales), 
-                OptionParameters = GetFilterOptions(user, isEmployee)
-            };
-        }
+            return _unitOfWork.ReceiptRepository.GetFilteredSales(employees, registerCodes, locations, startDate, endDate, price);
+        } 
 
         private OptionParams GetFilterOptions(Account user, bool isEmployee)
         {
@@ -111,15 +96,9 @@ namespace PredmetProjekat.Services.Services
             };
         }
 
-
         public void SellProduct(SaleDto saleDto, string username)
         {
-            var user = _userManager.FindByNameAsync(username).Result;
-
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
-            }
+            var user = GetUser(username);
 
             decimal totalPrice = 0;
             foreach (var obj in saleDto.SoldProducts)
@@ -176,6 +155,22 @@ namespace PredmetProjekat.Services.Services
             }
             return soldProductIds;
 
+        }
+
+        private Account GetUser(string username)
+        {
+            var user = _userManager.FindByNameAsync(username).Result;
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"Employee with username: {username} not found in the database!");
+            }
+            return user;
+        }
+
+        private bool IsUserAnEmployee(Account user)
+        {
+            return _userManager.IsInRoleAsync(user, Constants.EmployeeRole).Result;
         }
     }
 }

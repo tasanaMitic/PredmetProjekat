@@ -142,7 +142,7 @@ namespace PredmetProjekat.WebApi.Controllers
         {
             //var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
             //var username = _authManager.DecodeToken(tokenString);
-            _saleService.CreatePDF(filterParams, "tasana");
+            _saleService.CreatePDF(filterParams, "dragana22");
             return Ok();
         }
     }

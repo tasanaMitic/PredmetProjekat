@@ -1,10 +1,10 @@
-﻿
-using PredmetProjekat.Common.Dtos;
+﻿using PredmetProjekat.Common.Dtos.ProductDtos;
+using PredmetProjekat.Models.Models;
 
 namespace PredmetProjekat.Common.Interfaces.IService
 {
     public interface IDocumentService
     {
-        void CreatePDF(List<LineItem> lineItems);
+        void CreatePDF(IEnumerable<Receipt> sales, FilterParams filterParams);
     }
 }

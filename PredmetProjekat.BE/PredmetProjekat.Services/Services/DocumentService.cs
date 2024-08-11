@@ -1,5 +1,6 @@
-﻿using PredmetProjekat.Common.Dtos;
+﻿using PredmetProjekat.Common.Dtos.ProductDtos;
 using PredmetProjekat.Common.Interfaces.IService;
+using PredmetProjekat.Models.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -12,7 +13,7 @@ namespace PredmetProjekat.Services.Services
         {
             QuestPDF.Settings.License = licenseType;
         }
-        public void CreatePDF(List<LineItem> lineItems)
+        public void CreatePDF(IEnumerable<Receipt> sales, FilterParams filterParams)
         {
             Document.Create(container =>
             {
@@ -21,40 +22,132 @@ namespace PredmetProjekat.Services.Services
                     page.Margin(50);
                     page.Size(PageSizes.A4);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(16));
+                    page.DefaultTextStyle(x => x.FontSize(12));
 
                     page.Header()
                         .AlignCenter()
-                        .Text("Sales for date #: 2023-77")
+                        .Text(GenerateHeaderText(filterParams))
                         .SemiBold().FontSize(24).FontColor(Colors.Grey.Darken4);
 
                     page.Content()
-                        .Table(table =>
+                        .Column(column =>
                         {
-                            table.ColumnsDefinition(columns =>
-                            {
-                                columns.ConstantColumn(20);
-                                columns.RelativeColumn();
-                                columns.RelativeColumn();
-                            });
+                            column.Item().Text("Filter parameters").FontSize(16).Bold().AlignRight();
+                            column.Item().Text("Start date: " + $"{filterParams.StartDate?.ToString() ?? "none"}").FontSize(14).AlignRight();
+                            column.Item().Text("End date: " + $"{filterParams.EndDate?.ToString() ?? "none"}").FontSize(14);
+                            //column.Item().Text("" + $"{filterParams.EmployeeUsernames}");
 
-                            table.Header(header =>
+                            column.Item().Table(table =>
                             {
-                                header.Cell().Text("#");
-                                header.Cell().Text("Product");
-                                header.Cell().AlignRight().Text("Price");
-                            });
+                                table.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                });
 
-                            foreach (var lineItem in lineItems)
-                            {
-                                table.Cell().Text(lineItem.Index.ToString());
-                                table.Cell().Text(lineItem.Name);
-                                table.Cell().Text($"${lineItem.Price}");
-                            }
+                                table.Header(header =>
+                                {
+                                    header.Cell().Text("Sold by");
+                                    header.Cell().Text("Register");
+                                    header.Cell().Text("Location");
+                                    header.Cell().Text("Date");
+                                    header.Cell().Text("Total Price").FontColor(Colors.Red.Darken4).AlignRight();
+
+                                    header.Cell().ColumnSpan(5)
+                                            .PaddingVertical(5)
+                                            .BorderBottom(3)
+                                            .BorderColor(Colors.Black);
+                                });
+
+                                foreach (var sale in sales)
+                                {
+                                    table.Cell().Text(sale.SoldBy.UserName).FontColor(Colors.Red.Darken4);
+                                    table.Cell().Text(sale.Register.RegisterCode).FontColor(Colors.Red.Darken4);
+                                    table.Cell().Text(sale.Register.Location).FontColor(Colors.Red.Darken4);
+                                    table.Cell().Text(sale.Date).FontColor(Colors.Red.Darken4);
+                                    table.Cell().Text(sale.TotalPrice.ToString("C")).FontColor(Colors.Red.Darken4).AlignRight();
+
+                                    table.Cell()
+                                        .ColumnSpan(4)
+                                        .PaddingLeft(40)
+                                        .PaddingVertical(5)
+                                        .Table(productTable =>
+                                        {
+                                            productTable.ColumnsDefinition(columns =>
+                                            {
+                                                columns.RelativeColumn();
+                                                columns.RelativeColumn();
+                                                columns.RelativeColumn();
+                                                columns.RelativeColumn();
+                                            });
+
+                                            productTable.Header(productHeader =>
+                                            {
+                                                productHeader.Cell().Text("Product name");
+                                                productHeader.Cell().Text("Product type");
+                                                productHeader.Cell().Text("Quantity");
+                                                productHeader.Cell().Text("Price").AlignRight();
+
+
+                                                productHeader.Cell().ColumnSpan(4)
+                                                        .PaddingVertical(5)
+                                                        .BorderBottom(1)
+                                                        .AlignRight()
+                                                        .BorderColor(Colors.Black);
+
+                                            });
+
+                                            foreach (var product in sale.SoldProducts)
+                                            {
+                                                productTable.Cell().Text($"# {product.Product.Name}");
+                                                productTable.Cell().Text(product.Product.ProductType.Name);
+                                                productTable.Cell().Text(product.Quantity.ToString());
+                                                productTable.Cell().Text(product.Product.Price.ToString("C")).AlignRight();
+                                            }
+                                        });
+
+
+                                    table.Cell().ColumnSpan(5)
+                                            .PaddingVertical(5)
+                                            .BorderBottom(2)
+                                            .BorderColor(Colors.Black);
+                                }
+                            });
                         });
+                    
+
+                    page.Footer()
+                        .AlignBottom()
+                        .Text($"Created on: {DateTime.Now}")
+                        .SemiBold().FontSize(12).FontColor(Colors.Grey.Darken4);
                 });
-            })
-                .GeneratePdf("invoice.pdf");
+            }).GeneratePdf(GenerateFileName());
+        }
+
+        private string GenerateHeaderText(FilterParams filterParams)
+        {
+            string title = "Sales for period from ";
+
+            if (filterParams.StartDate != null)
+            {
+
+            }
+
+            if (filterParams.EndDate != null)
+            {
+
+            }
+
+
+            return title;
+        }
+
+        private string GenerateFileName()
+        {
+            return "Invoice-" + DateOnly.FromDateTime(DateTime.Now).ToString("yyyy-MM-dd") + "-" + TimeOnly.FromDateTime(DateTime.Now).ToString("HH'h'mm") + ".pdf";
         }
     }
 }

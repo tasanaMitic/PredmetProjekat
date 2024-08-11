@@ -114,8 +114,6 @@ const SalesPage = ({ user }) => {
     }
 
     const createString = (name, value) => {
-        //console.log(name + ' ' + value);
-
         if (!value || value == [] || (Array.isArray(value) && value.length == 0))
             return '';
 
@@ -171,7 +169,7 @@ const SalesPage = ({ user }) => {
 
    
 
-    const hanldePrintReport = () => {
+    const handlePrintReport = () => {
      //todo   
      console.log(selectedItems);
     }
@@ -271,7 +269,7 @@ const SalesPage = ({ user }) => {
 
                     <Container className="d-flex flex-column align-items-center p-3" >                        
                         <Button variant="dark" style={{ width: '70%', margin: '2px' }} onClick={handleResetFilter}>Reset filter</Button>
-                        <Button variant="outline-dark" style={{ width: '70%', margin: '2px' }} onClick={hanldePrintReport}>Print report</Button>
+                        <Button variant="outline-dark" style={{ width: '70%', margin: '2px' }} onClick={handlePrintReport}>Print report</Button>
                     </Container>
                 </Container>
 
