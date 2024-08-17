@@ -106,25 +106,6 @@ namespace PredmetProjekat.WebApi.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Employee")]
-        [HttpGet]
-        [Route("sales")]
-        public ActionResult<IEnumerable<ReceiptDto>> GetAllSalesForUser()
-        {
-            var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
-            var username = _authManager.DecodeToken(tokenString);
-
-            return Ok(_saleService.GetAllSalesForUser(username));
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        [Route("allsales")]
-        public ActionResult<IEnumerable<ReceiptDto>> GetAllSales()
-        {
-            return Ok(_saleService.GetAllSales());
-        }
-
         [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
         [Route("filter")]
@@ -135,15 +116,16 @@ namespace PredmetProjekat.WebApi.Controllers
             return Ok(_saleService.GetFilteredSales(filterParams, username));
         }
 
-        //[Authorize(Roles = "Admin, Employee")]
+        [Authorize(Roles = "Admin, Employee")]
         [HttpGet]
         [Route("pdf")]
         public ActionResult CreatePdf([FromQuery] FilterParams filterParams)
         {
-            //var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
-            //var username = _authManager.DecodeToken(tokenString);
-            _saleService.CreatePDF(filterParams, "dragana22");
-            return Ok();
+            var tokenString = HttpContext.Request.Headers["Authorization"].ToString();
+            var username = _authManager.DecodeToken(tokenString);
+
+            _saleService.CreatePDF(filterParams, username);
+            return NoContent();
         }
     }
 }

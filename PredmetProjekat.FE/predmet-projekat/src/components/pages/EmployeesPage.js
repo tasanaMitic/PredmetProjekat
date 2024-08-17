@@ -20,7 +20,7 @@ const EmployeesPage = ({user}) => {
                 setError(null);
             })
             .catch(err => {
-                setError(err);  //todo
+                setError(err); 
             })
     }, []);
 

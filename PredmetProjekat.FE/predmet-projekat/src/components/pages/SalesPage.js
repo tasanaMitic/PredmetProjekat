@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { getFilteredSales } from "../../api/methods";
+import { getFilteredSales, createPdf } from "../../api/methods";
 import ModalSaleDetails from "../modals/ModalSaleDetails";
+import ModalSuccess from "../modals/ModalSuccess";
 import "react-datepicker/dist/react-datepicker.css";
 
 const startDate = 'startDate';
@@ -16,11 +17,14 @@ const SalesPage = ({ user }) => {
     const [validationErrors, setValidationErrors] = useState({ startDate: '', endDate: '' });
     const [selectedSale, setSelectedSale] = useState(null);
     const [detailsModal, setDetailsModal] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [successModal, setSuccessModal] = useState(false);
 
     const [employees, setEmployees] = useState([]);
     const [registers, setRegisters] = useState([]);
     const [locations, setLocations] = useState([]);
 
+    const [sortValue, setSortValue] = useState(1);
     const [selectedItems, setSelectedItems] = useState({  
         employees: [],
         registers: [],
@@ -36,15 +40,15 @@ const SalesPage = ({ user }) => {
                 throw Error('There was an error with the request!');
             }
             return res.data;
-        }).then(data => {          
-            setData(sortData(data.receiptDtos));
+        }).then(data => {                      
+            setData(data.receiptDtos);
             setEmployees(extractData(data.optionParameters.employeeUsernames));
             setRegisters(extractData(data.optionParameters.registerCodes));
             setLocations(extractData(data.optionParameters.locations));        
         }).catch(err => {
             setError(err);
         });
-    }, [selectedItems]);
+    }, [selectedItems, sortValue]);
 
     const createRequestParameters = () => {
         const usernames = createString('EmployeeUsernames', selectedItems.employees);
@@ -53,8 +57,10 @@ const SalesPage = ({ user }) => {
         const locations = createString('Locations', selectedItems.locations);
         const startDate = createString('StartDate', checkDate(selectedItems.startDate));
         const endDate = createString('EndDate', checkDate(selectedItems.endDate));
+        
+        const order = createString('OrderBy', sortValue);
 
-        const queryParams = `${usernames}${registerCodes}${price}${locations}${startDate}${endDate}`;
+        const queryParams = `${usernames}${registerCodes}${price}${locations}${startDate}${endDate}${order}`;
         const formattedQueryParams = queryParams.length > 0 ? `?${queryParams.slice(1)}` : '';
 
         return formattedQueryParams;
@@ -154,10 +160,6 @@ const SalesPage = ({ user }) => {
         });
     };
 
-    const sortData = (data) => {
-        return [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
-    };
-
     const extractData = (data) => {
         return [...new Set(data.map(item => item))];
     };
@@ -165,18 +167,27 @@ const SalesPage = ({ user }) => {
     const handleClick = (receiptId) => {
         setSelectedSale(data.find(x => x.receiptId === receiptId));
         setDetailsModal(true);
-    };
+    };   
 
-   
+    const handleOrderChange = (event) => {
+        setSortValue(event.target.value);
+    }
 
     const handlePrintReport = () => {
-     //todo   
-     console.log(selectedItems);
-    }
-    
+        createPdf(createRequestParameters()).then(res => {
+            if (res.status !== 204) {
+                throw Error('There was an error with the request!');
+            }
+            setSuccessModal(true);
+            setSuccessMessage("You have successfully created a pdf file!");
+        }).catch(err => {
+            setError(err);
+        });
+    }    
 
     return (
         <Container className="d-flex flex-column align-items-center ">
+        <ModalSuccess setShow={setSuccessModal} show={successModal} clearData={handleResetFilter} message={successMessage} />
             <h1>All Sales</h1>
             <Container className="d-flex">
                 {selectedSale && <ModalSaleDetails setShow={setDetailsModal} show={detailsModal} sale={selectedSale} />}
@@ -274,7 +285,20 @@ const SalesPage = ({ user }) => {
                 </Container>
 
                 {data && data.length > 0 ?
-                    <Container>
+                    <Container>                
+                        <Form style={{ width: '30%'}} className="d-flex flex-column align-items-center p-3">
+                            <Form.Group>
+                                <Form.Label>Order data by:</Form.Label>
+                                <Form.Select onChange={handleOrderChange} value={sortValue}>
+                                    <option value="1">Oldest first</option>
+                                    <option value="2">Latest first</option>
+                                    <option value="3">Employee A-Z</option>
+                                    <option value="4">Employee Z-A</option>
+                                    <option value="5">Price (Low to High)</option>
+                                    <option value="6">Price (High to Low)</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Form>
                         <Table striped hover >
                             <thead>
                                 <tr>
@@ -307,9 +331,11 @@ const SalesPage = ({ user }) => {
 
                     </Container>
                     : <Container>
-                        {selectedItems.employees == [] && selectedItems.dates == [] && selectedItems.registers == []
-                            ? <h3>There have been no sales yet!</h3>
-                            : <h3>There are no sales with that criteria!</h3>}
+                        {(Array.isArray(selectedItems.employees) && selectedItems.employees.length === 0) &&
+                        (Array.isArray(selectedItems.dates) && selectedItems.dates.length === 0) &&
+                        (Array.isArray(selectedItems.registers) && selectedItems.registers.length === 0) 
+                         ? <h3>There have been no sales yet!</h3>
+                         : <h3>There are no sales with that criteria!</h3>}
                     </Container>}
             </Container>
 

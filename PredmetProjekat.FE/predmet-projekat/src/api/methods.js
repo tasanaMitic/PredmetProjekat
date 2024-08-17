@@ -99,16 +99,20 @@ const sellProduct = (body) => {
 }
 
 //sales
-const getSalesForUser = () => {
-    return get('/api/product/sales');
-}
+// const getSalesForUser = () => {
+//     return get('/api/product/sales');
+// }
 
-const getAllSales = () => {
-    return get('/api/product/allsales');
-}
+// const getAllSales = () => {
+//     return get('/api/product/allsales');
+// }
 
 const getFilteredSales = (queryParams) => {    
     return get('/api/product/filter' + queryParams);
+}
+
+const createPdf = (queryParams) => {
+    return get('/api/product/pdf' + queryParams);
 }
 
 //productTypes
@@ -250,7 +254,7 @@ updateUser.propTypes = {
 
 export {
     login, register,
-    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getSalesForUser, getAllSales, getProductTypes, getFilteredSales,
+    getAdmins, getEmployees, getCategories, getBrands, getUser, getProducts, getStockedProducts, getRegisters, getProductTypes, getFilteredSales, createPdf, 
     deleteEmployee, deleteCategory, deleteBrand, deleteProduct, deleteProductType,
     assignManager, updateUser, stockProduct, sellProduct, setProductPrice,
     addCategory, addBrand, createProduct, addRegister, createProductType

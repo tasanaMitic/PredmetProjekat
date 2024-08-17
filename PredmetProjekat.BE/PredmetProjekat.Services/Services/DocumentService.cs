@@ -13,7 +13,7 @@ namespace PredmetProjekat.Services.Services
         {
             QuestPDF.Settings.License = licenseType;
         }
-        public void CreatePDF(IEnumerable<Receipt> sales, FilterParams filterParams)
+        public void CreatePDF(IEnumerable<Receipt> sales, FilterParams filterParams, string username)
         {
             Document.Create(container =>
             {
@@ -26,7 +26,7 @@ namespace PredmetProjekat.Services.Services
 
                     page.Header()
                         .AlignCenter()
-                        .Text(GenerateHeaderText(filterParams))
+                        .Text(GenerateHeaderText(username))
                         .SemiBold().FontSize(24).FontColor(Colors.Grey.Darken4);
 
                     page.Content()
@@ -34,7 +34,7 @@ namespace PredmetProjekat.Services.Services
                         {
                             column.Item().Text("Filter parameters").FontSize(16).Bold().AlignRight();
                             column.Item().Text("Start date: " + $"{filterParams.StartDate?.ToString() ?? "none"}").FontSize(14).AlignRight();
-                            column.Item().Text("End date: " + $"{filterParams.EndDate?.ToString() ?? "none"}").FontSize(14);
+                            column.Item().Text("End date: " + $"{filterParams.EndDate?.ToString() ?? "none"}").FontSize(14).AlignRight();
                             //column.Item().Text("" + $"{filterParams.EmployeeUsernames}");
 
                             column.Item().Table(table =>
@@ -88,7 +88,7 @@ namespace PredmetProjekat.Services.Services
                                             {
                                                 productHeader.Cell().Text("Product name");
                                                 productHeader.Cell().Text("Product type");
-                                                productHeader.Cell().Text("Quantity");
+                                                productHeader.Cell().Text("Quantity").AlignRight();
                                                 productHeader.Cell().Text("Price").AlignRight();
 
 
@@ -104,7 +104,7 @@ namespace PredmetProjekat.Services.Services
                                             {
                                                 productTable.Cell().Text($"# {product.Product.Name}");
                                                 productTable.Cell().Text(product.Product.ProductType.Name);
-                                                productTable.Cell().Text(product.Quantity.ToString());
+                                                productTable.Cell().Text(product.Quantity.ToString()).AlignRight();
                                                 productTable.Cell().Text(product.Product.Price.ToString("C")).AlignRight();
                                             }
                                         });
@@ -127,22 +127,9 @@ namespace PredmetProjekat.Services.Services
             }).GeneratePdf(GenerateFileName());
         }
 
-        private string GenerateHeaderText(FilterParams filterParams)
+        private string GenerateHeaderText(string username)
         {
-            string title = "Sales for period from ";
-
-            if (filterParams.StartDate != null)
-            {
-
-            }
-
-            if (filterParams.EndDate != null)
-            {
-
-            }
-
-
-            return title;
+            return "Sales list for " + username;
         }
 
         private string GenerateFileName()

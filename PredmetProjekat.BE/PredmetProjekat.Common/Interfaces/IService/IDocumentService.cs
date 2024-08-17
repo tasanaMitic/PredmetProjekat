@@ -5,6 +5,6 @@ namespace PredmetProjekat.Common.Interfaces.IService
 {
     public interface IDocumentService
     {
-        void CreatePDF(IEnumerable<Receipt> sales, FilterParams filterParams);
+        void CreatePDF(IEnumerable<Receipt> sales, FilterParams filterParams, string username);
     }
 }

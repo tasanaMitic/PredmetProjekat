@@ -27,7 +27,7 @@ namespace PredmetProjekat.Services.Services
         public void CreatePDF(FilterParams filterParams, string username)
         {
             var sales = GetSalesByFilter(filterParams, username);
-            _documentService.CreatePDF(sales, filterParams);
+            _documentService.CreatePDF(sales, filterParams, username);
         }
 
         public IEnumerable<ReceiptDto> GetAllSales()
@@ -58,11 +58,11 @@ namespace PredmetProjekat.Services.Services
 
         private IEnumerable<Receipt> GetSalesByFilter(FilterParams filterParams, string username)
         {
-            var registerCodes = filterParams.RegisterCodes?.Split(',') ?? null;
-            var locations = filterParams.Locations?.Split(',') ?? null;
-            var startDate = filterParams.StartDate;
-            var endDate = filterParams.EndDate;
-            var price = filterParams.Price;
+            var registerCodes = filterParams?.RegisterCodes?.Split(',') ?? null;
+            var locations = filterParams?.Locations?.Split(',') ?? null;
+            var startDate = filterParams?.StartDate;
+            var endDate = filterParams?.EndDate;
+            var price = filterParams?.Price;
 
             if (startDate != null && endDate != null && (DateTime.Parse(startDate, CultureInfo.InvariantCulture) > DateTime.Parse(endDate, CultureInfo.InvariantCulture)))
             {
@@ -70,10 +70,45 @@ namespace PredmetProjekat.Services.Services
             }
 
             var user = GetUser(username);
-            var employees = IsUserAnEmployee(user) ? new[] { username } : filterParams.EmployeeUsernames?.Split(',');
+            var employees = IsUserAnEmployee(user) ? new[] { username } : filterParams?.EmployeeUsernames?.Split(',');
 
-            return _unitOfWork.ReceiptRepository.GetFilteredSales(employees, registerCodes, locations, startDate, endDate, price);
+            var sales = _unitOfWork.ReceiptRepository.GetFilteredSales(employees, registerCodes, locations, startDate, endDate, price);
+
+            return OrderSales(sales, filterParams?.OrderBy);
         } 
+
+        private IEnumerable<Receipt> OrderSales(IEnumerable<Receipt> sales, int? orderType)
+        {
+            switch (orderType)
+            {
+                //Oldest first
+                case 1:
+                    return sales.OrderBy(x => x.Date);
+
+                //Latest first
+                case 2:
+                    return sales.OrderByDescending(x => x.Date);
+
+                //Employee A-Z
+                case 3:
+                    return sales.OrderBy(x => x.SoldBy.UserName);
+
+                //Employee Z-A
+                case 4:
+                    return sales.OrderByDescending(x => x.SoldBy.UserName);
+
+                //Price (Low to High)
+                case 5:
+                    return sales.OrderBy(x => x.TotalPrice);
+
+                //Price (High to Low)
+                case 6:
+                    return sales.OrderByDescending(x => x.TotalPrice);
+
+                default:
+                    return sales;
+            }
+        }
 
         private OptionParams GetFilterOptions(Account user, bool isEmployee)
         {

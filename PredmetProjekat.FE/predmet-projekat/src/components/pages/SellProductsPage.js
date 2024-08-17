@@ -45,7 +45,7 @@ const SellProductsPage = ({ user }) => {
             setData(null);
         });
 
-    }, []); //todo
+    }, []); 
 
     const handleChange = (e, productId) => {
         e.target.checked ?
